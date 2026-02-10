@@ -348,6 +348,29 @@
             box-shadow: 0 8px 24px rgba(0,0,0,0.15);
         }
 
+        .btn-special {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: 14px 28px;
+            background: white;
+            color: var(--brand-primary);
+            border: 2px solid var(--brand-primary);
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 15px;
+            transition: all var(--transition-base);
+            margin-top: var(--space-md);
+        }
+
+        .btn-special:hover {
+            background: var(--brand-primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        }
+
         /* What We're Watching Callout */
         .watching-section {
             background: var(--muted);
@@ -751,6 +774,11 @@
             <a href="issues/2026-02-10-brief12.html" class="btn-read">
                 <span>Read Full Brief</span>
                 <span>→</span>
+            </a>
+
+            <a href="special/state-of-our-souls.html" class="btn-special">
+                <span>🙏</span>
+                <span>Special Report: State of Our Souls</span>
             </a>
         </div>
     </section>
