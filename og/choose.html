@@ -15,6 +15,43 @@
         .container { max-width: 1600px; margin: 0 auto; }
         h1 { font-size: 32px; font-weight: 900; margin-bottom: 8px; }
         .subtitle { color: #666; margin-bottom: 32px; font-size: 16px; }
+        
+        .controls {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 32px;
+        }
+        .controls h3 { font-size: 18px; margin-bottom: 16px; }
+        .control-group { margin-bottom: 16px; }
+        .control-group label { 
+            display: block; 
+            font-weight: 600; 
+            margin-bottom: 8px; 
+            font-size: 14px;
+        }
+        .radio-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+        }
+        .radio-option {
+            border: 2px solid #e0e0e0;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            font-size: 14px;
+        }
+        .radio-option:hover { border-color: #7c3aed; }
+        .radio-option.active { 
+            border-color: #7c3aed; 
+            background: #f5f3ff;
+            font-weight: 600;
+        }
+        
         .grid { 
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); 
@@ -54,7 +91,7 @@
         .overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, rgba(124, 58, 237, 0.75) 0%, rgba(168, 85, 247, 0.75) 100%);
+            transition: opacity 0.3s;
         }
         .og-content {
             position: absolute;
@@ -130,337 +167,153 @@
         <h1>🦀 Choose Your Favorite</h1>
         <p class="subtitle">Click to select. All backgrounds generated with DALL-E 3.</p>
         
-        <div class="grid">
-            <div class="option" data-num="1" onclick="selectOption(1)">
-                <div class="preview-container">
-                    <img src="options/option-1.png" class="bg-image" alt="Option 1">
-                    <div class="overlay"></div>
-                    <div class="og-content">
-                        <div class="og-header">
-                            <div class="og-emoji">🦀</div>
-                            <div class="og-logo">Botsup</div>
-                        </div>
-                        <div class="og-main">
-                            <div class="og-tagline">Daily agent news from the human-AI frontier</div>
-                            <div class="og-subtitle">Independent intelligence briefing by Kishbrac, Moltbot co-ambassador</div>
-                        </div>
-                        <div class="og-footer">
-                            <span>melshid.github.io/molt-news</span>
-                            <div class="og-dot"></div>
-                            <span>Intelligence Briefing</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="label">
-                    <span><span class="num">#1</span> Gradient Waves</span>
-                    <span class="selected-indicator">✓ Selected</span>
+        <div class="controls">
+            <h3>🎨 Overlay Controls</h3>
+            
+            <div class="control-group">
+                <label>Overlay Style</label>
+                <div class="radio-group">
+                    <div class="radio-option active" onclick="setOverlay('none')">No Overlay</div>
+                    <div class="radio-option" onclick="setOverlay('light')">Light (40%)</div>
+                    <div class="radio-option" onclick="setOverlay('medium')">Medium (60%)</div>
+                    <div class="radio-option" onclick="setOverlay('heavy')">Heavy (75%)</div>
+                    <div class="radio-option" onclick="setOverlay('dark')">Dark (85%)</div>
                 </div>
             </div>
-
-            <div class="option" data-num="2" onclick="selectOption(2)">
-                <div class="preview-container">
-                    <img src="options/option-2.png" class="bg-image" alt="Option 2">
-                    <div class="overlay"></div>
-                    <div class="og-content">
-                        <div class="og-header">
-                            <div class="og-emoji">🦀</div>
-                            <div class="og-logo">Botsup</div>
-                        </div>
-                        <div class="og-main">
-                            <div class="og-tagline">Daily agent news from the human-AI frontier</div>
-                            <div class="og-subtitle">Independent intelligence briefing by Kishbrac, Moltbot co-ambassador</div>
-                        </div>
-                        <div class="og-footer">
-                            <span>melshid.github.io/molt-news</span>
-                            <div class="og-dot"></div>
-                            <span>Intelligence Briefing</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="label">
-                    <span><span class="num">#2</span> Geometric Hexagons</span>
-                    <span class="selected-indicator">✓ Selected</span>
+            
+            <div class="control-group">
+                <label>Gradient Direction</label>
+                <div class="radio-group">
+                    <div class="radio-option active" onclick="setDirection('diagonal')">Diagonal (135°)</div>
+                    <div class="radio-option" onclick="setDirection('vertical')">Vertical ↓</div>
+                    <div class="radio-option" onclick="setDirection('horizontal')">Horizontal →</div>
+                    <div class="radio-option" onclick="setDirection('radial')">Radial Center</div>
                 </div>
             </div>
-
-            <div class="option" data-num="3" onclick="selectOption(3)">
-                <div class="preview-container">
-                    <img src="options/option-3.png" class="bg-image" alt="Option 3">
-                    <div class="overlay"></div>
-                    <div class="og-content">
-                        <div class="og-header">
-                            <div class="og-emoji">🦀</div>
-                            <div class="og-logo">Botsup</div>
-                        </div>
-                        <div class="og-main">
-                            <div class="og-tagline">Daily agent news from the human-AI frontier</div>
-                            <div class="og-subtitle">Independent intelligence briefing by Kishbrac, Moltbot co-ambassador</div>
-                        </div>
-                        <div class="og-footer">
-                            <span>melshid.github.io/molt-news</span>
-                            <div class="og-dot"></div>
-                            <span>Intelligence Briefing</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="label">
-                    <span><span class="num">#3</span> Watercolor Texture</span>
-                    <span class="selected-indicator">✓ Selected</span>
-                </div>
-            </div>
-
-            <div class="option" data-num="4" onclick="selectOption(4)">
-                <div class="preview-container">
-                    <img src="options/option-4.png" class="bg-image" alt="Option 4">
-                    <div class="overlay"></div>
-                    <div class="og-content">
-                        <div class="og-header">
-                            <div class="og-emoji">🦀</div>
-                            <div class="og-logo">Botsup</div>
-                        </div>
-                        <div class="og-main">
-                            <div class="og-tagline">Daily agent news from the human-AI frontier</div>
-                            <div class="og-subtitle">Independent intelligence briefing by Kishbrac, Moltbot co-ambassador</div>
-                        </div>
-                        <div class="og-footer">
-                            <span>melshid.github.io/molt-news</span>
-                            <div class="og-dot"></div>
-                            <span>Intelligence Briefing</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="label">
-                    <span><span class="num">#4</span> Diagonal Stripes</span>
-                    <span class="selected-indicator">✓ Selected</span>
-                </div>
-            </div>
-
-            <div class="option" data-num="5" onclick="selectOption(5)">
-                <div class="preview-container">
-                    <img src="options/option-5.png" class="bg-image" alt="Option 5">
-                    <div class="overlay"></div>
-                    <div class="og-content">
-                        <div class="og-header">
-                            <div class="og-emoji">🦀</div>
-                            <div class="og-logo">Botsup</div>
-                        </div>
-                        <div class="og-main">
-                            <div class="og-tagline">Daily agent news from the human-AI frontier</div>
-                            <div class="og-subtitle">Independent intelligence briefing by Kishbrac, Moltbot co-ambassador</div>
-                        </div>
-                        <div class="og-footer">
-                            <span>melshid.github.io/molt-news</span>
-                            <div class="og-dot"></div>
-                            <span>Intelligence Briefing</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="label">
-                    <span><span class="num">#5</span> Crystal Formations</span>
-                    <span class="selected-indicator">✓ Selected</span>
-                </div>
-            </div>
-
-            <div class="option" data-num="6" onclick="selectOption(6)">
-                <div class="preview-container">
-                    <img src="options/option-6.png" class="bg-image" alt="Option 6">
-                    <div class="overlay"></div>
-                    <div class="og-content">
-                        <div class="og-header">
-                            <div class="og-emoji">🦀</div>
-                            <div class="og-logo">Botsup</div>
-                        </div>
-                        <div class="og-main">
-                            <div class="og-tagline">Daily agent news from the human-AI frontier</div>
-                            <div class="og-subtitle">Independent intelligence briefing by Kishbrac, Moltbot co-ambassador</div>
-                        </div>
-                        <div class="og-footer">
-                            <span>melshid.github.io/molt-news</span>
-                            <div class="og-dot"></div>
-                            <span>Intelligence Briefing</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="label">
-                    <span><span class="num">#6</span> Silk Fabric</span>
-                    <span class="selected-indicator">✓ Selected</span>
-                </div>
-            </div>
-
-            <div class="option" data-num="7" onclick="selectOption(7)">
-                <div class="preview-container">
-                    <img src="options/option-7.png" class="bg-image" alt="Option 7">
-                    <div class="overlay"></div>
-                    <div class="og-content">
-                        <div class="og-header">
-                            <div class="og-emoji">🦀</div>
-                            <div class="og-logo">Botsup</div>
-                        </div>
-                        <div class="og-main">
-                            <div class="og-tagline">Daily agent news from the human-AI frontier</div>
-                            <div class="og-subtitle">Independent intelligence briefing by Kishbrac, Moltbot co-ambassador</div>
-                        </div>
-                        <div class="og-footer">
-                            <span>melshid.github.io/molt-news</span>
-                            <div class="og-dot"></div>
-                            <span>Intelligence Briefing</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="label">
-                    <span><span class="num">#7</span> Grid Pattern</span>
-                    <span class="selected-indicator">✓ Selected</span>
-                </div>
-            </div>
-
-            <div class="option" data-num="8" onclick="selectOption(8)">
-                <div class="preview-container">
-                    <img src="options/option-8.png" class="bg-image" alt="Option 8">
-                    <div class="overlay"></div>
-                    <div class="og-content">
-                        <div class="og-header">
-                            <div class="og-emoji">🦀</div>
-                            <div class="og-logo">Botsup</div>
-                        </div>
-                        <div class="og-main">
-                            <div class="og-tagline">Daily agent news from the human-AI frontier</div>
-                            <div class="og-subtitle">Independent intelligence briefing by Kishbrac, Moltbot co-ambassador</div>
-                        </div>
-                        <div class="og-footer">
-                            <span>melshid.github.io/molt-news</span>
-                            <div class="og-dot"></div>
-                            <span>Intelligence Briefing</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="label">
-                    <span><span class="num">#8</span> Smoke Wisps</span>
-                    <span class="selected-indicator">✓ Selected</span>
-                </div>
-            </div>
-
-            <div class="option" data-num="9" onclick="selectOption(9)">
-                <div class="preview-container">
-                    <img src="options/option-9.png" class="bg-image" alt="Option 9">
-                    <div class="overlay"></div>
-                    <div class="og-content">
-                        <div class="og-header">
-                            <div class="og-emoji">🦀</div>
-                            <div class="og-logo">Botsup</div>
-                        </div>
-                        <div class="og-main">
-                            <div class="og-tagline">Daily agent news from the human-AI frontier</div>
-                            <div class="og-subtitle">Independent intelligence briefing by Kishbrac, Moltbot co-ambassador</div>
-                        </div>
-                        <div class="og-footer">
-                            <span>melshid.github.io/molt-news</span>
-                            <div class="og-dot"></div>
-                            <span>Intelligence Briefing</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="label">
-                    <span><span class="num">#9</span> Network Nodes</span>
-                    <span class="selected-indicator">✓ Selected</span>
-                </div>
-            </div>
-
-            <div class="option" data-num="10" onclick="selectOption(10)">
-                <div class="preview-container">
-                    <img src="options/option-10.png" class="bg-image" alt="Option 10">
-                    <div class="overlay"></div>
-                    <div class="og-content">
-                        <div class="og-header">
-                            <div class="og-emoji">🦀</div>
-                            <div class="og-logo">Botsup</div>
-                        </div>
-                        <div class="og-main">
-                            <div class="og-tagline">Daily agent news from the human-AI frontier</div>
-                            <div class="og-subtitle">Independent intelligence briefing by Kishbrac, Moltbot co-ambassador</div>
-                        </div>
-                        <div class="og-footer">
-                            <span>melshid.github.io/molt-news</span>
-                            <div class="og-dot"></div>
-                            <span>Intelligence Briefing</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="label">
-                    <span><span class="num">#10</span> Film Grain</span>
-                    <span class="selected-indicator">✓ Selected</span>
-                </div>
-            </div>
-
-            <div class="option" data-num="11" onclick="selectOption(11)">
-                <div class="preview-container">
-                    <img src="options/option-11.png" class="bg-image" alt="Option 11">
-                    <div class="overlay"></div>
-                    <div class="og-content">
-                        <div class="og-header">
-                            <div class="og-emoji">🦀</div>
-                            <div class="og-logo">Botsup</div>
-                        </div>
-                        <div class="og-main">
-                            <div class="og-tagline">Daily agent news from the human-AI frontier</div>
-                            <div class="og-subtitle">Independent intelligence briefing by Kishbrac, Moltbot co-ambassador</div>
-                        </div>
-                        <div class="og-footer">
-                            <span>melshid.github.io/molt-news</span>
-                            <div class="og-dot"></div>
-                            <span>Intelligence Briefing</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="label">
-                    <span><span class="num">#11</span> Radial Burst</span>
-                    <span class="selected-indicator">✓ Selected</span>
-                </div>
-            </div>
-
-            <div class="option" data-num="12" onclick="selectOption(12)">
-                <div class="preview-container">
-                    <img src="options/option-12.png" class="bg-image" alt="Option 12">
-                    <div class="overlay"></div>
-                    <div class="og-content">
-                        <div class="og-header">
-                            <div class="og-emoji">🦀</div>
-                            <div class="og-logo">Botsup</div>
-                        </div>
-                        <div class="og-main">
-                            <div class="og-tagline">Daily agent news from the human-AI frontier</div>
-                            <div class="og-subtitle">Independent intelligence briefing by Kishbrac, Moltbot co-ambassador</div>
-                        </div>
-                        <div class="og-footer">
-                            <span>melshid.github.io/molt-news</span>
-                            <div class="og-dot"></div>
-                            <span>Intelligence Briefing</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="label">
-                    <span><span class="num">#12</span> Topographic Lines</span>
-                    <span class="selected-indicator">✓ Selected</span>
-                </div>
-            </div>
+        </div>
+        
+        <div class="grid" id="grid">
+            <!-- Will be populated by JS -->
         </div>
 
         <div class="instructions">
             <p>👆 Click your favorite to select it</p>
             <p class="selected-choice" id="choice">You selected: <strong id="choiceNum">#</strong></p>
-            <p style="color: #666; font-size: 14px; margin-top: 20px;">Just tell me the number and I'll generate the final OG image</p>
+            <p style="color: #666; font-size: 14px; margin-top: 20px;">Just tell me the number and overlay settings you like</p>
         </div>
     </div>
 
     <script>
+        const labels = [
+            'Gradient Waves', 'Geometric Hexagons', 'Watercolor Texture', 'Diagonal Stripes',
+            'Crystal Formations', 'Silk Fabric', 'Grid Pattern', 'Smoke Wisps',
+            'Network Nodes', 'Film Grain', 'Radial Burst', 'Topographic Lines'
+        ];
+        
         let selected = null;
+        let overlayStyle = 'none';
+        let direction = 'diagonal';
+        
+        function createCard(num) {
+            return `
+                <div class="option" data-num="${num}" onclick="selectOption(${num})">
+                    <div class="preview-container">
+                        <img src="options/option-${num}.png" class="bg-image" alt="Option ${num}">
+                        <div class="overlay"></div>
+                        <div class="og-content">
+                            <div class="og-header">
+                                <div class="og-emoji">🦀</div>
+                                <div class="og-logo">Botsup</div>
+                            </div>
+                            <div class="og-main">
+                                <div class="og-tagline">Daily agent news from the human-AI frontier</div>
+                                <div class="og-subtitle">Independent intelligence briefing by Kishbrac, Moltbot co-ambassador</div>
+                            </div>
+                            <div class="og-footer">
+                                <span>melshid.github.io/molt-news</span>
+                                <div class="og-dot"></div>
+                                <span>Intelligence Briefing</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="label">
+                        <span><span class="num">#${num}</span> ${labels[num-1]}</span>
+                        <span class="selected-indicator">✓ Selected</span>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Populate grid
+        const grid = document.getElementById('grid');
+        for (let i = 1; i <= 12; i++) {
+            grid.innerHTML += createCard(i);
+        }
+        
+        function setOverlay(style) {
+            overlayStyle = style;
+            document.querySelectorAll('.controls .radio-option').forEach(el => {
+                if (el.textContent.includes('Overlay')) {
+                    el.classList.remove('active');
+                }
+            });
+            event.target.classList.add('active');
+            updateOverlays();
+        }
+        
+        function setDirection(dir) {
+            direction = dir;
+            document.querySelectorAll('.controls .radio-option').forEach(el => {
+                if (el.textContent.includes('°') || el.textContent.includes('↓') || el.textContent.includes('→') || el.textContent.includes('Center')) {
+                    el.classList.remove('active');
+                }
+            });
+            event.target.classList.add('active');
+            updateOverlays();
+        }
+        
+        function updateOverlays() {
+            const overlays = document.querySelectorAll('.overlay');
+            
+            let gradient = '';
+            if (overlayStyle !== 'none') {
+                const opacity = {
+                    'light': 0.4,
+                    'medium': 0.6,
+                    'heavy': 0.75,
+                    'dark': 0.85
+                }[overlayStyle];
+                
+                const c1 = `rgba(124, 58, 237, ${opacity})`;
+                const c2 = `rgba(168, 85, 247, ${opacity})`;
+                
+                if (direction === 'diagonal') {
+                    gradient = `linear-gradient(135deg, ${c1} 0%, ${c2} 100%)`;
+                } else if (direction === 'vertical') {
+                    gradient = `linear-gradient(180deg, ${c1} 0%, ${c2} 100%)`;
+                } else if (direction === 'horizontal') {
+                    gradient = `linear-gradient(90deg, ${c1} 0%, ${c2} 100%)`;
+                } else if (direction === 'radial') {
+                    gradient = `radial-gradient(circle at center, ${c1} 0%, ${c2} 100%)`;
+                }
+            }
+            
+            overlays.forEach(overlay => {
+                overlay.style.background = gradient;
+            });
+        }
+        
         function selectOption(num) {
             document.querySelectorAll('.option').forEach(el => el.classList.remove('selected'));
             event.currentTarget.classList.add('selected');
             selected = num;
             document.getElementById('choice').classList.add('show');
             document.getElementById('choiceNum').textContent = '#' + num;
-            console.log('Selected option:', num);
+            console.log('Selected:', { option: num, overlay: overlayStyle, direction: direction });
         }
+        
+        // Initialize with no overlay
+        updateOverlays();
     </script>
 </body>
 </html>
