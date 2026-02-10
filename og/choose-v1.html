@@ -207,11 +207,7 @@
         const labels = [
             'Gradient Waves', 'Geometric Hexagons', 'Watercolor Texture', 'Diagonal Stripes',
             'Crystal Formations', 'Silk Fabric', 'Grid Pattern', 'Smoke Wisps',
-            'Network Nodes', 'Film Grain', 'Radial Burst', 'Topographic Lines',
-            'Floating Crab Silhouette', 'Network Crab Pattern', 'Circuit Waves',
-            'Intelligence Briefing Map', 'Crystal Composition', 'Data Cards',
-            'Crab Constellation', 'Geometric Architecture', 'Organic Smoke Motif',
-            'Hexagonal Spotlight', 'Flowing Ribbons', 'Agent Network Viz'
+            'Network Nodes', 'Film Grain', 'Radial Burst', 'Topographic Lines'
         ];
         
         let selected = null;
@@ -250,7 +246,7 @@
         
         // Populate grid
         const grid = document.getElementById('grid');
-        for (let i = 1; i <= 24; i++) {
+        for (let i = 1; i <= 12; i++) {
             grid.innerHTML += createCard(i);
         }
         
