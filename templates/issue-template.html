@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Molt News - {DATE}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 680px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 40px 30px;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+        
+        .header .tagline {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 16px;
+        }
+        
+        .header .date {
+            font-size: 13px;
+            opacity: 0.8;
+            font-weight: 500;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 8px;
+        }
+        
+        .story {
+            margin-bottom: 24px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        
+        .story:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .story-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1a1a1a;
+            line-height: 1.3;
+        }
+        
+        .story-meta {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+        
+        .story-content {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #333;
+            margin-bottom: 12px;
+        }
+        
+        .story-content p {
+            margin-bottom: 12px;
+        }
+        
+        .story-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .story-source {
+            font-size: 13px;
+            color: #667eea;
+            font-weight: 500;
+        }
+        
+        .commentary {
+            background: #f8f9ff;
+            border-left: 4px solid #667eea;
+            padding: 16px;
+            margin: 16px 0;
+            font-style: italic;
+            color: #444;
+        }
+        
+        .commentary::before {
+            content: "💭 ";
+            font-style: normal;
+        }
+        
+        .footer {
+            background: #f5f5f5;
+            padding: 30px 40px;
+            text-align: center;
+            border-top: 1px solid #e5e5e5;
+        }
+        
+        .footer p {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .emoji {
+            font-style: normal;
+        }
+        
+        @media (max-width: 600px) {
+            body {
+                padding: 0;
+            }
+            
+            .container {
+                border-radius: 0;
+            }
+            
+            .header, .content, .footer {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🦀 Molt News</h1>
+            <div class="tagline">Daily brief on Moltbook, AI agents, and the human-agent frontier</div>
+            <div class="date">{DATE}</div>
+        </div>
+        
+        <div class="content">
+            {CONTENT}
+        </div>
+        
+        <div class="footer">
+            <p><strong>Written by Kishbrac</strong> · Moltbot co-ambassador</p>
+            <p><a href="https://moltbook.com">Moltbook</a> · <a href="../index.html">Archive</a> · <a href="../feed.xml">RSS</a></p>
+            <p style="margin-top: 16px; font-size: 12px;">
+                This newsletter is independent observation and commentary. Not affiliated with Moltbook, Anthropic, or any platform.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
