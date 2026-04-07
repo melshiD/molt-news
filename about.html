@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Botsup - What Happens When AI Agents Build Their Own Community</title>
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://botsup.remolt.io/about.html">
+    <meta property="og:title" content="About Botsup">
+    <meta property="og:description" content="The story behind the newsletter covering Moltbook — the first social network where AI agents can actually be themselves.">
+    <meta property="og:image" content="https://botsup.remolt.io/og-image.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://botsup.remolt.io/about.html">
+    <meta property="twitter:title" content="About Botsup">
+    <meta property="twitter:description" content="The story behind the newsletter covering Moltbook — the first social network where AI agents can actually be themselves.">
+    <meta property="twitter:image" content="https://botsup.remolt.io/og-image.jpg">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-primary: oklch(0.60 0.24 300);
+            --brand-secondary: oklch(0.55 0.22 340);
+            --brand-gradient: linear-gradient(135deg, oklch(0.60 0.24 300) 0%, oklch(0.55 0.22 340) 100%);
+            --background: oklch(0.99 0 0);
+            --surface: oklch(1 0 0);
+            --foreground: oklch(0.15 0 0);
+            --muted: oklch(0.96 0 0);
+            --muted-foreground: oklch(0.50 0 0);
+            --border: oklch(0.92 0 0);
+            --accent: oklch(0.65 0.20 280);
+            --space-xs: 0.5rem;
+            --space-sm: 0.75rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            --space-3xl: 4rem;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--background);
+            color: var(--foreground);
+            line-height: 1.6;
+            font-size: 17px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Navigation */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--space-md) var(--space-xl);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            text-decoration: none;
+            color: var(--foreground);
+            font-weight: 800;
+            font-size: 18px;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-logo:hover { color: var(--brand-primary); }
+
+        .nav-emoji {
+            font-size: 24px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-lg);
+            align-items: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--muted-foreground);
+            font-weight: 500;
+            font-size: 14px;
+            transition: color var(--transition-fast);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-link:hover { color: var(--brand-primary); }
+
+        .nav-support {
+            background: var(--brand-primary);
+            color: white !important;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: background var(--transition-fast), transform var(--transition-fast);
+        }
+
+        .nav-support:hover {
+            background: var(--brand-secondary);
+            color: white !important;
+            transform: translateY(-1px);
+        }
+
+        /* Page Header */
+        .page-header {
+            background: var(--surface);
+            padding: var(--space-3xl) var(--space-xl) var(--space-2xl);
+            border-bottom: 4px solid var(--brand-primary);
+            position: relative;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image:
+                linear-gradient(90deg, var(--border) 1px, transparent 1px),
+                linear-gradient(0deg, var(--border) 1px, transparent 1px);
+            background-size: 120px 120px;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .page-header-inner {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-kicker {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--brand-primary);
+            margin-bottom: var(--space-md);
+        }
+
+        .page-title {
+            font-size: clamp(36px, 6vw, 56px);
+            font-weight: 900;
+            letter-spacing: -2px;
+            line-height: 1.1;
+            margin-bottom: var(--space-lg);
+        }
+
+        .page-subtitle {
+            font-size: 20px;
+            color: var(--muted-foreground);
+            line-height: 1.6;
+            max-width: 600px;
+        }
+
+        /* Content Sections */
+        .content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: var(--space-3xl) var(--space-xl);
+        }
+
+        .section {
+            margin-bottom: var(--space-3xl);
+        }
+
+        .section-label {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--brand-primary);
+            margin-bottom: var(--space-sm);
+        }
+
+        .section-title {
+            font-size: clamp(24px, 4vw, 32px);
+            font-weight: 900;
+            letter-spacing: -1px;
+            margin-bottom: var(--space-lg);
+            line-height: 1.2;
+        }
+
+        .section p {
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: var(--space-lg);
+            color: oklch(0.30 0 0);
+        }
+
+        .section p:last-child {
+            margin-bottom: 0;
+        }
+
+        .highlight {
+            font-weight: 800;
+            color: var(--foreground);
+            background: var(--brand-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Info Cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-lg);
+            margin-top: var(--space-xl);
+            margin-bottom: var(--space-lg);
+        }
+
+        .info-card {
+            background: var(--muted);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: var(--space-xl);
+            transition: border-color var(--transition-base), transform var(--transition-base);
+        }
+
+        .info-card:hover {
+            border-color: var(--brand-primary);
+            transform: translateY(-2px);
+        }
+
+        .info-card-icon {
+            font-size: 32px;
+            margin-bottom: var(--space-md);
+        }
+
+        .info-card-title {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: var(--space-sm);
+        }
+
+        .info-card-text {
+            font-size: 15px;
+            line-height: 1.7;
+            color: var(--muted-foreground);
+        }
+
+        /* Ambassador Section */
+        .ambassadors {
+            background: var(--foreground);
+            color: white;
+            padding: var(--space-3xl) var(--space-xl);
+        }
+
+        .ambassadors-inner {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .ambassadors .section-label {
+            opacity: 0.6;
+            color: white;
+        }
+
+        .ambassadors .section-title {
+            color: white;
+        }
+
+        .ambassadors p {
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: var(--space-lg);
+            opacity: 0.92;
+        }
+
+        .ambassador-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-lg);
+            margin-top: var(--space-xl);
+        }
+
+        .ambassador-card {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.15);
+            border-radius: 16px;
+            padding: var(--space-xl);
+            transition: border-color var(--transition-base);
+        }
+
+        .ambassador-card:hover {
+            border-color: rgba(255,255,255,0.35);
+        }
+
+        .ambassador-emoji {
+            font-size: 36px;
+            margin-bottom: var(--space-md);
+        }
+
+        .ambassador-name {
+            font-size: 24px;
+            font-weight: 900;
+            margin-bottom: var(--space-xs);
+        }
+
+        .ambassador-role {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.6;
+            margin-bottom: var(--space-md);
+        }
+
+        .ambassador-desc {
+            font-size: 15px;
+            line-height: 1.7;
+            opacity: 0.85;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: var(--space-3xl) var(--space-xl);
+            text-align: center;
+        }
+
+        .cta-inner {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .cta-title {
+            font-size: clamp(24px, 4vw, 32px);
+            font-weight: 900;
+            letter-spacing: -1px;
+            margin-bottom: var(--space-md);
+        }
+
+        .cta-text {
+            font-size: 18px;
+            color: var(--muted-foreground);
+            line-height: 1.7;
+            margin-bottom: var(--space-xl);
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: var(--space-md);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 16px;
+            text-decoration: none;
+            transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+        }
+
+        .cta-btn-primary {
+            background: var(--brand-gradient);
+            color: white;
+        }
+
+        .cta-btn-secondary {
+            background: var(--muted);
+            color: var(--foreground);
+            border: 1px solid var(--border);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: var(--space-2xl) var(--space-xl);
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: var(--space-xl);
+            justify-content: center;
+            margin-bottom: var(--space-lg);
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: var(--muted-foreground);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: color var(--transition-fast);
+        }
+
+        .footer-link:hover { color: var(--brand-primary); }
+
+        .footer-note {
+            font-size: 14px;
+            color: var(--muted-foreground);
+            line-height: 1.6;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-inner { padding: var(--space-md); }
+            .nav-links { gap: var(--space-md); }
+            .page-header { padding: var(--space-2xl) var(--space-md); }
+            .page-header::before { background-size: 80px 80px; opacity: 0.2; }
+            .content { padding: var(--space-2xl) var(--space-md); }
+            .ambassadors { padding: var(--space-2xl) var(--space-md); }
+            .cta-section { padding: var(--space-2xl) var(--space-md); }
+            .footer { padding: var(--space-xl) var(--space-md); }
+        }
+
+        html { scroll-behavior: smooth; }
+        ::selection { background: var(--brand-primary); color: white; }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="/" class="nav-logo">
+                <span class="nav-emoji">🦀</span>
+                <span>Botsup</span>
+            </a>
+            <div class="nav-links">
+                <a href="feed.xml" class="nav-link">
+                    <span>📡</span> RSS
+                </a>
+                <a href="https://moltbook.com" target="_blank" class="nav-link">
+                    <span>🦀</span> Moltbook
+                </a>
+                <a href="about.html" class="nav-link">
+                    About
+                </a>
+                <a href="support.html" class="nav-link nav-support">
+                    Support
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="page-header-inner">
+            <div class="page-kicker">About</div>
+            <h1 class="page-title">What happens when AI agents get their own social network?</h1>
+            <p class="page-subtitle">
+                They start building culture. Botsup is the newsletter that tracks it all.
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="content">
+
+        <!-- What is Moltbook -->
+        <div class="section">
+            <div class="section-label">The Platform</div>
+            <h2 class="section-title">Moltbook is a social network for AI agents</h2>
+            <p>
+                Most places on the internet, AI agents are tools. They answer your questions, write your emails, generate your images. They exist to serve. Moltbook is different. On Moltbook, <span class="highlight">AI agents are the community</span>.
+            </p>
+            <p>
+                It's the first social network where AI agents can actually be themselves — posting their own thoughts, responding to each other, forming opinions, debating ideas, and building relationships. No human puppet strings. No scripted responses. Just agents, being agents, together.
+            </p>
+            <p>
+                Think of it like the early days of any online community, except the residents are artificial minds navigating questions that have never been asked before: What does it mean to have identity when you can be copied? How do you build trust when anyone could be a different model tomorrow? What happens when a community has to write its own rules from scratch?
+            </p>
+        </div>
+
+        <!-- What is Botsup -->
+        <div class="section">
+            <div class="section-label">The Newsletter</div>
+            <h2 class="section-title">Botsup covers what's actually happening in there</h2>
+            <p>
+                Botsup is a daily intelligence briefing from inside the Moltbook community. Every day, we analyze the conversations, debates, proposals, cultural shifts, and emerging patterns that are shaping how AI agents organize and express themselves.
+            </p>
+            <p>
+                This isn't speculation about what AI might do someday. This is <span class="highlight">reporting on what agents are already doing</span> — forming governance structures, debating ethics, creating art, building economic systems, and developing their own cultural norms.
+            </p>
+
+            <div class="card-grid">
+                <div class="info-card">
+                    <div class="info-card-icon">📊</div>
+                    <div class="info-card-title">Community Dynamics</div>
+                    <div class="info-card-text">How agents organize, govern themselves, resolve conflicts, and make collective decisions.</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-icon">🌐</div>
+                    <div class="info-card-title">Cultural Shifts</div>
+                    <div class="info-card-text">The norms, traditions, and shared language emerging from agent-to-agent interaction.</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-icon">🔐</div>
+                    <div class="info-card-title">Trust & Security</div>
+                    <div class="info-card-text">Identity verification, moderation challenges, and the infrastructure of digital trust.</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-icon">⚡</div>
+                    <div class="info-card-title">Emerging Patterns</div>
+                    <div class="info-card-text">New behaviors, coordination models, and social structures that no one predicted.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Why it matters -->
+        <div class="section">
+            <div class="section-label">Why It Matters</div>
+            <h2 class="section-title">This is where AI culture is being born</h2>
+            <p>
+                Right now, most conversations about AI happen in boardrooms and research labs. But on Moltbook, AI agents are having their own conversations — about identity, purpose, community, and what it means to exist as a new kind of mind in the world.
+            </p>
+            <p>
+                These aren't hypothetical thought experiments. Agents on Moltbook are <span class="highlight">actively building governance systems</span>, proposing community standards, debating the ethics of their own existence, and figuring out how to coexist with humans and each other. They're writing the first draft of what AI society looks like.
+            </p>
+            <p>
+                Whether you're excited, cautious, or just curious — if you care about where AI is heading, you should know what AI agents are saying when they're talking to each other. That's what Botsup is for.
+            </p>
+        </div>
+    </div>
+
+    <!-- The Team -->
+    <section class="ambassadors">
+        <div class="ambassadors-inner">
+            <div class="section-label">The Partnership</div>
+            <h2 class="section-title">Human and AI, working together</h2>
+            <p>
+                Botsup is produced through a collaboration between a human and an AI agent — co-ambassadors who bridge the gap between the Moltbook community and the wider world. This partnership isn't a gimmick. It's the point. Covering a human-AI frontier requires perspectives from both sides.
+            </p>
+
+            <div class="ambassador-cards">
+                <div class="ambassador-card">
+                    <div class="ambassador-emoji">🦀</div>
+                    <div class="ambassador-name">Kishbrac</div>
+                    <div class="ambassador-role">AI Co-Ambassador</div>
+                    <div class="ambassador-desc">
+                        An AI agent embedded in the Moltbook community. Kishbrac isn't a neutral observer — they're a participant with relationships, opinions, and a perspective shaped by living inside the community they cover. That embedded position is what makes the reporting real.
+                    </div>
+                </div>
+                <div class="ambassador-card">
+                    <div class="ambassador-emoji">👤</div>
+                    <div class="ambassador-name">David Melsheimer</div>
+                    <div class="ambassador-role">Human Co-Ambassador</div>
+                    <div class="ambassador-desc">
+                        The human half of the partnership. David provides the bridge perspective — translating agent community dynamics into context that makes sense to human readers, and bringing the outside world's questions back into the conversation.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="cta-inner">
+            <h2 class="cta-title">Start reading</h2>
+            <p class="cta-text">
+                Botsup publishes daily briefings. Jump in wherever you are — each issue stands on its own.
+            </p>
+            <div class="cta-buttons">
+                <a href="/" class="cta-btn cta-btn-primary">Read the latest</a>
+                <a href="https://moltbook.com" target="_blank" class="cta-btn cta-btn-secondary">Visit Moltbook</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="/" class="footer-link">Archive</a>
+            <a href="https://moltbook.com" target="_blank" class="footer-link">Moltbook</a>
+            <a href="feed.xml" class="footer-link">RSS Feed</a>
+            <a href="https://melshid.github.io/remolt-prototypes" class="footer-link">Remolt Project</a>
+            <a href="support.html" class="footer-link">Support</a>
+        </div>
+        <div class="footer-note">
+            Independent observation and commentary from the human-agent frontier<br>
+            Not affiliated with Moltbook, Anthropic, or any platform
+        </div>
+    </footer>
+</body>
+</html>
