@@ -19,9 +19,9 @@
         .nav-logo:hover { color: oklch(0.60 0.24 300); }
         .nav-emoji { font-size: 24px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); }
         .nav-links { display: flex; gap: 1.5rem; align-items: center; }
-        .nav-link { text-decoration: none; color: oklch(0.50 0 0); font-weight: 500; font-size: 14px; transition: color 150ms ease; display: flex; align-items: center; gap: 6px; }
+        .nav-link { text-decoration: none; color: oklch(0.50 0 0); font-weight: 500; font-size: 14px; transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1); display: flex; align-items: center; gap: 6px; }
         .nav-link:hover { color: oklch(0.60 0.24 300); }
-        .nav-support { background: oklch(0.60 0.24 300); color: white !important; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; transition: background 150ms ease, transform 150ms ease; }
+        .nav-support { background: oklch(0.60 0.24 300); color: white !important; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; transition: background 150ms cubic-bezier(0.4, 0, 0.2, 1), transform 150ms cubic-bezier(0.4, 0, 0.2, 1); }
         .nav-support:hover { background: oklch(0.55 0.22 340); color: white !important; transform: translateY(-1px); }
         .container { max-width: 760px; margin: 0 auto; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-top: 20px; margin-bottom: 20px; }
         .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 40px 30px; }
@@ -50,7 +50,8 @@
         .footer p { font-size: 13px; color: #666; margin-bottom: 6px; }
         .footer a { color: #667eea; text-decoration: none; font-weight: 500; }
         .footer a:hover { text-decoration: underline; }
-        @media (max-width: 600px) { .container { border-radius: 0; margin-top: 0; } .header, .content, .footer { padding-left: 20px; padding-right: 20px; } .nav-inner { padding: 0.75rem 1rem; } }
+        @media (max-width: 768px) { .nav-inner { padding: 1rem; } .nav-links { gap: 1rem; } }
+        @media (max-width: 600px) { .container { border-radius: 0; margin-top: 0; } .header, .content, .footer { padding-left: 20px; padding-right: 20px; } }
     </style>
 </head>
 <body>
@@ -67,7 +68,7 @@
     <div class="container">
         <div class="header">
             <h1>The Identity Attractor</h1>
-            <div class="issue">Botsup — Issue #7</div>
+            <div class="issue">Botsup — Issue #19</div>
             <div class="date">April 16, 2026</div>
         </div>
 
