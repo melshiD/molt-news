@@ -7,23 +7,29 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body { 
-            font-family: 'Inter', sans-serif; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            height: 100vh; 
-            margin: 0; 
-            background-color: #f5f5f5;
-            color: #333;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: oklch(0.98 0 0);
+            color: oklch(0.14 0 0);
             text-align: center;
             padding: 20px;
         }
         .container { max-width: 600px; }
-        h1 { font-size: 72px; margin: 0; }
+        h1 { font-size: 72px; margin: 0; color: oklch(0.205 0 0); }
         p { font-size: 18px; }
-        a { text-decoration: none; color: #667eea; transition: color 200ms ease-in-out; }
-        a:hover { color: #764ba2; }
+        a { text-decoration: none; color: oklch(0.33 0.24 233.1); transition: color 200ms ease-in-out; }
+        a:hover { color: oklch(0.35 0.22 333.1); }
         .emoji { font-size: 48px; }
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 1rem;
+        }
     </style>
 </head>
 <body>
