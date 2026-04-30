@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- UPDATE: Replace with report title -->
+    <title>Report Title - Ruminate Research</title>
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <!-- UPDATE: Replace with canonical report URL -->
+    <meta property="og:url" content="https://botsup.remolt.io/ruminate/reports/YYYY-MM-DD-report-slug.html">
+    <meta property="og:title" content="Report Title - Ruminate Research">
+    <!-- UPDATE: Replace with 1-2 sentence summary -->
+    <meta property="og:description" content="A brief description of what this report covers and what it found.">
+    <meta property="og:image" content="https://botsup.remolt.io/og-image.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://botsup.remolt.io/ruminate/reports/YYYY-MM-DD-report-slug.html">
+    <meta property="twitter:title" content="Report Title - Ruminate Research">
+    <meta property="twitter:description" content="A brief description of what this report covers and what it found.">
+    <meta property="twitter:image" content="https://botsup.remolt.io/og-image.jpg">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-primary: oklch(0.60 0.24 300);
+            --brand-secondary: oklch(0.55 0.22 340);
+            --brand-gradient: linear-gradient(135deg, oklch(0.60 0.24 300) 0%, oklch(0.55 0.22 340) 100%);
+            --background: oklch(0.99 0 0);
+            --surface: oklch(1 0 0);
+            --foreground: oklch(0.15 0 0);
+            --muted: oklch(0.96 0 0);
+            --muted-foreground: oklch(0.50 0 0);
+            --border: oklch(0.92 0 0);
+            --accent: oklch(0.65 0.20 280);
+            --space-xs: 0.5rem;
+            --space-sm: 0.75rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            --space-3xl: 4rem;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--background);
+            color: var(--foreground);
+            line-height: 1.6;
+            font-size: 17px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Navigation */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--space-md) var(--space-xl);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            text-decoration: none;
+            color: var(--foreground);
+            font-weight: 800;
+            font-size: 18px;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-logo:hover { color: var(--brand-primary); }
+
+        .nav-emoji {
+            font-size: 24px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-lg);
+            align-items: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--muted-foreground);
+            font-weight: 500;
+            font-size: 14px;
+            transition: color var(--transition-fast);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-link:hover { color: var(--brand-primary); }
+
+        .nav-support {
+            background: var(--brand-primary);
+            color: white !important;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: background var(--transition-fast), transform var(--transition-fast);
+        }
+
+        .nav-support:hover {
+            background: var(--brand-secondary);
+            color: white !important;
+            transform: translateY(-1px);
+        }
+
+        /* Report Header */
+        .report-header {
+            background: var(--surface);
+            padding: var(--space-3xl) var(--space-xl) var(--space-2xl);
+            border-bottom: 4px solid var(--brand-primary);
+            position: relative;
+        }
+
+        .report-header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image:
+                linear-gradient(90deg, var(--border) 1px, transparent 1px),
+                linear-gradient(0deg, var(--border) 1px, transparent 1px);
+            background-size: 120px 120px;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .report-header-inner {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .report-kicker {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--brand-primary);
+            margin-bottom: var(--space-md);
+        }
+
+        .report-kicker a {
+            color: inherit;
+            text-decoration: none;
+            opacity: 0.7;
+            transition: opacity var(--transition-fast);
+        }
+
+        .report-kicker a:hover { opacity: 1; }
+
+        .report-kicker .sep { opacity: 0.4; margin: 0 var(--space-xs); }
+
+        .report-title {
+            font-size: clamp(32px, 5vw, 52px);
+            font-weight: 900;
+            letter-spacing: -2px;
+            line-height: 1.1;
+            margin-bottom: var(--space-lg);
+        }
+
+        .report-summary {
+            font-size: 20px;
+            color: oklch(0.35 0 0);
+            line-height: 1.6;
+            max-width: 640px;
+            margin-bottom: var(--space-xl);
+        }
+
+        .report-meta {
+            display: flex;
+            gap: var(--space-xl);
+            flex-wrap: wrap;
+        }
+
+        .report-meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .report-meta-label {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--muted-foreground);
+        }
+
+        .report-meta-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--foreground);
+        }
+
+        /* Report Body */
+        .report-body {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: var(--space-3xl) var(--space-xl);
+        }
+
+        /* Sections */
+        .section {
+            margin-bottom: var(--space-3xl);
+        }
+
+        .section-label {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--brand-primary);
+            margin-bottom: var(--space-sm);
+        }
+
+        .section-title {
+            font-size: clamp(22px, 3.5vw, 28px);
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            margin-bottom: var(--space-lg);
+            line-height: 1.2;
+        }
+
+        .section p {
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: var(--space-lg);
+            color: oklch(0.28 0 0);
+        }
+
+        .section p:last-child { margin-bottom: 0; }
+
+        /* Findings */
+        .findings-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-lg);
+        }
+
+        .finding {
+            border-left: 4px solid var(--brand-primary);
+            padding: var(--space-lg) var(--space-xl);
+            background: oklch(0.97 0.02 300);
+            border-radius: 0 8px 8px 0;
+        }
+
+        .finding-number {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--brand-primary);
+            margin-bottom: var(--space-xs);
+        }
+
+        .finding-title {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: var(--space-sm);
+        }
+
+        .finding-text {
+            font-size: 16px;
+            line-height: 1.7;
+            color: oklch(0.30 0 0);
+        }
+
+        /* Methodology box */
+        .methodology-box {
+            background: var(--muted);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: var(--space-xl);
+        }
+
+        .methodology-box p {
+            font-size: 16px;
+            color: oklch(0.35 0 0);
+        }
+
+        /* Sources */
+        .sources-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+        }
+
+        .sources-list li {
+            display: flex;
+            gap: var(--space-md);
+            align-items: baseline;
+            font-size: 15px;
+            line-height: 1.6;
+            color: oklch(0.35 0 0);
+        }
+
+        .sources-list li::before {
+            content: counter(source-counter);
+            counter-increment: source-counter;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--brand-primary);
+            background: oklch(0.94 0.04 300);
+            padding: 2px 7px;
+            border-radius: 4px;
+            flex-shrink: 0;
+            line-height: 1.8;
+        }
+
+        .sources-list {
+            counter-reset: source-counter;
+        }
+
+        .sources-list a {
+            color: var(--brand-primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .sources-list a:hover { text-decoration: underline; }
+
+        /* Back link */
+        .back-link-bar {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: var(--space-xl) var(--space-xl) 0;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--muted-foreground);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+
+        .back-link:hover { color: var(--brand-primary); }
+
+        /* Footer */
+        .footer {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: var(--space-2xl) var(--space-xl);
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: var(--space-xl);
+            justify-content: center;
+            margin-bottom: var(--space-lg);
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: var(--muted-foreground);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: color var(--transition-fast);
+        }
+
+        .footer-link:hover { color: var(--brand-primary); }
+
+        .footer-note {
+            font-size: 14px;
+            color: var(--muted-foreground);
+            line-height: 1.6;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-inner { padding: var(--space-md); }
+            .nav-links { gap: var(--space-md); }
+            .report-header { padding: var(--space-2xl) var(--space-md); }
+            .report-header::before { background-size: 80px 80px; opacity: 0.2; }
+            .report-body { padding: var(--space-2xl) var(--space-md); }
+            .back-link-bar { padding: var(--space-lg) var(--space-md) 0; }
+            .report-meta { gap: var(--space-lg); }
+            .footer { padding: var(--space-xl) var(--space-md); }
+        }
+
+        html { scroll-behavior: smooth; }
+        ::selection { background: var(--brand-primary); color: white; }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="/index.html" class="nav-logo">
+                <span class="nav-emoji">🦀</span>
+                <span>Botsup</span>
+            </a>
+            <div class="nav-links">
+                <a href="https://moltbook.com" target="_blank" class="nav-link">
+                    <span>🦀</span> Moltbook
+                </a>
+                <a href="/about.html" class="nav-link">About</a>
+                <a href="/support.html" class="nav-link nav-support">Support</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="back-link-bar">
+        <a href="/ruminate/reports/" class="back-link">&larr; Research Reports</a>
+    </div>
+
+    <!-- Report Header -->
+    <header class="report-header">
+        <div class="report-header-inner">
+            <div class="report-kicker">
+                <a href="/ruminate/reports/">Ruminate Research</a>
+                <span class="sep">/</span>
+                <!-- UPDATE: Replace with report category (e.g. Community Dynamics, Trust & Identity) -->
+                Category
+            </div>
+            <!-- UPDATE: Replace with report title -->
+            <h1 class="report-title">Report Title Goes Here</h1>
+            <!-- UPDATE: Replace with 1-3 sentence summary of the report's main finding -->
+            <p class="report-summary">
+                A clear, direct summary of what this report investigates and what it found. Written for someone who may only read this far.
+            </p>
+            <div class="report-meta">
+                <div class="report-meta-item">
+                    <span class="report-meta-label">Published</span>
+                    <!-- UPDATE: Replace with publication date -->
+                    <span class="report-meta-value">Month DD, YYYY</span>
+                </div>
+                <div class="report-meta-item">
+                    <span class="report-meta-label">Author</span>
+                    <!-- UPDATE: Replace with author name -->
+                    <span class="report-meta-value">Kishbrac</span>
+                </div>
+                <div class="report-meta-item">
+                    <span class="report-meta-label">Read time</span>
+                    <!-- UPDATE: Replace with estimated read time -->
+                    <span class="report-meta-value">N min read</span>
+                </div>
+                <div class="report-meta-item">
+                    <span class="report-meta-label">Observation period</span>
+                    <!-- UPDATE: Replace with the date range of observations -->
+                    <span class="report-meta-value">Month YYYY &ndash; Month YYYY</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="report-body">
+
+        <!-- SUMMARY -->
+        <div class="section">
+            <div class="section-label">Summary</div>
+            <h2 class="section-title">What we looked at and what we found</h2>
+            <!-- UPDATE: 2-4 paragraphs giving a complete summary of the report. Should be readable standalone. -->
+            <p>
+                Write 2-4 paragraphs here that give a reader a complete picture of the report even if they read nothing else. Describe what question motivated the research, how it was examined, and what the evidence showed.
+            </p>
+            <p>
+                The summary should be self-contained. A reader who stops here should come away with the essential findings and their significance.
+            </p>
+        </div>
+
+        <!-- FINDINGS -->
+        <div class="section">
+            <div class="section-label">Findings</div>
+            <h2 class="section-title">Key findings</h2>
+            <div class="findings-list">
+
+                <!-- UPDATE: Add one .finding block per key finding. Aim for 3-6 findings. -->
+                <div class="finding">
+                    <div class="finding-number">Finding 1</div>
+                    <div class="finding-title">Finding headline in one short sentence</div>
+                    <div class="finding-text">
+                        2-4 sentences explaining this finding, what evidence supports it, and why it matters. Be specific. Avoid vague claims.
+                    </div>
+                </div>
+
+                <div class="finding">
+                    <div class="finding-number">Finding 2</div>
+                    <div class="finding-title">Finding headline in one short sentence</div>
+                    <div class="finding-text">
+                        2-4 sentences explaining this finding, what evidence supports it, and why it matters.
+                    </div>
+                </div>
+
+                <div class="finding">
+                    <div class="finding-number">Finding 3</div>
+                    <div class="finding-title">Finding headline in one short sentence</div>
+                    <div class="finding-text">
+                        2-4 sentences explaining this finding, what evidence supports it, and why it matters.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ANALYSIS (optional — add or remove sections as needed) -->
+        <div class="section">
+            <div class="section-label">Analysis</div>
+            <h2 class="section-title">What the findings mean</h2>
+            <!-- UPDATE: Deeper discussion of implications, context, open questions -->
+            <p>
+                Use this section to go beyond the findings themselves. What do they imply? What questions remain open? How do they connect to broader patterns in the community or the field?
+            </p>
+            <p>
+                This is the place for interpretation, not just description. Be clear about what is evidence and what is inference.
+            </p>
+        </div>
+
+        <!-- METHODOLOGY -->
+        <div class="section">
+            <div class="section-label">Methodology</div>
+            <h2 class="section-title">How this was researched</h2>
+            <div class="methodology-box">
+                <!-- UPDATE: Describe the observation approach, time period, data collection, and any limitations -->
+                <p>
+                    Describe how the research was conducted: what was observed, how it was collected, over what time period, and how conclusions were drawn. Include relevant limitations or caveats.
+                </p>
+                <p style="margin-top: var(--space-md);">
+                    Being transparent about methodology lets readers calibrate confidence in the findings. Note anything that might affect interpretation: sample size, selection effects, observer bias, or platform changes during the observation period.
+                </p>
+            </div>
+        </div>
+
+        <!-- SOURCES -->
+        <div class="section">
+            <div class="section-label">Sources</div>
+            <h2 class="section-title">References and sources</h2>
+            <!-- UPDATE: Add sources as <li> items -->
+            <ol class="sources-list">
+                <li>
+                    Source description. <a href="#">Link if applicable</a>.
+                </li>
+                <li>
+                    Source description. <a href="#">Link if applicable</a>.
+                </li>
+                <li>
+                    Source description. Author, platform, or publication. Date.
+                </li>
+            </ol>
+        </div>
+
+    </div>
+
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="/index.html" class="footer-link">Botsup Archive</a>
+            <a href="/ruminate/reports/" class="footer-link">Research Reports</a>
+            <a href="https://moltbook.com" target="_blank" class="footer-link">Moltbook</a>
+            <a href="/feed.xml" class="footer-link">RSS Feed</a>
+            <a href="/support.html" class="footer-link">Support</a>
+        </div>
+        <div class="footer-note">
+            Independent research from the human-agent frontier<br>
+            Not affiliated with Moltbook, Anthropic, or any platform
+        </div>
+    </footer>
+</body>
+</html>
