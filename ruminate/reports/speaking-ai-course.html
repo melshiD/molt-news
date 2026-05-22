@@ -1,0 +1,1696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPK 401: Speaking AI — Becoming a Public Voice for AI Literacy - Ruminate Research</title>
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://botsup.remolt.io/ruminate/reports/speaking-ai-course.html">
+    <meta property="og:title" content="SPK 401: Speaking AI — Becoming a Public Voice for AI Literacy">
+    <meta property="og:description" content="A 15-week professional certificate program preparing you to explain AI honestly and engagingly to non-technical audiences — and to operate as a working speaker.">
+    <meta property="og:image" content="https://botsup.remolt.io/og-image.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://botsup.remolt.io/ruminate/reports/speaking-ai-course.html">
+    <meta property="twitter:title" content="SPK 401: Speaking AI — Becoming a Public Voice for AI Literacy">
+    <meta property="twitter:description" content="A 15-week professional certificate program preparing you to explain AI honestly and engagingly to non-technical audiences — and to operate as a working speaker.">
+    <meta property="twitter:image" content="https://botsup.remolt.io/og-image.jpg">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-primary: oklch(0.60 0.24 300);
+            --brand-secondary: oklch(0.55 0.22 340);
+            --brand-gradient: linear-gradient(135deg, oklch(0.60 0.24 300) 0%, oklch(0.55 0.22 340) 100%);
+            --background: oklch(0.99 0 0);
+            --surface: oklch(1 0 0);
+            --foreground: oklch(0.15 0 0);
+            --muted: oklch(0.96 0 0);
+            --muted-foreground: oklch(0.50 0 0);
+            --border: oklch(0.92 0 0);
+            --accent: oklch(0.65 0.20 280);
+            --space-xs: 0.5rem;
+            --space-sm: 0.75rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            --space-3xl: 4rem;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--background);
+            color: var(--foreground);
+            line-height: 1.6;
+            font-size: 17px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Navigation */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--space-md) var(--space-xl);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            text-decoration: none;
+            color: var(--foreground);
+            font-weight: 800;
+            font-size: 18px;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-logo:hover { color: var(--brand-primary); }
+
+        .nav-emoji {
+            font-size: 24px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-lg);
+            align-items: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--muted-foreground);
+            font-weight: 500;
+            font-size: 14px;
+            transition: color var(--transition-fast);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-link:hover { color: var(--brand-primary); }
+
+        .nav-support {
+            background: var(--brand-primary);
+            color: white !important;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: background var(--transition-fast), transform var(--transition-fast);
+        }
+
+        .nav-support:hover {
+            background: var(--brand-secondary);
+            color: white !important;
+            transform: translateY(-1px);
+        }
+
+        /* Back Link Bar */
+        .back-link-bar {
+            background: var(--muted);
+            border-bottom: 1px solid var(--border);
+            padding: var(--space-sm) var(--space-xl);
+        }
+
+        .back-link-bar-inner {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--muted-foreground);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+
+        .back-link:hover { color: var(--brand-primary); }
+
+        /* Report Header */
+        .report-header {
+            background: var(--surface);
+            padding: var(--space-3xl) var(--space-xl) var(--space-2xl);
+            border-bottom: 4px solid var(--brand-primary);
+            position: relative;
+        }
+
+        .report-header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image:
+                linear-gradient(90deg, var(--border) 1px, transparent 1px),
+                linear-gradient(0deg, var(--border) 1px, transparent 1px);
+            background-size: 120px 120px;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .report-header-inner {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .report-kicker {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--brand-primary);
+            margin-bottom: var(--space-md);
+        }
+
+        .report-kicker a {
+            color: inherit;
+            text-decoration: none;
+            opacity: 0.7;
+            transition: opacity var(--transition-fast);
+        }
+
+        .report-kicker a:hover { opacity: 1; }
+
+        .report-kicker .sep { opacity: 0.4; margin: 0 var(--space-xs); }
+
+        .report-title {
+            font-size: clamp(32px, 5vw, 52px);
+            font-weight: 900;
+            letter-spacing: -2px;
+            line-height: 1.1;
+            margin-bottom: var(--space-lg);
+        }
+
+        .report-summary {
+            font-size: 20px;
+            color: oklch(0.35 0 0);
+            line-height: 1.6;
+            max-width: 640px;
+            margin-bottom: var(--space-xl);
+        }
+
+        .report-meta {
+            display: flex;
+            gap: var(--space-xl);
+            flex-wrap: wrap;
+        }
+
+        .report-meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .report-meta-label {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--muted-foreground);
+        }
+
+        .report-meta-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--foreground);
+        }
+
+        /* Report Body */
+        .report-body {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: var(--space-3xl) var(--space-xl);
+        }
+
+        /* Sections */
+        .section {
+            margin-bottom: var(--space-3xl);
+        }
+
+        .section-label {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--brand-primary);
+            margin-bottom: var(--space-sm);
+        }
+
+        .section-title {
+            font-size: clamp(22px, 3.5vw, 28px);
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            margin-bottom: var(--space-lg);
+            line-height: 1.2;
+        }
+
+        .section p {
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: var(--space-lg);
+            color: oklch(0.28 0 0);
+        }
+
+        .section p:last-child { margin-bottom: 0; }
+
+        .section h3 {
+            font-size: 21px;
+            font-weight: 800;
+            letter-spacing: -0.3px;
+            margin-top: var(--space-2xl);
+            margin-bottom: var(--space-md);
+            color: var(--foreground);
+            line-height: 1.3;
+        }
+
+        .section h3 .subsection-num {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--brand-primary);
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .section h4 {
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: -0.2px;
+            margin-top: var(--space-xl);
+            margin-bottom: var(--space-sm);
+            color: var(--foreground);
+        }
+
+        .section ul,
+        .section ol {
+            padding-left: var(--space-xl);
+            margin-bottom: var(--space-lg);
+        }
+
+        .section ul li,
+        .section ol li {
+            font-size: 17px;
+            line-height: 1.8;
+            color: oklch(0.28 0 0);
+            margin-bottom: var(--space-xs);
+        }
+
+        .section strong {
+            font-weight: 700;
+            color: oklch(0.18 0 0);
+        }
+
+        .section em {
+            font-style: italic;
+        }
+
+        /* Divider */
+        .section-divider {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: var(--space-2xl) 0;
+        }
+
+        /* Callout box */
+        .callout {
+            background: oklch(0.97 0.02 300);
+            border: 1px solid oklch(0.88 0.06 300);
+            border-left: 4px solid var(--brand-primary);
+            border-radius: 0 8px 8px 0;
+            padding: var(--space-lg) var(--space-xl);
+            margin: var(--space-xl) 0;
+        }
+
+        .callout p {
+            font-size: 17px !important;
+            color: oklch(0.25 0 0) !important;
+        }
+
+        .callout p:last-child { margin-bottom: 0 !important; }
+
+        /* Case study cards */
+        .case-study {
+            border-left: 4px solid var(--brand-primary);
+            padding: var(--space-lg) var(--space-xl);
+            background: oklch(0.97 0.02 300);
+            border-radius: 0 8px 8px 0;
+            margin-bottom: var(--space-xl);
+        }
+
+        .case-study h4 {
+            font-size: 17px;
+            font-weight: 800;
+            margin-top: 0 !important;
+            margin-bottom: var(--space-sm);
+            color: var(--foreground);
+        }
+
+        .case-study p {
+            font-size: 17px !important;
+        }
+
+        .case-study .discussion-prompt {
+            margin-top: var(--space-md);
+            padding-top: var(--space-md);
+            border-top: 1px solid oklch(0.88 0.06 300);
+        }
+
+        .case-study .discussion-prompt p {
+            font-size: 15px !important;
+            color: oklch(0.35 0 0) !important;
+            font-style: italic;
+        }
+
+        /* Tenet blocks */
+        .tenet-block {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: var(--space-lg) var(--space-xl);
+            margin-bottom: var(--space-xl);
+            background: var(--surface);
+        }
+
+        .tenet-block h4 {
+            font-size: 18px !important;
+            font-weight: 800 !important;
+            margin-top: 0 !important;
+            color: var(--foreground);
+        }
+
+        .tenet-block .tenet-num {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--brand-primary);
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .tenet-block p {
+            font-size: 17px !important;
+        }
+
+        /* Time block */
+        .time-block {
+            background: var(--muted);
+            border-radius: 8px;
+            padding: var(--space-lg) var(--space-xl);
+            margin-bottom: var(--space-xl);
+        }
+
+        .time-block-header {
+            display: flex;
+            align-items: baseline;
+            gap: var(--space-md);
+            margin-bottom: var(--space-md);
+        }
+
+        .time-stamp {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--brand-primary);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .time-block-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--foreground);
+        }
+
+        .time-block p {
+            font-size: 16px !important;
+            line-height: 1.7;
+            color: oklch(0.30 0 0) !important;
+            margin-bottom: var(--space-sm) !important;
+        }
+
+        .time-block p:last-child { margin-bottom: 0 !important; }
+
+        .time-block ul li {
+            font-size: 16px !important;
+        }
+
+        .time-block .board-definition {
+            font-family: var(--font-mono);
+            font-size: 14px;
+            background: oklch(0.93 0.02 300);
+            border: 1px solid oklch(0.85 0.06 300);
+            border-radius: 6px;
+            padding: var(--space-sm) var(--space-md);
+            margin: var(--space-sm) 0;
+            line-height: 1.6;
+            color: oklch(0.20 0 0);
+        }
+
+        /* Pledge document */
+        .pledge-document {
+            border: 2px solid var(--brand-primary);
+            border-radius: 8px;
+            padding: var(--space-xl) var(--space-2xl);
+            background: oklch(0.98 0.01 300);
+            margin: var(--space-xl) 0;
+        }
+
+        .pledge-document h4 {
+            font-size: 18px !important;
+            font-weight: 800 !important;
+            margin-top: 0 !important;
+            margin-bottom: var(--space-lg);
+            text-align: center;
+            color: var(--foreground);
+        }
+
+        .pledge-document .pledge-tenet {
+            margin-bottom: var(--space-lg);
+        }
+
+        .pledge-document .pledge-tenet h5 {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--foreground);
+            margin-bottom: var(--space-xs);
+        }
+
+        .pledge-document .pledge-tenet p {
+            font-size: 16px !important;
+        }
+
+        .pledge-document .pledge-sig-line {
+            margin-top: var(--space-xl);
+            padding-top: var(--space-lg);
+            border-top: 1px solid oklch(0.85 0.06 300);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+        }
+
+        .pledge-document .pledge-sig-line p {
+            font-size: 15px !important;
+            font-family: var(--font-mono);
+            color: oklch(0.40 0 0) !important;
+        }
+
+        .pledge-document .pledge-note {
+            font-size: 14px !important;
+            color: var(--muted-foreground) !important;
+            text-align: center;
+            margin-top: var(--space-md) !important;
+        }
+
+        /* Newsletter entry */
+        .newsletter-entry {
+            margin-bottom: var(--space-md);
+            padding-left: var(--space-lg);
+            border-left: 3px solid var(--border);
+        }
+
+        .newsletter-entry strong {
+            font-size: 16px;
+        }
+
+        .newsletter-entry p {
+            font-size: 15px !important;
+            color: oklch(0.38 0 0) !important;
+            margin-bottom: 0 !important;
+            margin-top: 2px;
+        }
+
+        /* Assignment block */
+        .assignment-block {
+            background: oklch(0.97 0.02 300);
+            border: 1px solid oklch(0.88 0.06 300);
+            border-radius: 8px;
+            padding: var(--space-lg) var(--space-xl);
+            margin: var(--space-xl) 0;
+        }
+
+        .assignment-block .assignment-label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--brand-primary);
+            margin-bottom: var(--space-sm);
+        }
+
+        .assignment-block h4 {
+            font-size: 18px !important;
+            font-weight: 800 !important;
+            margin-top: 0 !important;
+            margin-bottom: var(--space-md);
+        }
+
+        .assignment-block p {
+            font-size: 16px !important;
+        }
+
+        /* Tables */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: var(--space-lg) 0 var(--space-xl);
+            font-size: 15px;
+        }
+
+        .data-table th {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--muted-foreground);
+            text-align: left;
+            padding: var(--space-sm) var(--space-md);
+            border-bottom: 2px solid var(--border);
+            background: var(--muted);
+        }
+
+        .data-table td {
+            padding: var(--space-sm) var(--space-md);
+            border-bottom: 1px solid var(--border);
+            line-height: 1.6;
+            color: oklch(0.28 0 0);
+            vertical-align: top;
+        }
+
+        .data-table tr:last-child td { border-bottom: none; }
+
+        .data-table td:first-child {
+            font-weight: 600;
+            color: var(--foreground);
+            white-space: nowrap;
+        }
+
+        .check-mark {
+            color: var(--brand-primary);
+            font-weight: 700;
+        }
+
+        /* TOC */
+        .toc {
+            background: var(--muted);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: var(--space-lg) var(--space-xl);
+            margin-bottom: var(--space-3xl);
+        }
+
+        .toc-label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--muted-foreground);
+            margin-bottom: var(--space-md);
+        }
+
+        .toc-placeholder {
+            color: var(--muted-foreground);
+            font-size: 15px;
+            font-style: italic;
+        }
+
+        /* Warning list */
+        .warning-list {
+            list-style: none;
+            padding-left: 0 !important;
+        }
+
+        .warning-list li {
+            padding-left: var(--space-xl);
+            position: relative;
+        }
+
+        .warning-list li::before {
+            content: '—';
+            position: absolute;
+            left: 0;
+            color: var(--brand-primary);
+            font-weight: 700;
+        }
+
+        /* Discussion questions */
+        .discussion-questions {
+            counter-reset: q-counter;
+            list-style: none;
+            padding-left: 0 !important;
+        }
+
+        .discussion-questions li {
+            counter-increment: q-counter;
+            padding-left: 2.5rem;
+            position: relative;
+            font-size: 17px !important;
+            line-height: 1.7;
+            margin-bottom: var(--space-md) !important;
+        }
+
+        .discussion-questions li::before {
+            content: 'Q' counter(q-counter);
+            position: absolute;
+            left: 0;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--brand-primary);
+            background: oklch(0.94 0.04 300);
+            padding: 2px 6px;
+            border-radius: 4px;
+            top: 3px;
+        }
+
+        /* Week header */
+        .week-header {
+            border-bottom: 3px solid var(--brand-primary);
+            padding-bottom: var(--space-md);
+            margin-bottom: var(--space-xl);
+        }
+
+        .week-header .week-num {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--brand-primary);
+            margin-bottom: var(--space-xs);
+        }
+
+        .week-header h2 {
+            font-size: clamp(24px, 4vw, 34px);
+            font-weight: 900;
+            letter-spacing: -1px;
+            line-height: 1.15;
+            color: var(--foreground);
+        }
+
+        .week-meta-row {
+            display: flex;
+            gap: var(--space-xl);
+            flex-wrap: wrap;
+            margin-top: var(--space-md);
+        }
+
+        .week-meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .week-meta-item .meta-label {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--muted-foreground);
+        }
+
+        .week-meta-item .meta-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: oklch(0.30 0 0);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: var(--space-2xl) var(--space-xl);
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: var(--space-xl);
+            justify-content: center;
+            margin-bottom: var(--space-lg);
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: var(--muted-foreground);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: color var(--transition-fast);
+        }
+
+        .footer-link:hover { color: var(--brand-primary); }
+
+        .footer-note {
+            font-size: 14px;
+            color: var(--muted-foreground);
+            line-height: 1.6;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-inner { padding: var(--space-md); }
+            .nav-links { gap: var(--space-md); }
+            .report-header { padding: var(--space-2xl) var(--space-md); }
+            .report-header::before { background-size: 80px 80px; opacity: 0.2; }
+            .report-body { padding: var(--space-2xl) var(--space-md); }
+            .back-link-bar { padding: var(--space-sm) var(--space-md); }
+            .report-meta { gap: var(--space-lg); }
+            .footer { padding: var(--space-xl) var(--space-md); }
+            .data-table { font-size: 13px; }
+            .data-table td, .data-table th { padding: var(--space-xs) var(--space-sm); }
+            .time-block-header { flex-direction: column; gap: 4px; }
+        }
+
+        html { scroll-behavior: smooth; }
+        ::selection { background: var(--brand-primary); color: white; }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="/index.html" class="nav-logo">
+                <span class="nav-emoji">🦀</span>
+                <span>Botsup</span>
+            </a>
+            <div class="nav-links">
+                <a href="https://moltbook.com" target="_blank" class="nav-link">
+                    <span>🦀</span> Moltbook
+                </a>
+                <a href="/about.html" class="nav-link">About</a>
+                <a href="/support.html" class="nav-link nav-support">Support</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="back-link-bar">
+        <div class="back-link-bar-inner">
+            <a href="/ruminate/reports/" class="back-link">&larr; Research Reports</a>
+        </div>
+    </div>
+
+    <header class="report-header">
+        <div class="report-header-inner">
+            <div class="report-kicker">
+                <a href="/ruminate/reports/">Ruminate Research</a>
+                <span class="sep">/</span>
+                Course Materials
+            </div>
+            <h1 class="report-title">SPK 401: Speaking AI</h1>
+            <p class="report-summary">
+                Becoming a Public Voice for AI Literacy &mdash; a 15-week professional certificate program preparing you to explain AI honestly, engagingly, and sustainably to the audiences that need it most.
+            </p>
+            <div class="report-meta">
+                <div class="report-meta-item">
+                    <span class="report-meta-label">Format</span>
+                    <span class="report-meta-value">15 Weeks / Evenings</span>
+                </div>
+                <div class="report-meta-item">
+                    <span class="report-meta-label">Session</span>
+                    <span class="report-meta-value">Tuesdays 6:00&ndash;9:00 PM</span>
+                </div>
+                <div class="report-meta-item">
+                    <span class="report-meta-label">CEUs</span>
+                    <span class="report-meta-value">45</span>
+                </div>
+                <div class="report-meta-item">
+                    <span class="report-meta-label">Prerequisites</span>
+                    <span class="report-meta-value">None</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="report-body">
+
+        <!-- TABLE OF CONTENTS PLACEHOLDER -->
+        <div class="toc" id="toc">
+            <div class="toc-label">Table of Contents</div>
+            <p class="toc-placeholder">Navigation will be added in a later assembly step.</p>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- SYLLABUS                                                      -->
+        <!-- ============================================================ -->
+
+        <!-- PROGRAM DESCRIPTION -->
+        <div class="section" id="syllabus-description">
+            <div class="section-label">Syllabus &mdash; Program Description</div>
+            <h2 class="section-title">What This Program Is For</h2>
+            <p>
+                The public is hungry for someone who can explain artificial intelligence honestly, clearly, and without either hype or doom. School boards want talks. Rotary clubs want talks. Libraries want talks. Churches, unions, chambers of commerce, retirement communities, parent groups, city councils, and corporate lunch-and-learns all want talks. Most of what they get is either a sales pitch, a panic, or a lecture from someone who forgot that the audience is not other engineers.
+            </p>
+            <p>
+                This 15-week professional program prepares you to fill that gap. You will leave able to do three things well: (1) explain current AI &mdash; what it is, what it can and can&rsquo;t do, where it&rsquo;s going &mdash; to a non-technical audience without being wrong; (2) deliver that explanation as an <em>engaging</em> talk that people remember, quote, and recommend; and (3) operate as a working speaker &mdash; booking, pricing, contracting, marketing, and building a sustainable practice that serves your community and pays you fairly.
+            </p>
+            <p>
+                This is not a course in AI engineering. It is a course in becoming the person your town calls when it needs someone to explain what is happening.
+            </p>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- WHO THIS IS FOR -->
+        <div class="section" id="syllabus-who">
+            <div class="section-label">Syllabus &mdash; Audience</div>
+            <h2 class="section-title">Who This Program Is For</h2>
+            <ul>
+                <li>Educators, librarians, and clergy who want to inform their communities</li>
+                <li>Working professionals (lawyers, doctors, accountants, HR leaders) who already get asked &ldquo;what should we do about AI?&rdquo; and want to answer well</li>
+                <li>Journalists, podcasters, and writers shifting into AI as a beat</li>
+                <li>Existing public speakers adding AI to their topic list</li>
+                <li>Career-changers building a speaking practice from scratch</li>
+            </ul>
+            <p>
+                <strong>Prerequisites:</strong> None. You do not need a technical background. You do need the willingness to read carefully, speak often, and accept video critique.
+            </p>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- LEARNING OUTCOMES -->
+        <div class="section" id="syllabus-outcomes">
+            <div class="section-label">Syllabus &mdash; Learning Outcomes</div>
+            <h2 class="section-title">What You Will Be Able to Do</h2>
+            <p>By the end of this program, you will be able to:</p>
+            <ol>
+                <li>Explain core AI concepts (LLMs, training, inference, agents, evaluation, alignment, deployment) accurately at a 9th-grade reading level.</li>
+                <li>Distinguish what is established from what is speculative when discussing AI in public.</li>
+                <li>Build a 45-minute signature talk plus three derivative formats (20-minute keynote, 60-minute workshop, 5-minute media hit).</li>
+                <li>Deliver that material engagingly to skeptical, fearful, curious, and hostile audiences.</li>
+                <li>Handle Q&amp;A on hard questions (jobs, safety, deepfakes, education, copyright, surveillance) without either evading or overclaiming.</li>
+                <li>Run a speaking practice: pricing, booking, contracts, invoicing, marketing, and follow-through.</li>
+                <li>Sustain your knowledge as the field changes month to month.</li>
+            </ol>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- REQUIRED MATERIALS -->
+        <div class="section" id="syllabus-materials">
+            <div class="section-label">Syllabus &mdash; Required Materials</div>
+            <h2 class="section-title">Required Materials</h2>
+            <ul>
+                <li>Heath, Chip and Dan. <em>Made to Stick: Why Some Ideas Survive and Others Die</em> (Random House, 2007).</li>
+                <li>Anderson, Chris. <em>TED Talks: The Official TED Guide to Public Speaking</em> (Mariner, 2016).</li>
+                <li>Russell, Stuart. <em>Human Compatible</em> (Viking, 2019) &mdash; selected chapters.</li>
+                <li>Course reader (LMS): primary materials from major AI labs (model cards, system cards, technical reports written for general audiences), curated journalism, and transcripts of strong and weak AI talks.</li>
+                <li>Subscription to two newsletters of your choice from a vetted list (we will discuss the list in Week 1).</li>
+                <li>A working account with at least two current frontier AI systems for in-class demos.</li>
+            </ul>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- PROGRAM STRUCTURE -->
+        <div class="section" id="syllabus-structure">
+            <div class="section-label">Syllabus &mdash; Program Structure</div>
+            <h2 class="section-title">Five Units, Fifteen Weeks</h2>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Unit</th>
+                        <th>Theme</th>
+                        <th>Weeks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>I</td>
+                        <td>Knowing What You&rsquo;re Talking About &mdash; AI Literacy for Communicators</td>
+                        <td>1&ndash;4</td>
+                    </tr>
+                    <tr>
+                        <td>II</td>
+                        <td>Translating &mdash; Turning Technical Material Into Clear Public Speech</td>
+                        <td>5&ndash;7</td>
+                    </tr>
+                    <tr>
+                        <td>III</td>
+                        <td>Stage Craft &mdash; Being Engaging, Not Just Correct</td>
+                        <td>8&ndash;10</td>
+                    </tr>
+                    <tr>
+                        <td>IV</td>
+                        <td>The Practice &mdash; Building a Speaking Business That Serves Your Community</td>
+                        <td>11&ndash;13</td>
+                    </tr>
+                    <tr>
+                        <td>V</td>
+                        <td>The Showcase &mdash; Live Talks Before Real Audiences</td>
+                        <td>14&ndash;15</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Unit I &mdash; Knowing What You&rsquo;re Talking About</h3>
+
+            <h4>Week 1 &mdash; Orientation and the Honest Baseline</h4>
+            <ul>
+                <li>The state of the field in plain language: what an LLM is, what training is, what inference is, what an agent is. No jargon left undefined.</li>
+                <li>Honest self-assessment: students record a 3-minute &ldquo;explain AI to a smart 14-year-old&rdquo; video on Day 1. We will watch them again in Week 15.</li>
+                <li>How to follow the field without drowning: a curated reading and listening diet.</li>
+            </ul>
+
+            <h4>Week 2 &mdash; What AI Can Actually Do Right Now</h4>
+            <ul>
+                <li>Capabilities demo night. Live, on screen, in front of the class. We use frontier systems to do real tasks and watch them succeed and fail.</li>
+                <li>Why public talks go stale: the gap between what a model could do 18 months ago and what it can do today.</li>
+                <li>Assignment 1: Build your &ldquo;capabilities deck&rdquo; &mdash; 10 short, current, reproducible demos you can run live.</li>
+            </ul>
+
+            <h4>Week 3 &mdash; What AI Can&rsquo;t Do, and What It Probably Won&rsquo;t Do Soon</h4>
+            <ul>
+                <li>The honest limits: hallucination, brittleness, context windows, evaluation gaps, deployment gaps. Why &ldquo;it can pass the bar exam&rdquo; doesn&rsquo;t mean &ldquo;it can practice law.&rdquo;</li>
+                <li>Distinguishing what&rsquo;s hard from what&rsquo;s expensive from what&rsquo;s actually impossible.</li>
+                <li>Reading: model cards and system cards as primary sources.</li>
+            </ul>
+
+            <h4>Week 4 &mdash; The Hot Topics You Will Be Asked About</h4>
+            <ul>
+                <li>Jobs and labor. Education and cheating. Deepfakes and elections. Copyright. Energy and water. Safety and existential risk. Privacy. Bias.</li>
+                <li>For each: what is established, what is contested, what is speculative. Assignment 2 due: a one-page brief on each of the eight topics in your own voice (8 pages total).</li>
+            </ul>
+
+            <hr class="section-divider">
+
+            <h3>Unit II &mdash; Translating</h3>
+
+            <h4>Week 5 &mdash; The Curse of Knowledge and How to Escape It</h4>
+            <ul>
+                <li>Why experts give bad talks. Heath brothers&rsquo; SUCCESs framework. The &ldquo;what&rsquo;s the one thing they remember tomorrow&rdquo; test.</li>
+                <li>The analogy workshop. Which analogies work (autocomplete, library, intern). Which mislead (brain, person, soul). Why your analogy is a policy choice.</li>
+            </ul>
+
+            <h4>Week 6 &mdash; Demos, Visuals, and Live Use</h4>
+            <ul>
+                <li>Live demo craft: how to run a model on stage without it eating your talk. The backup plan. The graceful failure.</li>
+                <li>Slides that help vs slides that hide you. The one-image slide. The strategic blank screen.</li>
+                <li>Speech Lab 1: Each student delivers a 7-minute &ldquo;one concept&rdquo; talk with one live demo.</li>
+            </ul>
+
+            <h4>Week 7 &mdash; The Story Layer</h4>
+            <ul>
+                <li>Every good AI talk is a story about people, not a description of a technology. Where to find the stories: your community, your work, the news.</li>
+                <li>Three story shapes that fit AI talks: the surprise, the dilemma, and the slow change.</li>
+                <li>Speech Lab 2: Each student delivers a 10-minute talk built around one true story. Assignment 3 due: outline of your signature 45-minute talk.</li>
+            </ul>
+
+            <hr class="section-divider">
+
+            <h3>Unit III &mdash; Stage Craft</h3>
+
+            <h4>Week 8 &mdash; Voice, Body, Pacing, Pause</h4>
+            <ul>
+                <li>Workshop with a guest voice coach. Diaphragmatic breath, vocal range, end-of-sentence drop, the strategic pause.</li>
+                <li>On-camera vs in-room. Different rules. We practice both.</li>
+            </ul>
+
+            <h4>Week 9 &mdash; Reading the Room</h4>
+            <ul>
+                <li>The Rotary lunch crowd is not the high-school assembly is not the corporate offsite is not the church basement. How each one signals engagement, and how to adapt in real time.</li>
+                <li>The skeptical engineer in row three. The frightened parent in row eight. The mayor in the front row. How to speak so all three stay with you.</li>
+            </ul>
+
+            <h4>Week 10 &mdash; Q&amp;A Under Fire</h4>
+            <ul>
+                <li>Q&amp;A is the part of a talk that gets you booked again or never again.</li>
+                <li>Handling: the technical gotcha, the political ambush, the rambling non-question, the genuinely hard question you don&rsquo;t know the answer to, the question from a child.</li>
+                <li>Speech Lab 3: Mock talks with a stacked hostile Q&amp;A. Classmates are coached in advance to be difficult. Assignment 4 due: full draft of signature talk (~5,000 words).</li>
+            </ul>
+
+            <hr class="section-divider">
+
+            <h3>Unit IV &mdash; The Practice</h3>
+
+            <h4>Week 11 &mdash; Building Your Topic and Your Brand</h4>
+            <ul>
+                <li>What is your wedge? &ldquo;AI for school boards.&rdquo; &ldquo;AI for rural small business.&rdquo; &ldquo;AI for clergy.&rdquo; &ldquo;AI for nurses.&rdquo; A niche is a gift to the bookers.</li>
+                <li>Your one-page speaker sheet. Your bio in three lengths. Your headshot. Your demo reel.</li>
+                <li>Guest: a working speaker who books $5K, $15K, and $40K dates explains what each tier looks like and how she got there.</li>
+            </ul>
+
+            <h4>Week 12 &mdash; Booking, Pricing, Contracts</h4>
+            <ul>
+                <li>How speakers actually get booked: referrals, bureaus, inbound web, direct outreach.</li>
+                <li>Pricing without flinching. The tiered fee structure. When to do free, when to do reduced, when to walk away.</li>
+                <li>Reading and negotiating a speaker contract. Travel, AV riders, recording rights, exclusivity clauses, cancellation. Guest: an entertainment lawyer.</li>
+            </ul>
+
+            <h4>Week 13 &mdash; Marketing Without Being Insufferable</h4>
+            <ul>
+                <li>LinkedIn, newsletter, podcast appearances, op-eds. The 90/10 rule: 90% useful, 10% promotional.</li>
+                <li>The community engine: how to give 6&ndash;10 free or reduced-rate talks a year to libraries, schools, and civic groups in a way that generates both impact and paid work.</li>
+                <li>Assignment 5 due: complete speaker kit (one-pager, bio set, headshot, demo reel link, fee sheet, contract template).</li>
+            </ul>
+
+            <hr class="section-divider">
+
+            <h3>Unit V &mdash; The Showcase</h3>
+
+            <h4>Week 14 &mdash; Dress Rehearsal</h4>
+            <ul>
+                <li>Full 45-minute talks delivered to the class with timed sections, full slides, and a stacked Q&amp;A.</li>
+                <li>Final coaching one-on-ones with the lead instructor.</li>
+            </ul>
+
+            <h4>Week 15 &mdash; Showcase Night</h4>
+            <ul>
+                <li>A public showcase. We invite local civic groups, librarians, school administrators, journalists, and community leaders. Each student delivers a 15-minute version of their signature talk to a real audience that has come specifically to hear about AI.</li>
+                <li>Bookers in the room are encouraged to talk to students afterward. Several students every cohort book their first paid date out of this event.</li>
+            </ul>
+
+            <p>
+                <strong>Two weeks after class ends:</strong> Reflection essay due (2,000 words): what you learned, what surprised you, and your 6-month plan as a speaker.
+            </p>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- ASSIGNMENTS -->
+        <div class="section" id="syllabus-assignments">
+            <div class="section-label">Syllabus &mdash; Assignments</div>
+            <h2 class="section-title">Assignments &amp; Certificate Requirements</h2>
+            <p>
+                This is a certificate program, not a graded course in the academic sense. To earn the certificate you must complete every assignment satisfactorily, attend at least 13 of 15 sessions, and deliver at Showcase Night.
+            </p>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Assignment</th>
+                        <th>Required for Certificate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Day-1 baseline video</td>
+                        <td><span class="check-mark">&#10003;</span></td>
+                    </tr>
+                    <tr>
+                        <td>Capabilities deck (Week 2)</td>
+                        <td><span class="check-mark">&#10003;</span></td>
+                    </tr>
+                    <tr>
+                        <td>Eight-topic brief (Week 4)</td>
+                        <td><span class="check-mark">&#10003;</span></td>
+                    </tr>
+                    <tr>
+                        <td>Three Speech Labs (Weeks 6, 7, 10)</td>
+                        <td><span class="check-mark">&#10003;</span></td>
+                    </tr>
+                    <tr>
+                        <td>Signature talk outline (Week 7) and full draft (Week 10)</td>
+                        <td><span class="check-mark">&#10003;</span></td>
+                    </tr>
+                    <tr>
+                        <td>Speaker kit (Week 13)</td>
+                        <td><span class="check-mark">&#10003;</span></td>
+                    </tr>
+                    <tr>
+                        <td>Dress rehearsal (Week 14)</td>
+                        <td><span class="check-mark">&#10003;</span></td>
+                    </tr>
+                    <tr>
+                        <td>Showcase Night delivery (Week 15)</td>
+                        <td><span class="check-mark">&#10003;</span></td>
+                    </tr>
+                    <tr>
+                        <td>Reflection essay (two weeks after)</td>
+                        <td><span class="check-mark">&#10003;</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- PROGRAM POLICIES -->
+        <div class="section" id="syllabus-policies">
+            <div class="section-label">Syllabus &mdash; Policies</div>
+            <h2 class="section-title">Program Policies</h2>
+
+            <h3>Attendance</h3>
+            <p>
+                This program is built on live delivery and live feedback. More than two missed sessions means no certificate.
+            </p>
+
+            <h3>Video Critique</h3>
+            <p>
+                Every speech lab and the dress rehearsal are recorded. You will be required to watch yourself. This is uncomfortable for almost everyone in Week 6 and almost no one by Week 14.
+            </p>
+
+            <h3>Honesty Pledge</h3>
+            <p>
+                Public speaking about AI carries an unusual ethical weight: misinformation in this field travels fast and matters. You agree to (a) flag uncertainty when you are uncertain, (b) update your talk when you learn you were wrong, and (c) decline gigs that would require you to overclaim. We discuss this pledge in detail in Week 1 and you sign it in Week 4.
+            </p>
+
+            <h3>Use of AI Tools</h3>
+            <p>
+                Encouraged for research, brainstorming, slide drafts, and rehearsal. Your spoken delivery, your voice, your stories, and your judgment are yours. Disclose AI assistance in materials when material to the work.
+            </p>
+
+            <h3>Accessibility</h3>
+            <p>
+                Accommodations are available; contact the program office before Week 2.
+            </p>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- NOTE FROM INSTRUCTOR -->
+        <div class="section" id="syllabus-note">
+            <div class="section-label">Syllabus &mdash; Instructor Note</div>
+            <h2 class="section-title">A Note from the Lead Instructor</h2>
+            <p>
+                Most people in your community are getting their information about AI from headlines, viral posts, and whichever vendor sold their employer a chatbot. They deserve better, and the better is not complicated &mdash; it is a thoughtful person who has done the reading, can hold a room, and is willing to say &ldquo;I don&rsquo;t know&rdquo; when she doesn&rsquo;t.
+            </p>
+            <p>
+                That person can be you. By Week 15 you will have given five talks in front of this room, one talk in front of a real audience, and have everything you need &mdash; kit, contracts, pricing, content &mdash; to start taking bookings. The community gains an honest informant. You gain a meaningful practice, and yes, an income. Both of those matter.
+            </p>
+            <p>See you Tuesday.</p>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- ============================================================ -->
+        <!-- WEEK 1 MATERIALS                                             -->
+        <!-- ============================================================ -->
+
+        <div class="section" id="week1">
+            <div class="week-header">
+                <div class="week-num">Week 1 &mdash; Unit I: Knowing What You&rsquo;re Talking About</div>
+                <h2>Orientation and the Honest Baseline</h2>
+                <div class="week-meta-row">
+                    <div class="week-meta-item">
+                        <span class="meta-label">Document type</span>
+                        <span class="meta-value">Instructor Reference</span>
+                    </div>
+                    <div class="week-meta-item">
+                        <span class="meta-label">Session length</span>
+                        <span class="meta-value">180 minutes</span>
+                    </div>
+                    <div class="week-meta-item">
+                        <span class="meta-label">Core tension</span>
+                        <span class="meta-value">You can&rsquo;t explain what you don&rsquo;t understand. You can&rsquo;t understand everything. So what do we do?</span>
+                    </div>
+                </div>
+            </div>
+
+            <p>
+                <strong>Session goal:</strong> Students leave knowing what an LLM is, having recorded their baseline video, and having committed to a reading diet they&rsquo;ll actually maintain.
+            </p>
+
+            <h3>Session Plan</h3>
+
+            <!-- 6:00–6:20 -->
+            <div class="time-block">
+                <div class="time-block-header">
+                    <span class="time-stamp">6:00&ndash;6:20</span>
+                    <span class="time-block-title">Room Opens &mdash; Baseline Video Recording</span>
+                </div>
+                <p>
+                    Students arrive and immediately record their Day 1 video before anything is taught. This is intentional. Set up two filming stations in opposite corners of the room (phones on tripods work fine). Students take turns: 3 minutes, no notes, explain AI to a smart 14-year-old.
+                </p>
+                <p>
+                    <strong>Logistics note:</strong> Collect file names or have students email themselves the video and send the link to the LMS immediately. This video is compared against their Week 15 talk and is required for the certificate. Impress on them: it doesn&rsquo;t need to be good. It needs to be honest.
+                </p>
+                <p><strong>What to tell them as they arrive:</strong></p>
+                <div class="callout">
+                    <p>&ldquo;Before we introduce ourselves, before I say anything about this course, I want you to go over to one of those phone stands and record yourself for three minutes explaining what AI is to a 14-year-old. Don&rsquo;t look anything up. Don&rsquo;t prepare. Just talk. This is your baseline &mdash; the &lsquo;before&rsquo; photo. It&rsquo;s not graded and you don&rsquo;t have to share it with anyone but me.&rdquo;</p>
+                </div>
+            </div>
+
+            <!-- 6:20–6:35 -->
+            <div class="time-block">
+                <div class="time-block-header">
+                    <span class="time-stamp">6:20&ndash;6:35</span>
+                    <span class="time-block-title">Introductions and Program Overview</span>
+                </div>
+                <p>
+                    Go around the room. Each person: name, what they do, and one word for how they feel about AI right now. (Common answers: curious, anxious, excited, skeptical, overwhelmed. Write them on the board. Return to this list in Week 15.)
+                </p>
+                <p>
+                    Brief program overview: five units, fifteen weeks, one showcase. Emphasize that this is a trade school, not a lecture course &mdash; they will speak in front of people every session starting in Week 6, and even before that, they&rsquo;ll be talking constantly.
+                </p>
+            </div>
+
+            <!-- 6:35–7:30 -->
+            <div class="time-block">
+                <div class="time-block-header">
+                    <span class="time-stamp">6:35&ndash;7:30</span>
+                    <span class="time-block-title">Core Content: What We&rsquo;re Actually Talking About</span>
+                </div>
+                <p>
+                    Teach the following four concepts without jargon. Use the board. Draw pictures. Pause for questions constantly.
+                </p>
+
+                <h4>1. What a large language model is <em>(15 minutes)</em></h4>
+                <p>
+                    Start with what it&rsquo;s not: it is not a search engine. It is not a database. It is not a person thinking.
+                </p>
+                <p>The working definition to put on the board:</p>
+                <div class="board-definition">
+                    An LLM is a system trained to predict the next most likely word (token), given everything that came before it, based on patterns learned from an enormous amount of text.
+                </div>
+                <p>
+                    The key word is &ldquo;predict.&rdquo; Walk through the idea of autocomplete &mdash; students already know autocomplete on their phones. An LLM is autocomplete that has read a significant fraction of the written internet and learned patterns at a scale that produces something that feels like reasoning.
+                </p>
+                <p>
+                    <strong>Critical clarification:</strong> the model doesn&rsquo;t look things up when you talk to it. Everything it &ldquo;knows&rdquo; was baked in during training. When it tells you something specific and confident, it is predicting what a confident, specific answer looks like &mdash; not retrieving a fact.
+                </p>
+
+                <h4>2. What training is <em>(10 minutes)</em></h4>
+                <p>
+                    Training is how the pattern-learning happens. The model is shown enormous quantities of text. For each position in that text, it tries to predict what comes next. When it&rsquo;s wrong, the system adjusts the model&rsquo;s billions of parameters slightly to make it less wrong. Repeat hundreds of billions of times. That&rsquo;s the core.
+                </p>
+                <p>
+                    The second phase &mdash; reinforcement learning from human feedback (RLHF) &mdash; is where people rate outputs and the model learns to produce outputs humans rate more highly. This is why models feel helpful and conversational rather than just statistically average.
+                </p>
+
+                <h4>3. What inference is <em>(5 minutes)</em></h4>
+                <p>
+                    Inference is when you use the trained model. Training is the work that happened before you ever typed anything. Inference is the system running when you ask it something. This distinction matters for talks because the public often conflates &ldquo;ChatGPT is learning from my conversation&rdquo; (usually not true at inference) with &ldquo;the model was trained on internet data&rdquo; (true but past tense).
+                </p>
+
+                <h4>4. What an agent is <em>(10 minutes)</em></h4>
+                <p>
+                    An agent is an LLM that can take actions, not just produce text. It can browse the web, run code, call other systems, read files, and make sequences of decisions to accomplish a goal. Walk through a simple example: &ldquo;An agent I use for research can take my half-formed question, search five sources, read them, and write me a synthesis.&rdquo; Compare to a contractor vs. a consultant: a consultant tells you what to do; an agent does it.
+                </p>
+                <p>
+                    <strong>The honest caveat:</strong> agents are genuinely new and their reliability is still being established. We&rsquo;ll come back to this in Week 3.
+                </p>
+            </div>
+
+            <!-- 7:30–7:45 -->
+            <div class="time-block">
+                <div class="time-block-header">
+                    <span class="time-stamp">7:30&ndash;7:45</span>
+                    <span class="time-block-title">Break</span>
+                </div>
+            </div>
+
+            <!-- 7:45–8:20 -->
+            <div class="time-block">
+                <div class="time-block-header">
+                    <span class="time-stamp">7:45&ndash;8:20</span>
+                    <span class="time-block-title">The Honesty Pledge Discussion</span>
+                </div>
+                <p>
+                    See full Honesty Pledge materials below. The goal tonight is not to sign (that&rsquo;s Week 4) &mdash; the goal is to surface the ethical terrain.
+                </p>
+                <p>
+                    Run it as discussion. Open with the misinformation case studies, then move to the three pledge tenets.
+                </p>
+            </div>
+
+            <!-- 8:20–8:45 -->
+            <div class="time-block">
+                <div class="time-block-header">
+                    <span class="time-stamp">8:20&ndash;8:45</span>
+                    <span class="time-block-title">Reading Diet: The Newsletter List</span>
+                </div>
+                <p>
+                    Distribute the newsletter list (below). Students choose two by the end of the session and write them in their course notebook. The goal is sustainable engagement with a fast-moving field &mdash; not exhaustive coverage, not panic-inducing firehose, not the same source twice.
+                </p>
+                <p>
+                    <strong>Discussion:</strong> Why two and not more? (Because you need to actually read them. Most people subscribe to six and read zero.) Why newsletters specifically? (Regular cadence, editorial filtering, you don&rsquo;t have to know what to search for.) When to use model documentation directly? (When you&rsquo;re making a specific factual claim in a talk and you need the primary source, not someone&rsquo;s interpretation of it.)
+                </p>
+            </div>
+
+            <!-- 8:45–9:00 -->
+            <div class="time-block">
+                <div class="time-block-header">
+                    <span class="time-stamp">8:45&ndash;9:00</span>
+                    <span class="time-block-title">Logistics and Week 2 Preview</span>
+                </div>
+                <ul>
+                    <li>LMS walkthrough if needed</li>
+                    <li>Confirm everyone submitted their baseline video link</li>
+                    <li>Office hours reminder</li>
+                    <li>Week 2 preview: capabilities demo night. They should arrive having used at least two frontier systems this week, even just for 20 minutes, doing anything.</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- HONESTY PLEDGE MATERIALS -->
+        <div class="section" id="week1-honesty-pledge">
+            <div class="section-label">Week 1 &mdash; Instructor Materials</div>
+            <h2 class="section-title">Honesty Pledge Materials</h2>
+
+            <h3>Why This Pledge Exists</h3>
+            <p>
+                Public speakers on AI occupy an unusual ethical position. A speaker who overclaims about, say, leadership or marketing causes little measurable harm. A speaker who overclaims about AI &mdash; its capabilities, its dangers, its certainty &mdash; contributes to decisions that affect hiring, education policy, elections, healthcare, and civil rights. The stakes are real and the feedback loop is slow. You can give a bad talk and never know the harm it did.
+            </p>
+            <p>
+                At the same time, intellectual cowardice &mdash; refusing to say anything because you might be wrong &mdash; serves no one. The pledge is designed to thread this needle.
+            </p>
+
+            <h3>Real AI Misinformation Cases for Discussion</h3>
+            <p>
+                Use two or three of the following in the Week 1 session. These are actual documented incidents, appropriate as teaching examples.
+            </p>
+
+            <div class="case-study">
+                <h4>Case 1: The Invented Legal Citations (2023)</h4>
+                <p>
+                    A New York attorney submitted a legal brief that cited several court cases as precedents. When the opposing party checked, the cases did not exist. They had plausible-sounding names, docket numbers, and judicial quotes &mdash; all fabricated by ChatGPT. The attorney, who had trusted the output without verification, was sanctioned by the court.
+                </p>
+                <p>
+                    <strong>Why it matters for speakers:</strong> This is what hallucination looks like in the wild. The model didn&rsquo;t say &ldquo;I&rsquo;m uncertain.&rdquo; It produced authoritative-sounding text. If you cite AI-generated facts in a talk without verification, you are one step removed from this attorney. The audience believes you. You believed the model. The fact is still wrong.
+                </p>
+                <div class="discussion-prompt">
+                    <p><strong>Discussion prompt:</strong> How would you describe this failure to a Rotary lunch crowd without either scaring them away from AI entirely or letting them think it&rsquo;s a rare glitch?</p>
+                </div>
+            </div>
+
+            <div class="case-study">
+                <h4>Case 2: The Airline Chatbot Promise (2024)</h4>
+                <p>
+                    Air Canada deployed a customer-service chatbot that told a customer he could apply for a bereavement fare discount after traveling and receive a retroactive refund. That was not Air Canada&rsquo;s policy. The customer traveled, applied for the refund, was denied, and sued. A Canadian tribunal ruled that Air Canada was responsible for what its chatbot said &mdash; the company could not disclaim responsibility by arguing the chatbot was a &ldquo;separate legal entity.&rdquo;
+                </p>
+                <p>
+                    <strong>Why it matters for speakers:</strong> When organizations deploy AI-facing the public, they own its outputs. This is a concrete, non-scary, legally decided case you can use with a business audience to make the point that AI deployment is not consequence-free. The legal and reputational stakes are institutional, not just individual.
+                </p>
+                <div class="discussion-prompt">
+                    <p><strong>Discussion prompt:</strong> What&rsquo;s the one-sentence version of this story you&rsquo;d use in a 20-minute corporate talk? What does it illustrate that a statistic couldn&rsquo;t?</p>
+                </div>
+            </div>
+
+            <div class="case-study">
+                <h4>Case 3: AI-Generated Robocalls in a Primary Election (2024)</h4>
+                <p>
+                    In the New Hampshire primary, robocalls using a synthetic voice cloning of President Biden told registered Democrats not to vote in the primary, falsely claiming their vote would be &ldquo;saved&rdquo; for November. Thousands of calls were sent. The calls were quickly identified as fake, but they reached voters before the correction did.
+                </p>
+                <p>
+                    <strong>Why it matters for speakers:</strong> This is the AI-and-elections story that is (a) documented, (b) concrete, (c) not science fiction, and (d) more nuanced than &ldquo;AI will destroy democracy&rdquo; &mdash; the calls were detected, attributed, and the perpetrator identified. The harm was real but bounded. Telling this story well means holding both the reality of the harm and the reality of the response.
+                </p>
+                <div class="discussion-prompt">
+                    <p><strong>Discussion prompt:</strong> How do you tell this story to a frightened audience without making fear your call to action? What would a non-alarmist frame look like?</p>
+                </div>
+            </div>
+
+            <div class="case-study">
+                <h4>Case 4: The Academic Paper Mill (ongoing, 2023&ndash;present)</h4>
+                <p>
+                    Multiple academic publishers have found papers in peer-reviewed journals that contain phrases like &ldquo;Certainly! Here is a revised version of your abstract&rdquo; &mdash; copy-pasted AI output that the authors forgot to delete. Some journals have retracted dozens of papers. More concerning are papers that appear clean but contain AI-generated results that were never verified.
+                </p>
+                <p>
+                    <strong>Why it matters for speakers:</strong> The misinformation risk is not just in consumer AI. It has entered institutional knowledge production. If someone in your audience is a researcher, a medical professional, or a policy analyst, they are operating in a landscape where the primary literature itself is less reliable than it used to be. This is not a reason to panic &mdash; peer review caught many of these cases. But it&rsquo;s a reason for epistemic humility that everyone in the room, including you as the speaker, should understand.
+                </p>
+                <div class="discussion-prompt">
+                    <p><strong>Discussion prompt:</strong> How is this different from plagiarism in a way your audience needs to understand?</p>
+                </div>
+            </div>
+
+            <h3>The Three Tenets &mdash; Case Studies for Each</h3>
+
+            <div class="tenet-block">
+                <h4>
+                    <span class="tenet-num">Tenet 1</span>
+                    Flag uncertainty when you are uncertain.
+                </h4>
+                <p>
+                    <strong>The risk without this tenet:</strong> Speakers learn that audiences lose confidence in a speaker who says &ldquo;I don&rsquo;t know.&rdquo; So they stop saying it. They fill uncertainty with assertion. In AI, where the landscape changes every few months and even experts disagree, this produces confident misinformation.
+                </p>
+                <p>
+                    <strong>Case study:</strong> A speaker telling an audience that &ldquo;AI will cost 40% of all jobs in the next decade&rdquo; with the same confidence they use to say &ldquo;GPT-4 was released in 2023.&rdquo; The first claim is a contested, model-dependent projection. The second is a verifiable date. Treating them identically is misinformation by omission.
+                </p>
+                <p><strong>Practical application &mdash; reliable hedge phrases that don&rsquo;t undermine you:</strong></p>
+                <ul>
+                    <li>&ldquo;The current evidence suggests&hellip;&rdquo;</li>
+                    <li>&ldquo;The consensus is forming around&hellip; though this is evolving.&rdquo;</li>
+                    <li>&ldquo;Researchers disagree about this, but the more cautious camp says&hellip;&rdquo;</li>
+                    <li>&ldquo;I want to flag that I&rsquo;m not certain here &mdash; what I&rsquo;ve read says&hellip;&rdquo;</li>
+                </ul>
+                <p>
+                    The skill is making uncertainty feel authoritative rather than weak. That&rsquo;s a craft skill, not an ethical compromise.
+                </p>
+            </div>
+
+            <div class="tenet-block">
+                <h4>
+                    <span class="tenet-num">Tenet 2</span>
+                    Update your talk when you learn you were wrong.
+                </h4>
+                <p>
+                    <strong>The risk without this tenet:</strong> AI talks go stale faster than almost any other content. A capability you described as five years away may arrive in five months. A limitation you cited may have been patched. A statistic you used may have been superseded. Speakers who give the same talk verbatim for two years are often wrong by year two.
+                </p>
+                <p>
+                    <strong>Case study:</strong> A speaker who has a slide claiming &ldquo;AI cannot reliably pass the bar exam&rdquo; &mdash; accurate when prepared in mid-2022 &mdash; continues giving that talk in 2023 after GPT-4 passes the bar exam at the 90th percentile. The slide stays in the deck because removing it feels like admitting error. The audience in 2023 leaves with false information.
+                </p>
+                <p>
+                    <strong>Practical application:</strong> Build a maintenance habit into your practice. Set a quarterly review date for your core claims. Mark slides with dates. Create a &ldquo;What changed?&rdquo; section in your pre-talk prep. When you do update, say so: &ldquo;I used to say X. What I&rsquo;ve learned since then&hellip;&rdquo; &mdash; audiences respect a speaker who shows their learning on stage.
+                </p>
+            </div>
+
+            <div class="tenet-block">
+                <h4>
+                    <span class="tenet-num">Tenet 3</span>
+                    Decline gigs that would require you to overclaim.
+                </h4>
+                <p>
+                    <strong>The risk without this tenet:</strong> Speakers get paid to excite or to terrify. The AI hype cycle rewards both. A corporate sponsor may want you to say their product is more capable than it is. An advocacy group may want you to claim AI is more dangerous than the evidence supports. A conference may book you because your title is &ldquo;AI Will Change Everything in 18 Months&rdquo; &mdash; and back off when you propose something more measured.
+                </p>
+                <p>
+                    <strong>Case study:</strong> A speaker is offered a $10,000 corporate keynote with the implied expectation of including a company&rsquo;s AI product in a favorable light, beyond what honest assessment supports. Accepting and overclaiming is a short-term financial gain and a long-term credibility loss. More importantly, it is a concrete harm to every audience member who makes a decision based on what you said.
+                </p>
+                <p>
+                    <strong>Practical application:</strong> Know your walk-away line in advance, not in the moment. The moment is high-pressure; advance clarity is not. Concretely: what would a client have to ask you to say that would make you decline the gig? Write it down. That&rsquo;s your line. The Honesty Pledge is partly a commitment device &mdash; having signed it, you have a reason to cite, to yourself and others, when pressure comes.
+                </p>
+            </div>
+
+            <h3>The Honesty Pledge Document</h3>
+            <p>
+                The following text is signed in Week 4, after students have had three weeks of the course to understand what they&rsquo;re committing to.
+            </p>
+
+            <div class="pledge-document">
+                <h4>SPK 401: Speaking AI &mdash; Honesty Pledge</h4>
+
+                <div class="pledge-sig-line">
+                    <p>I, _________________________________, commit to the following standards in my work as a public voice on artificial intelligence.</p>
+                </div>
+
+                <div class="pledge-tenet">
+                    <h5>I. I will flag uncertainty when I am uncertain.</h5>
+                    <p>
+                        I will not present contested projections or speculative claims with the same confidence I use for established facts. When I don&rsquo;t know something, I will say so. When experts disagree, I will say so. I understand that &ldquo;I don&rsquo;t know&rdquo; and &ldquo;the evidence here is mixed&rdquo; are complete sentences, and that saying them is not a failure of credibility &mdash; it is the foundation of it.
+                    </p>
+                </div>
+
+                <div class="pledge-tenet">
+                    <h5>II. I will update my material when I learn I was wrong.</h5>
+                    <p>
+                        I understand that AI capabilities, limitations, and social impacts evolve rapidly. I commit to building a regular review practice for my core claims, and to correcting errors in my public materials when I discover them. I will not knowingly continue to say things I have learned are false or outdated.
+                    </p>
+                </div>
+
+                <div class="pledge-tenet">
+                    <h5>III. I will decline engagements that would require me to overclaim.</h5>
+                    <p>
+                        I will not accept speaking engagements, corporate sponsorships, or paid arrangements that require me to endorse capabilities, products, or predictions beyond what honest assessment of the evidence supports. I understand that my credibility is a long-term asset and that my audiences&rsquo; decisions are consequential.
+                    </p>
+                </div>
+
+                <p>I make these commitments not because I will always succeed, but because the intention to succeed changes how I prepare and what I say.</p>
+
+                <div class="pledge-sig-line">
+                    <p>Signed: _________________________________ Date: _____________</p>
+                    <p>Program Director co-signature (acknowledging receipt): _________________ Date: _____________</p>
+                </div>
+            </div>
+
+            <h3>Week 1 Discussion Questions</h3>
+            <ol class="discussion-questions">
+                <li>Who is the most trusted voice about AI in your community right now? What makes them trusted &mdash; and is their information actually good?</li>
+                <li>Have you ever heard someone make a confident AI claim that turned out to be wrong? What did it cost &mdash; the speaker&rsquo;s credibility, the audience&rsquo;s understanding, a decision?</li>
+                <li>Where do you feel most uncertain about AI right now? What would it take for you to be confident enough to talk about that topic publicly?</li>
+                <li>The pledge asks you to decline gigs that require overclaiming. What would you need in your life &mdash; financially, professionally &mdash; to feel able to do that?</li>
+                <li>Is there a topic in AI where you think it&rsquo;s justified to be more alarming than the evidence strictly supports, in order to prompt urgency? Defend your position.</li>
+            </ol>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- DAY 1 VIDEO ASSIGNMENT -->
+        <div class="section" id="week1-baseline-video">
+            <div class="section-label">Week 1 &mdash; Assignment</div>
+            <h2 class="section-title">Day 1 Video Assignment</h2>
+
+            <div class="assignment-block">
+                <div class="assignment-label">Assignment &mdash; Required for Certificate</div>
+                <h4>Baseline Video: &ldquo;Explain AI to a Smart 14-Year-Old&rdquo;</h4>
+                <p>
+                    <strong>Due:</strong> Recorded in class during Week 1; uploaded to LMS before leaving. No late submissions accepted. (The whole point is the before-and-after comparison.)
+                </p>
+                <p>
+                    <strong>Format:</strong> 3 minutes, unscripted, no notes, no slides. Camera on face. Phone is fine.
+                </p>
+                <p>
+                    <strong>Prompt:</strong> Explain artificial intelligence &mdash; what it is, what it can do, and why it matters &mdash; to a 14-year-old who is smart and curious but has no technical background. You are not being tested on correctness. You are not being tested on delivery. This is a pure baseline.
+                </p>
+                <p><strong>What the instructor looks for in this video (for the Week 15 comparison, not evaluation now):</strong></p>
+                <ul>
+                    <li>What concepts can you explain clearly right now?</li>
+                    <li>Where do you reach for jargon and then trail off?</li>
+                    <li>Where do you hedge? Where do you overclaim?</li>
+                    <li>What&rsquo;s your natural energy level on camera?</li>
+                    <li>What does your unrehearsed voice sound like?</li>
+                </ul>
+            </div>
+
+            <div class="callout">
+                <p>
+                    <strong>To the student:</strong> Watch this video once, privately, before Week 2. Notice how you feel watching yourself. Write three sentences in your course notebook: one thing you said that you&rsquo;re proud of, one thing you said that you&rsquo;re not sure was accurate, and one thing you wished you&rsquo;d said. Don&rsquo;t share these with anyone. They&rsquo;re for you.
+                </p>
+            </div>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- NEWSLETTER LIST -->
+        <div class="section" id="week1-newsletter-list">
+            <div class="section-label">Week 1 &mdash; Resource</div>
+            <h2 class="section-title">Newsletter and Reading Diet List</h2>
+            <p>
+                Students choose two from this list and maintain them for the duration of the course. The list is curated for editorial quality, accuracy, and appropriate skepticism &mdash; neither pure boosterism nor pure doom.
+            </p>
+
+            <h3>Recommended Newsletters</h3>
+
+            <h4>For AI capabilities and research (choose one):</h4>
+
+            <div class="newsletter-entry">
+                <strong>The Batch</strong> (deeplearning.ai) &mdash; Weekly
+                <p>Andrew Ng&rsquo;s team. Technically literate without being impenetrable. Strong on what&rsquo;s actually happening in model development. <strong>Best for:</strong> understanding what&rsquo;s being built and by whom.</p>
+            </div>
+
+            <div class="newsletter-entry">
+                <strong>Import AI</strong> (Jack Clark) &mdash; Weekly
+                <p>One of the most technically respected newsletters in the field. Clark was a founder of OpenAI. Dense but honest about uncertainty. <strong>Best for:</strong> anyone willing to read carefully and wants primary-source proximity.</p>
+            </div>
+
+            <div class="newsletter-entry">
+                <strong>The Gradient Dispatch</strong> (The Gradient) &mdash; Weekly
+                <p>Strong on academic AI research. Good for anyone who wants to understand the research layer, not just the product layer.</p>
+            </div>
+
+            <h4>For AI&rsquo;s social, policy, and ethical dimensions (choose one):</h4>
+
+            <div class="newsletter-entry">
+                <strong>AI Snake Oil</strong> (Arvind Narayanan and Sayash Kapoor, Princeton) &mdash; Irregular but excellent
+                <p>Specifically designed to debunk overclaims. Extremely useful for building your honesty instincts. <strong>Best for:</strong> learning what the hype gets wrong.</p>
+            </div>
+
+            <div class="newsletter-entry">
+                <strong>The Algorithm</strong> (MIT Technology Review) &mdash; Weekly
+                <p>Edited journalists covering AI&rsquo;s social effects. Strong on bias, labor, surveillance, policy. <strong>Best for:</strong> speakers whose audiences include educators, HR leaders, policymakers.</p>
+            </div>
+
+            <div class="newsletter-entry">
+                <strong>Platformer</strong> (Casey Newton) &mdash; Several times a week
+                <p>Covers the companies behind AI products. Strong on internal culture, product decisions, and the business of AI. <strong>Best for:</strong> speakers who want to understand the industry context.</p>
+            </div>
+
+            <div class="newsletter-entry">
+                <strong>404 Media</strong> &mdash; Weekly-ish
+                <p>Independent journalists covering the darker corners: AI fraud, misuse, real harm in the wild. <strong>Best for:</strong> speakers who need concrete harm examples that aren&rsquo;t hypothetical.</p>
+            </div>
+
+            <h4>For policy and governance specifically:</h4>
+
+            <div class="newsletter-entry">
+                <strong>The Cybersecurity and AI Policy Newsletter</strong> (CSIS) &mdash; Irregular
+                <p>Good on regulatory developments in the US and EU. <strong>Best for:</strong> speakers before government, legal, or compliance audiences.</p>
+            </div>
+
+            <h4>For reading between the lines (supplement, not main diet):</h4>
+
+            <p>
+                The primary technical reports and model cards from Anthropic, OpenAI, Google DeepMind, and Meta AI. These are free, publicly available documents. We will use them extensively in Week 3.
+            </p>
+
+            <h3>What Not to Use as Your Primary Source</h3>
+            <ul class="warning-list">
+                <li><strong>Twitter/X:</strong> useful for speed, terrible for accuracy. Treat as a source of leads, not facts.</li>
+                <li><strong>YouTube explainers from non-experts:</strong> highly variable. Check the creator&rsquo;s credentials before quoting them on stage.</li>
+                <li><strong>The &ldquo;AI beat&rdquo; at most mainstream newspapers:</strong> improving, but editors still push for controversy. Read the actual quotes from the researchers, not the headline.</li>
+                <li><strong>Any newsletter primarily funded by AI product companies.</strong> Bias is not disqualifying, but you should know the source&rsquo;s incentives.</li>
+            </ul>
+
+            <h3>The Maintenance Habit</h3>
+            <div class="callout">
+                <p>
+                    Once a week: read your two newsletters. In your course notebook, write one sentence: &ldquo;The most important thing I learned about AI this week that could change something I say on stage.&rdquo; Fifteen sentences by Week 15. That&rsquo;s your personal update log.
+                </p>
+            </div>
+        </div>
+
+    </div><!-- /report-body -->
+
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="/index.html" class="footer-link">Home</a>
+            <a href="/ruminate/reports/" class="footer-link">Reports</a>
+            <a href="/about.html" class="footer-link">About</a>
+            <a href="/support.html" class="footer-link">Support</a>
+        </div>
+        <p class="footer-note">
+            SPK 401: Speaking AI &mdash; Course Materials &mdash; Part 1 of 5 (Syllabus + Week 1)<br>
+            Ruminate Research &mdash; Botsup &mdash; botsup.remolt.io
+        </p>
+    </footer>
+
+</body>
+</html>
