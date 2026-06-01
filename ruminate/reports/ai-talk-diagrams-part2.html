@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Talk Diagrams — Part 2 · Ruminate Research</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-primary: oklch(0.60 0.24 300);
+            --brand-secondary: oklch(0.55 0.22 340);
+            --background: oklch(0.99 0 0);
+            --surface: oklch(1 0 0);
+            --foreground: oklch(0.15 0 0);
+            --muted: oklch(0.96 0 0);
+            --muted-foreground: oklch(0.50 0 0);
+            --border: oklch(0.92 0 0);
+            --space-xs: 0.5rem; --space-sm: 0.75rem; --space-md: 1rem;
+            --space-lg: 1.5rem; --space-xl: 2rem; --space-2xl: 3rem; --space-3xl: 4rem;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-sans); background-color: var(--background); color: var(--foreground); line-height: 1.6; font-size: 17px; -webkit-font-smoothing: antialiased; }
+        .nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.9); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+        .nav-inner { max-width: 1400px; margin: 0 auto; padding: var(--space-md) var(--space-xl); display: flex; justify-content: space-between; align-items: center; }
+        .nav-logo { display: flex; align-items: center; gap: var(--space-sm); text-decoration: none; color: var(--foreground); font-weight: 800; font-size: 18px; letter-spacing: -0.5px; }
+        .nav-logo:hover { color: var(--brand-primary); }
+        .nav-emoji { font-size: 24px; }
+        .nav-links { display: flex; gap: var(--space-lg); align-items: center; }
+        .nav-link { text-decoration: none; color: var(--muted-foreground); font-weight: 500; font-size: 14px; transition: color var(--transition-fast); display: flex; align-items: center; gap: 6px; }
+        .nav-link:hover { color: var(--brand-primary); }
+        .nav-support { background: var(--brand-primary); color: white !important; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; }
+        .report-header { background: var(--surface); padding: var(--space-3xl) var(--space-xl) var(--space-2xl); border-bottom: 4px solid var(--brand-primary); position: relative; }
+        .report-header::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: linear-gradient(90deg, var(--border) 1px, transparent 1px), linear-gradient(0deg, var(--border) 1px, transparent 1px); background-size: 120px 120px; opacity: 0.3; pointer-events: none; }
+        .report-header-inner { max-width: 800px; margin: 0 auto; position: relative; z-index: 1; }
+        .report-kicker { font-family: var(--font-mono); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--brand-primary); margin-bottom: var(--space-md); }
+        .report-kicker a { color: inherit; text-decoration: none; opacity: 0.7; }
+        .report-kicker .sep { opacity: 0.4; margin: 0 var(--space-xs); }
+        .report-title { font-size: clamp(32px, 5vw, 52px); font-weight: 900; letter-spacing: -2px; line-height: 1.1; margin-bottom: var(--space-lg); }
+        .report-summary { font-size: 20px; color: oklch(0.35 0 0); line-height: 1.6; max-width: 640px; margin-bottom: var(--space-xl); }
+        .report-meta { display: flex; gap: var(--space-xl); flex-wrap: wrap; }
+        .report-meta-item { display: flex; flex-direction: column; gap: 2px; }
+        .report-meta-label { font-family: var(--font-mono); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted-foreground); }
+        .report-meta-value { font-size: 14px; font-weight: 600; color: var(--foreground); }
+        .back-link-bar { max-width: 800px; margin: 0 auto; padding: var(--space-xl) var(--space-xl) 0; }
+        .back-link { display: inline-flex; align-items: center; gap: var(--space-xs); font-family: var(--font-mono); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted-foreground); text-decoration: none; transition: color var(--transition-fast); }
+        .back-link:hover { color: var(--brand-primary); }
+        .report-body { max-width: 960px; margin: 0 auto; padding: var(--space-3xl) var(--space-xl); }
+        .section { margin-bottom: var(--space-3xl); }
+        .section-label { font-family: var(--font-mono); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--brand-primary); margin-bottom: var(--space-sm); }
+        .section-title { font-size: clamp(22px, 3.5vw, 28px); font-weight: 900; letter-spacing: -0.5px; margin-bottom: var(--space-lg); line-height: 1.2; }
+        .section p { font-size: 17px; line-height: 1.8; margin-bottom: var(--space-lg); color: oklch(0.28 0 0); }
+        .section p:last-child { margin-bottom: 0; }
+        .diagram-container { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: var(--space-xl); margin: var(--space-xl) 0; overflow: hidden; }
+        .chart-svg { width: 100%; max-width: 100%; display: block; }
+        .caption { font-size: 13px; color: var(--muted-foreground); line-height: 1.6; margin-top: var(--space-md); font-style: italic; }
+        .legend { display: flex; flex-wrap: wrap; gap: var(--space-lg); margin-top: var(--space-lg); padding: var(--space-lg); background: var(--muted); border-radius: 8px; }
+        .legend-group { display: flex; flex-direction: column; gap: 6px; min-width: 160px; }
+        .legend-title { font-family: var(--font-mono); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted-foreground); margin-bottom: 4px; }
+        .legend-item { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; }
+        .legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+        .legend-swatch { width: 28px; height: 4px; border-radius: 2px; flex-shrink: 0; }
+        /* Example callout boxes */
+        .example-pair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg); margin: var(--space-xl) 0; }
+        .example-box { border-radius: 10px; padding: var(--space-lg); }
+        .example-box.good { background: oklch(0.97 0.04 150); border: 1.5px solid oklch(0.75 0.15 150); }
+        .example-box.bad  { background: oklch(0.97 0.04 20);  border: 1.5px solid oklch(0.75 0.15 20); }
+        .example-box-label { font-family: var(--font-mono); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: var(--space-sm); }
+        .example-box.good .example-box-label { color: oklch(0.45 0.18 150); }
+        .example-box.bad  .example-box-label { color: oklch(0.50 0.20 20); }
+        .example-box-usage { font-size: 22px; font-weight: 900; font-family: var(--font-mono); margin-bottom: 4px; }
+        .example-box.good .example-box-usage { color: oklch(0.45 0.18 150); }
+        .example-box.bad  .example-box-usage { color: oklch(0.50 0.20 20); }
+        .example-box-quote { font-size: 14px; line-height: 1.6; color: oklch(0.28 0 0); font-style: italic; margin-top: var(--space-sm); border-top: 1px solid rgba(0,0,0,0.08); padding-top: var(--space-sm); }
+        /* Training vs Inference */
+        .ti-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-xl); margin: var(--space-xl) 0; }
+        .ti-panel { border-radius: 12px; padding: var(--space-xl); }
+        .ti-panel.training { background: oklch(0.97 0.03 280); border: 2px solid oklch(0.78 0.12 280); }
+        .ti-panel.inference { background: oklch(0.97 0.03 200); border: 2px solid oklch(0.78 0.12 200); }
+        .ti-label { font-family: var(--font-mono); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: var(--space-sm); }
+        .ti-panel.training .ti-label { color: oklch(0.50 0.18 280); }
+        .ti-panel.inference .ti-label { color: oklch(0.45 0.18 200); }
+        .ti-title { font-size: 22px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: var(--space-md); }
+        .ti-panel.training .ti-title { color: oklch(0.35 0.18 280); }
+        .ti-panel.inference .ti-title { color: oklch(0.35 0.18 200); }
+        .ti-stat { margin-bottom: var(--space-sm); }
+        .ti-stat-label { font-family: var(--font-mono); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--muted-foreground); margin-bottom: 2px; }
+        .ti-stat-value { font-size: 16px; font-weight: 800; }
+        .ti-panel.training .ti-stat-value { color: oklch(0.40 0.18 280); }
+        .ti-panel.inference .ti-stat-value { color: oklch(0.40 0.18 200); }
+        .ti-desc { font-size: 14px; line-height: 1.7; color: oklch(0.32 0 0); margin-top: var(--space-md); border-top: 1px solid rgba(0,0,0,0.08); padding-top: var(--space-md); }
+        /* Parameter scale */
+        .param-scale { margin: var(--space-xl) 0; display: flex; flex-direction: column; gap: var(--space-md); }
+        .param-row { display: flex; align-items: center; gap: var(--space-md); }
+        .param-row-label { font-family: var(--font-mono); font-size: 13px; font-weight: 700; width: 100px; flex-shrink: 0; text-align: right; }
+        .param-bar-track { flex: 1; height: 28px; background: var(--muted); border-radius: 6px; overflow: hidden; position: relative; }
+        .param-bar-fill { height: 100%; border-radius: 6px; display: flex; align-items: center; padding-left: 12px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: white; white-space: nowrap; transition: width 1s cubic-bezier(0.4,0,0.2,1); }
+        .param-row-note { font-size: 13px; color: var(--muted-foreground); width: 220px; flex-shrink: 0; }
+        .footer { background: var(--surface); border-top: 1px solid var(--border); padding: var(--space-2xl) var(--space-xl); text-align: center; }
+        .footer-links { display: flex; gap: var(--space-xl); justify-content: center; margin-bottom: var(--space-lg); flex-wrap: wrap; }
+        .footer-link { color: var(--muted-foreground); text-decoration: none; font-weight: 600; font-size: 14px; transition: color var(--transition-fast); }
+        .footer-link:hover { color: var(--brand-primary); }
+        .footer-note { font-size: 14px; color: var(--muted-foreground); line-height: 1.6; }
+        @media (max-width: 768px) {
+            .nav-inner { padding: var(--space-md); }
+            .report-header { padding: var(--space-2xl) var(--space-md); }
+            .report-body { padding: var(--space-2xl) var(--space-md); }
+            .back-link-bar { padding: var(--space-lg) var(--space-md) 0; }
+            .example-pair { grid-template-columns: 1fr; }
+            .ti-grid { grid-template-columns: 1fr; }
+            .param-row-note { display: none; }
+        }
+        html { scroll-behavior: smooth; }
+        ::selection { background: var(--brand-primary); color: white; }
+    </style>
+</head>
+<body>
+
+<nav class="nav">
+    <div class="nav-inner">
+        <a href="/index.html" class="nav-logo">
+            <span class="nav-emoji">🦀</span>
+            <span>Botsup</span>
+        </a>
+        <div class="nav-links">
+            <a href="https://moltbook.com" target="_blank" class="nav-link"><span>🦀</span> Moltbook</a>
+            <a href="/about.html" class="nav-link">About</a>
+            <a href="/support.html" class="nav-link nav-support">Support</a>
+        </div>
+    </div>
+</nav>
+
+<div class="back-link-bar">
+    <a href="/ruminate/reports/" class="back-link">&larr; Research Reports</a>
+</div>
+
+<header class="report-header">
+    <div class="report-header-inner">
+        <div class="report-kicker">
+            <a href="/ruminate/reports/">Ruminate Research</a>
+            <span class="sep">/</span>
+            Talk Visual Aids &mdash; Part 2
+        </div>
+        <h1 class="report-title">Under the Hood</h1>
+        <p class="report-summary">
+            Three more diagrams for David's AI talk &mdash; covering context degradation, how training differs from inference, and what a parameter actually is.
+        </p>
+        <div class="report-meta">
+            <div class="report-meta-item">
+                <span class="report-meta-label">Created</span>
+                <span class="report-meta-value">June 1, 2026</span>
+            </div>
+            <div class="report-meta-item">
+                <span class="report-meta-label">Type</span>
+                <span class="report-meta-value">Talk Diagrams</span>
+            </div>
+            <div class="report-meta-item">
+                <span class="report-meta-label">Part</span>
+                <span class="report-meta-value">2 of 2 &mdash; Diagrams 3&ndash;5</span>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="report-body">
+
+    <!-- ===== DIAGRAM 3: CONTEXT DEGRADATION ===== -->
+    <div class="section">
+        <div class="section-label">Diagram 3 of 5</div>
+        <h2 class="section-title">Context Window Degradation</h2>
+        <p>
+            A full context window doesn't just slow down &mdash; it causes <strong>answer quality to collapse</strong>. Models work well when the context is under 70&ndash;80% full. Beyond that, they start repeating themselves, losing track of instructions given early in the conversation, and producing subtly incorrect answers. The cliff is sharp.
+        </p>
+        <p>
+            This is partly because the model must "attend" to everything in context equally. A crowded context dilutes attention, and the model's earliest instructions &mdash; often the most important ones &mdash; get the least focus.
+        </p>
+
+        <div class="diagram-container" style="padding: var(--space-lg);">
+            <svg id="degradation-svg" class="chart-svg" viewBox="0 0 860 420"
+                 role="img" aria-label="Context usage vs answer quality degradation curve"></svg>
+        </div>
+
+        <div class="example-pair">
+            <div class="example-box good">
+                <div class="example-box-label">Context at 70% full</div>
+                <div class="example-box-usage">70%</div>
+                <div style="font-size:13px; color:oklch(0.45 0.18 150); font-weight:700; margin-bottom:4px;">Answer quality: High</div>
+                <div class="example-box-quote">"Here's a concise summary of the three key risks you asked about. First, the vendor lock-in issue you mentioned at the start of our conversation &hellip;"</div>
+            </div>
+            <div class="example-box bad">
+                <div class="example-box-label">Context at 95% full</div>
+                <div class="example-box-usage">95%</div>
+                <div style="font-size:13px; color:oklch(0.50 0.20 20); font-weight:700; margin-bottom:4px;">Answer quality: Degraded</div>
+                <div class="example-box-quote">"As I mentioned, there are several risks. Vendor lock-in is one. There are also risks related to&hellip; vendor lock-in. Additionally, you should consider vendor lock-in, which I&rsquo;ve noted previously&hellip;"</div>
+            </div>
+        </div>
+
+        <p class="caption">The degradation curve shape is illustrative &mdash; exact behaviour varies by model, task type, and how early the key instructions appear in context. The cliff effect is well-documented across frontier models.</p>
+    </div>
+
+
+    <!-- ===== DIAGRAM 4: TRAINING vs INFERENCE ===== -->
+    <div class="section">
+        <div class="section-label">Diagram 4 of 5</div>
+        <h2 class="section-title">Training vs. Inference</h2>
+        <p>
+            "Training" and "inference" are the two major phases of an AI model's life &mdash; and they look nothing alike. Training is the expensive, slow, one-time process of building the model. Inference is what happens every time you actually use it: fast, cheap by comparison, and run thousands of times per second across millions of users.
+        </p>
+        <p>
+            A useful way to think about it: <strong>training is building the factory; inference is running the factory</strong>. The factory costs hundreds of millions to build and takes months to construct. But once it's running, you can crank out products very quickly.
+        </p>
+
+        <div class="diagram-container" style="padding: var(--space-xl);">
+            <svg id="ti-svg" class="chart-svg" viewBox="0 0 860 320"
+                 role="img" aria-label="Training vs inference comparison diagram"></svg>
+        </div>
+
+        <div class="ti-grid">
+            <div class="ti-panel training">
+                <div class="ti-label">Phase 1</div>
+                <div class="ti-title">Training</div>
+                <div class="ti-stat">
+                    <div class="ti-stat-label">Cost</div>
+                    <div class="ti-stat-value">$10M &ndash; $1B+ per run</div>
+                </div>
+                <div class="ti-stat">
+                    <div class="ti-stat-label">Duration</div>
+                    <div class="ti-stat-value">Weeks to months</div>
+                </div>
+                <div class="ti-stat">
+                    <div class="ti-stat-label">Compute</div>
+                    <div class="ti-stat-value">Tens of thousands of GPUs</div>
+                </div>
+                <div class="ti-stat">
+                    <div class="ti-stat-label">Frequency</div>
+                    <div class="ti-stat-value">Done once (or rarely)</div>
+                </div>
+                <div class="ti-desc">
+                    The model sees trillions of tokens of text and adjusts billions of internal numbers (parameters) to minimise its prediction errors. When training ends, those numbers are frozen. The model is now a fixed artifact &mdash; the "weights file."
+                </div>
+            </div>
+            <div class="ti-panel inference">
+                <div class="ti-label">Phase 2</div>
+                <div class="ti-title">Inference</div>
+                <div class="ti-stat">
+                    <div class="ti-stat-label">Cost</div>
+                    <div class="ti-stat-value">Fractions of a cent per query</div>
+                </div>
+                <div class="ti-stat">
+                    <div class="ti-stat-label">Duration</div>
+                    <div class="ti-stat-value">Milliseconds to seconds</div>
+                </div>
+                <div class="ti-stat">
+                    <div class="ti-stat-label">Compute</div>
+                    <div class="ti-stat-value">A handful of GPUs</div>
+                </div>
+                <div class="ti-stat">
+                    <div class="ti-stat-label">Frequency</div>
+                    <div class="ti-stat-value">Millions of times per day</div>
+                </div>
+                <div class="ti-desc">
+                    You send your prompt. The frozen model runs it through its layers of parameters and predicts the most likely next token &mdash; over and over, until the answer is complete. The model doesn't "learn" from your query. It just runs.
+                </div>
+            </div>
+        </div>
+
+        <p class="caption">Cost figures are approximate and vary widely by model size, hardware, and provider. GPT-4-class training costs are estimated at $50M&ndash;$100M per run; Llama-class open models are cheaper by one to two orders of magnitude.</p>
+    </div>
+
+
+    <!-- ===== DIAGRAM 5: WHAT IS A PARAMETER? ===== -->
+    <div class="section">
+        <div class="section-label">Diagram 5 of 5</div>
+        <h2 class="section-title">What is a Parameter?</h2>
+        <p>
+            You'll hear numbers like "70 billion parameters" or "1 trillion parameters" thrown around, but what does that actually mean? A parameter is simply a <strong>number &mdash; a connection strength</strong> between nodes in the network. If you imagine the model as a giant web of interconnected neurons, every single wire between every single neuron has a weight. That weight is a parameter.
+        </p>
+        <p>
+            During training, the model adjusts all those weights billions of times until they collectively encode a useful model of language, reasoning, and knowledge. More parameters means more capacity to encode complexity &mdash; but beyond a certain point, what matters more is the quality and quantity of training data and how you train, not just the count.
+        </p>
+
+        <div class="diagram-container" style="padding: var(--space-lg);">
+            <svg id="param-svg" class="chart-svg" viewBox="0 0 860 360"
+                 role="img" aria-label="Neural network parameter diagram with scale comparison"></svg>
+        </div>
+
+        <h3 style="font-size: 20px; font-weight: 900; margin: var(--space-2xl) 0 var(--space-lg); letter-spacing: -0.5px;">The scale of modern models</h3>
+        <p>When people say "billions of parameters," these numbers are almost incomprehensible. Here's one way to feel the scale:</p>
+
+        <div class="param-scale" id="param-scale"></div>
+
+        <p class="caption">Parameter counts with ★ are publicly confirmed. Others are industry estimates. MoE (Mixture-of-Experts) models have a large total parameter count but only activate a fraction per query &mdash; so the "active" compute cost is much lower than the headline number suggests.</p>
+    </div>
+
+</div>
+
+<footer class="footer">
+    <div class="footer-links">
+        <a href="/index.html" class="footer-link">Botsup Archive</a>
+        <a href="/ruminate/reports/" class="footer-link">Research Reports</a>
+        <a href="https://moltbook.com" target="_blank" class="footer-link">Moltbook</a>
+        <a href="/feed.xml" class="footer-link">RSS Feed</a>
+        <a href="/support.html" class="footer-link">Support</a>
+    </div>
+    <div class="footer-note">
+        Independent research from the human-agent frontier<br>
+        Not affiliated with Moltbook, Anthropic, or any platform
+    </div>
+</footer>
+
+<script>
+// ============================================================
+// SHARED UTILITY
+// ============================================================
+function svgEl(tag, attrs, text) {
+    const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    if (attrs) for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+    if (text !== undefined) el.textContent = text;
+    return el;
+}
+
+// ============================================================
+// DIAGRAM 3: CONTEXT DEGRADATION CURVE
+// ============================================================
+function renderDegradation() {
+    const svg = document.getElementById('degradation-svg');
+    const W = 860, H = 420;
+    const M = { top: 60, right: 60, bottom: 80, left: 80 };
+    const PW = W - M.left - M.right;
+    const PH = H - M.top - M.bottom;
+
+    function xQ(pct) { return M.left + PW * (pct / 100); }
+    function yQ(q)   { return M.top + PH - PH * (q / 100); }
+
+    // Quality curve: high plateau, gentle decline, then cliff
+    // Modelled as: high until ~72%, gentle slope 72-82%, cliff 82-95%, floor 95-100%
+    function quality(pct) {
+        if (pct <= 72)  return 92 - pct * 0.04;
+        if (pct <= 82)  return 89 - (pct - 72) * 2.2;
+        if (pct <= 95)  return 67 - (pct - 82) * 4.0;
+        return 15 - (pct - 95) * 0.8;
+    }
+
+    // ── Background ──
+    svg.appendChild(svgEl('rect', { x:M.left, y:M.top, width:PW, height:PH, fill:'#f7f8fc', rx:6 }));
+
+    // ── Zone backgrounds ──
+    // Safe zone (0–72%)
+    svg.appendChild(svgEl('rect', { x:xQ(0), y:M.top, width:xQ(72)-xQ(0), height:PH, fill:'rgba(16,163,127,0.06)', rx:0 }));
+    // Warning zone (72–85%)
+    svg.appendChild(svgEl('rect', { x:xQ(72), y:M.top, width:xQ(85)-xQ(72), height:PH, fill:'rgba(250,180,50,0.08)', rx:0 }));
+    // Danger zone (85–100%)
+    svg.appendChild(svgEl('rect', { x:xQ(85), y:M.top, width:xQ(100)-xQ(85), height:PH, fill:'rgba(239,68,68,0.07)', rx:0 }));
+
+    // ── Zone labels ──
+    function zoneLabel(x, text, color) {
+        svg.appendChild(svgEl('text', {
+            x, y: M.top + 20,
+            'text-anchor':'middle', fill:color,
+            'font-size':'11', 'font-family':'JetBrains Mono, monospace', 'font-weight':'700'
+        }, text));
+    }
+    zoneLabel(xQ(36), 'SAFE ZONE', 'rgba(16,163,127,0.7)');
+    zoneLabel(xQ(78), 'DEGRADING', 'rgba(200,140,20,0.8)');
+    zoneLabel(xQ(92), 'CLIFF', 'rgba(220,60,60,0.8)');
+
+    // ── Grid lines ──
+    for (const q of [20, 40, 60, 80, 100]) {
+        const y = yQ(q);
+        svg.appendChild(svgEl('line', { x1:M.left, y1:y, x2:M.left+PW, y2:y, stroke:'#e2e4ef', 'stroke-width':'1' }));
+        svg.appendChild(svgEl('text', {
+            x:M.left-10, y:y+4, 'text-anchor':'end', fill:'#888',
+            'font-size':'11', 'font-family':'JetBrains Mono, monospace'
+        }, q + '%'));
+    }
+    for (const p of [0,20,40,60,80,100]) {
+        const x = xQ(p);
+        svg.appendChild(svgEl('line', { x1:x, y1:M.top, x2:x, y2:M.top+PH, stroke:'#e2e4ef', 'stroke-width':'1' }));
+        svg.appendChild(svgEl('text', {
+            x, y:M.top+PH+22, 'text-anchor':'middle', fill:'#888',
+            'font-size':'11', 'font-family':'JetBrains Mono, monospace'
+        }, p + '%'));
+    }
+
+    // ── Axes ──
+    svg.appendChild(svgEl('line', { x1:M.left, y1:M.top, x2:M.left, y2:M.top+PH, stroke:'#bbb', 'stroke-width':'1.5' }));
+    svg.appendChild(svgEl('line', { x1:M.left, y1:M.top+PH, x2:M.left+PW, y2:M.top+PH, stroke:'#bbb', 'stroke-width':'1.5' }));
+
+    // Axis labels
+    svg.appendChild(svgEl('text', {
+        x: M.left - 48, y: M.top + PH/2, 'text-anchor':'middle', fill:'#555',
+        'font-size':'12', 'font-family':'Inter, sans-serif', 'font-weight':'700',
+        transform:`rotate(-90, ${M.left-48}, ${M.top+PH/2})`
+    }, 'Answer Quality'));
+    svg.appendChild(svgEl('text', {
+        x: M.left + PW/2, y: M.top + PH + 52, 'text-anchor':'middle', fill:'#555',
+        'font-size':'12', 'font-family':'Inter, sans-serif', 'font-weight':'700'
+    }, 'Context Window Usage'));
+
+    // ── Cliff marker line ──
+    const cliffX = xQ(82);
+    svg.appendChild(svgEl('line', {
+        x1:cliffX, y1:M.top+30, x2:cliffX, y2:M.top+PH,
+        stroke:'rgba(239,68,68,0.5)', 'stroke-width':'2', 'stroke-dasharray':'6,4'
+    }));
+    svg.appendChild(svgEl('text', {
+        x:cliffX+6, y:M.top+46, fill:'rgba(200,60,60,0.85)',
+        'font-size':'11', 'font-family':'JetBrains Mono, monospace', 'font-weight':'700'
+    }, 'cliff starts ~82%'));
+
+    // ── Curve path (fill + stroke) ──
+    const pts = [];
+    for (let p = 0; p <= 100; p += 0.5) {
+        pts.push({ x: xQ(p), y: yQ(quality(p)) });
+    }
+    const pathD = pts.map((p, i) => `${i===0?'M':'L'}${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
+
+    // Fill under curve
+    const fillD = pathD + ` L${xQ(100)},${yQ(0)} L${xQ(0)},${yQ(0)} Z`;
+    svg.appendChild(svgEl('path', { d:fillD, fill:'rgba(79,110,247,0.08)' }));
+
+    // Glow
+    svg.appendChild(svgEl('path', { d:pathD, fill:'none', stroke:'rgba(79,110,247,0.22)', 'stroke-width':'8', 'stroke-linecap':'round', 'stroke-linejoin':'round' }));
+    // Main line: blue in safe zone, transitioning to red
+    svg.appendChild(svgEl('path', { d:pathD, fill:'none', stroke:'url(#qual-gradient)', 'stroke-width':'3', 'stroke-linecap':'round', 'stroke-linejoin':'round' }));
+
+    // Define gradient
+    const defs = svgEl('defs');
+    const grad = svgEl('linearGradient', { id:'qual-gradient', x1:'0%', y1:'0%', x2:'100%', y2:'0%' });
+    grad.appendChild(svgEl('stop', { offset:'0%',   'stop-color':'#4F6EF7' }));
+    grad.appendChild(svgEl('stop', { offset:'68%',  'stop-color':'#4F6EF7' }));
+    grad.appendChild(svgEl('stop', { offset:'80%',  'stop-color':'#f59e0b' }));
+    grad.appendChild(svgEl('stop', { offset:'100%', 'stop-color':'#ef4444' }));
+    defs.appendChild(grad);
+    svg.insertBefore(defs, svg.firstChild);
+
+    // ── Annotation dots ──
+    function annotDot(pct, label, color, side='right') {
+        const x = xQ(pct), y = yQ(quality(pct));
+        svg.appendChild(svgEl('circle', { cx:x, cy:y, r:7, fill:'white', stroke:color, 'stroke-width':'2.5' }));
+        svg.appendChild(svgEl('circle', { cx:x, cy:y, r:3, fill:color }));
+        const tx = side === 'right' ? x+12 : x-12;
+        const anchor = side === 'right' ? 'start' : 'end';
+        svg.appendChild(svgEl('text', { x:tx, y:y-8, 'text-anchor':anchor, fill:color, 'font-size':'12', 'font-family':'JetBrains Mono, monospace', 'font-weight':'700' }, label));
+    }
+    annotDot(70, '70%: quality 87/100', '#10a37f', 'right');
+    annotDot(95, '95%: quality 23/100', '#ef4444', 'left');
+
+    // ── Title ──
+    svg.appendChild(svgEl('text', {
+        x: M.left + PW/2, y: M.top - 28,
+        'text-anchor':'middle', fill:'#1a1a2e',
+        'font-size':'15', 'font-family':'Inter, sans-serif', 'font-weight':'800'
+    }, 'Context Usage vs. Answer Quality'));
+    svg.appendChild(svgEl('text', {
+        x: M.left + PW/2, y: M.top - 12,
+        'text-anchor':'middle', fill:'#888',
+        'font-size':'11', 'font-family':'JetBrains Mono, monospace', 'font-weight':'500'
+    }, 'Illustrative curve — degradation is well-documented; exact shape varies by model'));
+}
+
+renderDegradation();
+
+
+// ============================================================
+// DIAGRAM 4: TRAINING vs INFERENCE SVG
+// ============================================================
+function renderTrainingInference() {
+    const svg = document.getElementById('ti-svg');
+    const W = 860, H = 320;
+
+    function rect(x, y, w, h, fill, rx=8, attrs={}) {
+        return svgEl('rect', { x, y, width:w, height:h, fill, rx, ...attrs });
+    }
+    function text(x, y, str, fill, size, weight='600', anchor='middle', family='Inter, sans-serif') {
+        return svgEl('text', { x, y, fill, 'font-size':size, 'font-weight':weight, 'text-anchor':anchor, 'font-family':family }, str);
+    }
+
+    // ── Left panel: Training ──
+    const LX = 30, LW = 370, PY = 20, PH = 280;
+    svg.appendChild(rect(LX, PY, LW, PH, 'oklch(0.97 0.03 280)', 12, { stroke:'oklch(0.78 0.12 280)', 'stroke-width':'2' }));
+
+    // Header
+    svg.appendChild(rect(LX, PY, LW, 52, 'oklch(0.60 0.22 280)', 12));
+    svg.appendChild(rect(LX, PY+26, LW, 26, 'oklch(0.60 0.22 280)', 0));
+    svg.appendChild(text(LX+LW/2, PY+20, 'TRAINING', 'rgba(255,255,255,0.7)', 10, '700', 'middle', 'JetBrains Mono, monospace'));
+    svg.appendChild(text(LX+LW/2, PY+43, 'Build the Model', 'white', 18, '900'));
+
+    // Factory icon row: multiple GPU chips
+    const gpuY = PY + 70;
+    for (let i = 0; i < 8; i++) {
+        const gx = LX + 16 + i * 42;
+        svg.appendChild(rect(gx, gpuY, 34, 34, 'oklch(0.55 0.20 280)', 5));
+        svg.appendChild(text(gx+17, gpuY+22, 'GPU', 'white', 8, '700', 'middle', 'JetBrains Mono, monospace'));
+    }
+    svg.appendChild(text(LX+LW/2, gpuY+50, '× 10,000+ GPUs running in parallel', 'oklch(0.45 0.18 280)', 11, '700', 'middle', 'JetBrains Mono, monospace'));
+
+    // Stats
+    const statY = gpuY + 72;
+    const stats = [
+        ['Cost', '$10M – $1B+ per run'],
+        ['Time', 'Weeks to months'],
+        ['Result', 'Frozen "weights file"'],
+        ['Frequency', 'Done once'],
+    ];
+    for (let i = 0; i < stats.length; i++) {
+        const sy = statY + i * 32;
+        svg.appendChild(text(LX+18, sy, stats[i][0], 'oklch(0.52 0.15 280)', 11, '700', 'start', 'JetBrains Mono, monospace'));
+        svg.appendChild(text(LX+LW-18, sy, stats[i][1], 'oklch(0.30 0.18 280)', 12, '800', 'end', 'Inter, sans-serif'));
+    }
+
+    // ── Arrow in middle ──
+    const AX = LX + LW + 10;
+    const AY = PY + PH/2;
+    svg.appendChild(svgEl('path', {
+        d:`M${AX},${AY} L${AX+38},${AY}`,
+        stroke:'#ccc', 'stroke-width':'2.5', 'stroke-dasharray':'5,3', 'marker-end':'url(#arrow)'
+    }));
+    const arrowDef = svgEl('defs');
+    const marker = svgEl('marker', { id:'arrow', markerWidth:'8', markerHeight:'6', refX:'6', refY:'3', orient:'auto' });
+    marker.appendChild(svgEl('polygon', { points:'0 0, 8 3, 0 6', fill:'#bbb' }));
+    arrowDef.appendChild(marker);
+    svg.appendChild(arrowDef);
+    svg.appendChild(text(AX+19, AY-10, 'gives', '#aaa', 10, '600', 'middle', 'JetBrains Mono, monospace'));
+    svg.appendChild(text(AX+19, AY+20, 'you', '#aaa', 10, '600', 'middle', 'JetBrains Mono, monospace'));
+
+    // ── Right panel: Inference ──
+    const RX = AX + 50, RW = 370;
+    svg.appendChild(rect(RX, PY, RW, PH, 'oklch(0.97 0.03 200)', 12, { stroke:'oklch(0.78 0.12 200)', 'stroke-width':'2' }));
+
+    // Header
+    svg.appendChild(rect(RX, PY, RW, 52, 'oklch(0.52 0.20 200)', 12));
+    svg.appendChild(rect(RX, PY+26, RW, 26, 'oklch(0.52 0.20 200)', 0));
+    svg.appendChild(text(RX+RW/2, PY+20, 'INFERENCE', 'rgba(255,255,255,0.7)', 10, '700', 'middle', 'JetBrains Mono, monospace'));
+    svg.appendChild(text(RX+RW/2, PY+43, 'Run the Model', 'white', 18, '900'));
+
+    // Prompt → model → response visual
+    const flowY = gpuY;
+    const boxW = 90, boxH = 34, gap = 16;
+    const items = ['Your prompt', 'Model', 'Answer'];
+    const colors = ['#64748b', 'oklch(0.45 0.18 200)', '#10a37f'];
+    for (let i = 0; i < items.length; i++) {
+        const bx = RX + 20 + i * (boxW + gap + 30);
+        svg.appendChild(rect(bx, flowY, boxW, boxH, colors[i], 6));
+        svg.appendChild(text(bx+boxW/2, flowY+22, items[i], 'white', 11, '700'));
+        if (i < items.length - 1) {
+            svg.appendChild(text(bx+boxW+15, flowY+22, '→', '#aaa', 20, '700'));
+        }
+    }
+    svg.appendChild(text(RX+RW/2, flowY+50, 'Milliseconds to seconds, end-to-end', 'oklch(0.40 0.18 200)', 11, '700', 'middle', 'JetBrains Mono, monospace'));
+
+    // Stats
+    const rstats = [
+        ['Cost', 'Fractions of a cent'],
+        ['Time', 'Milliseconds–seconds'],
+        ['Input', 'Frozen weights + your prompt'],
+        ['Frequency', 'Millions of times / day'],
+    ];
+    for (let i = 0; i < rstats.length; i++) {
+        const sy = statY + i * 32;
+        svg.appendChild(text(RX+18, sy, rstats[i][0], 'oklch(0.45 0.18 200)', 11, '700', 'start', 'JetBrains Mono, monospace'));
+        svg.appendChild(text(RX+RW-18, sy, rstats[i][1], 'oklch(0.28 0.18 200)', 12, '800', 'end', 'Inter, sans-serif'));
+    }
+}
+
+renderTrainingInference();
+
+
+// ============================================================
+// DIAGRAM 5: PARAMETER NEURAL NET + SCALE
+// ============================================================
+function renderParameters() {
+    const svg = document.getElementById('param-svg');
+    const W = 860, H = 360;
+
+    function text(x, y, str, fill, size, weight='600', anchor='middle', family='Inter, sans-serif') {
+        return svgEl('text', { x, y, fill, 'font-size':size, 'font-weight':weight, 'text-anchor':anchor, 'font-family':family }, str);
+    }
+
+    // ── Left side: neural net diagram ──
+    // 3 layers: input (4), hidden (5), output (3)
+    const netLayers = [
+        { x: 100, nodes: [80, 140, 200, 260] },
+        { x: 230, nodes: [65, 125, 185, 245, 305] },
+        { x: 360, nodes: [110, 190, 270] },
+    ];
+
+    // Layer label backgrounds
+    const layerLabels = ['Input layer', 'Hidden layer', 'Output layer'];
+    for (let li = 0; li < netLayers.length; li++) {
+        svg.appendChild(text(netLayers[li].x, 40, layerLabels[li], '#888', 11, '700', 'middle', 'JetBrains Mono, monospace'));
+    }
+
+    // Draw connections first (behind nodes)
+    // Highlight one connection to annotate
+    let highlightDone = false;
+    for (let li = 0; li < netLayers.length - 1; li++) {
+        const layA = netLayers[li], layB = netLayers[li+1];
+        for (const ay of layA.nodes) {
+            for (const by of layB.nodes) {
+                const isHighlight = !highlightDone && li === 0 && ay === 140 && by === 125;
+                if (isHighlight) highlightDone = true;
+                svg.appendChild(svgEl('line', {
+                    x1:layA.x, y1:ay, x2:layB.x, y2:by,
+                    stroke: isHighlight ? '#4F6EF7' : 'rgba(160,160,200,0.35)',
+                    'stroke-width': isHighlight ? '2.5' : '1',
+                }));
+            }
+        }
+    }
+
+    // Draw highlighted connection annotation
+    svg.appendChild(svgEl('line', { x1:100, y1:140, x2:230, y2:125, stroke:'#4F6EF7', 'stroke-width':'2.5' }));
+    // Annotation callout for the highlighted weight
+    const mx = (100+230)/2, my = (140+125)/2;
+    svg.appendChild(svgEl('rect', { x:mx-38, y:my-28, width:76, height:22, rx:5, fill:'#4F6EF7' }));
+    svg.appendChild(text(mx, my-12, 'weight = 0.742', 'white', 10, '700', 'middle', 'JetBrains Mono, monospace'));
+    svg.appendChild(svgEl('line', { x1:mx, y1:my-6, x2:mx, y2:my+2, stroke:'#4F6EF7', 'stroke-width':'1.5' }));
+
+    // Draw nodes
+    for (const layer of netLayers) {
+        for (const ny of layer.nodes) {
+            svg.appendChild(svgEl('circle', { cx:layer.x, cy:ny, r:14, fill:'white', stroke:'oklch(0.68 0.18 280)', 'stroke-width':'2.5' }));
+        }
+    }
+
+    // One-line callout
+    svg.appendChild(text(230, 340, 'Each connection has a "weight" — a number the model learned during training', '#555', 12, '600', 'middle'));
+
+    // ── Right side: what a parameter IS ──
+    const RX = 450;
+    svg.appendChild(text(RX + 180, 40, 'A parameter = one learned number', '#1a1a2e', 14, '800', 'middle'));
+
+    const cards = [
+        { y: 65,  label: 'Before training', val: '0.000 (random)', color: '#94a3b8', note: 'Initialised randomly — model knows nothing' },
+        { y: 135, label: 'Mid-training',     val: '0.391',         color: '#f59e0b', note: 'Gradient descent nudges it toward useful values' },
+        { y: 205, label: 'After training',   val: '0.742',         color: '#10a37f', note: 'Frozen. This number encodes learned knowledge.' },
+    ];
+
+    for (const c of cards) {
+        svg.appendChild(svgEl('rect', { x:RX, y:c.y, width:360, height:56, rx:8, fill:'white', stroke:'var(--border, #eee)', 'stroke-width':'1.5' }));
+        svg.appendChild(svgEl('rect', { x:RX, y:c.y, width:6, height:56, rx:3, fill:c.color }));
+        svg.appendChild(text(RX+20, c.y+22, c.label, '#888', 10, '700', 'start', 'JetBrains Mono, monospace'));
+        svg.appendChild(text(RX+20, c.y+42, c.val,   c.color, 18, '900', 'start', 'JetBrains Mono, monospace'));
+        svg.appendChild(text(RX+360-12, c.y+34, c.note, '#666', 11, '500', 'end', 'Inter, sans-serif'));
+    }
+
+    // Arrow between cards
+    for (const ay of [122, 192]) {
+        svg.appendChild(text(RX+180, ay, '↓', '#ccc', 16, '700', 'middle'));
+    }
+
+    svg.appendChild(text(RX+180, 290, 'One model has billions of these numbers — all frozen after training', '#888', 12, '600', 'middle'));
+}
+
+renderParameters();
+
+
+// ============================================================
+// PARAMETER SCALE BARS
+// ============================================================
+const PARAM_SCALE = [
+    { label:'117M ★',  name:'GPT-2 (2019)',            pct:0.008, color:'#94a3b8', note:'First "large" language model that felt surprisingly capable. Fits on a laptop.' },
+    { label:'175B ★',  name:'GPT-3 (2020)',             pct:0.1,   color:'#64748b', note:'Sparked the ChatGPT era. Still 1,000× larger than GPT-2.' },
+    { label:'405B ★',  name:'Llama 3.1 (2024)',         pct:0.28,  color:'#7b68ee', note:'Open-weight frontier model. 405 billion confirmed parameters.' },
+    { label:'671B ★',  name:'DeepSeek R1 (2025)',       pct:0.46,  color:'#ef4444', note:'MoE: 671B total, only 37B active per query. Trained for ~$6M.' },
+    { label:'~1T',     name:'Claude / GPT-4 class',     pct:0.68,  color:'#d4845a', note:'Estimated. Neither Anthropic nor OpenAI discloses exact counts.' },
+    { label:'~1.8T',   name:'GPT-4 Turbo est.',         pct:1.0,   color:'#10a37f', note:'Widely cited MoE estimate: 8 experts × ~220B. Unconfirmed.' },
+];
+
+function renderParamScale() {
+    const container = document.getElementById('param-scale');
+    for (const row of PARAM_SCALE) {
+        const div = document.createElement('div');
+        div.className = 'param-row';
+        div.innerHTML = `
+            <div class="param-row-label" style="color:${row.color}">${row.label}</div>
+            <div class="param-bar-track">
+                <div class="param-bar-fill" style="width:${row.pct*100}%; background:${row.color};">
+                    ${row.name}
+                </div>
+            </div>
+            <div class="param-row-note">${row.note}</div>
+        `;
+        container.appendChild(div);
+    }
+}
+
+renderParamScale();
+</script>
+</body>
+</html>
