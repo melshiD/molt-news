@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Talk Diagrams — David's Presentation · Ruminate Research</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+/* ── CSS Variables ── */
+:root {
+    --brand: oklch(0.60 0.24 300);
+    --brand2: oklch(0.55 0.22 340);
+    --bg: #fafafa;
+    --surface: #ffffff;
+    --fg: oklch(0.12 0 0);
+    --muted: #f4f4f6;
+    --muted-fg: oklch(0.50 0 0);
+    --border: #e4e4e8;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+    --nav-h: 56px;
+    --slide-nav-h: 52px;
+    --shadow: 0 2px 16px rgba(0,0,0,0.08);
+    --transition: 200ms cubic-bezier(0.4,0,0.2,1);
+}
+[data-theme="dark"] {
+    --bg: #0f0f14;
+    --surface: #18181f;
+    --fg: oklch(0.92 0 0);
+    --muted: #23232c;
+    --muted-fg: oklch(0.60 0 0);
+    --border: #2e2e3a;
+    --shadow: 0 2px 24px rgba(0,0,0,0.4);
+}
+
+/* ── Reset ── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body { font-family: var(--font-sans); background: var(--bg); color: var(--fg); line-height: 1.6; -webkit-font-smoothing: antialiased; transition: background var(--transition), color var(--transition); }
+::selection { background: var(--brand); color: white; }
+button { font-family: var(--font-sans); cursor: pointer; }
+
+/* ── Top Nav ── */
+.top-nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    height: var(--nav-h);
+    background: rgba(255,255,255,0.88);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 24px;
+    transition: background var(--transition), border-color var(--transition);
+}
+[data-theme="dark"] .top-nav { background: rgba(15,15,20,0.88); }
+.top-nav-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--fg); font-weight: 800; font-size: 17px; letter-spacing: -0.4px; }
+.top-nav-logo:hover { color: var(--brand); }
+.top-nav-right { display: flex; align-items: center; gap: 12px; }
+.btn-icon {
+    display: flex; align-items: center; justify-content: center;
+    width: 36px; height: 36px; border-radius: 8px;
+    border: 1px solid var(--border); background: var(--surface);
+    color: var(--muted-fg); font-size: 16px;
+    transition: all var(--transition);
+}
+.btn-icon:hover { border-color: var(--brand); color: var(--brand); }
+.back-link { font-family: var(--font-mono); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted-fg); text-decoration: none; transition: color var(--transition); }
+.back-link:hover { color: var(--brand); }
+
+/* ── Slide Nav Bar ── */
+.slide-nav {
+    position: fixed; top: var(--nav-h); left: 0; right: 0; z-index: 190;
+    height: var(--slide-nav-h);
+    background: var(--surface);
+    border-bottom: 2px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 16px;
+    transition: background var(--transition), border-color var(--transition);
+}
+.slide-tabs { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+.slide-tabs::-webkit-scrollbar { display: none; }
+.slide-tab {
+    display: flex; align-items: center; gap: 6px;
+    padding: 6px 12px; border-radius: 6px;
+    border: 1px solid transparent; background: transparent;
+    font-size: 12px; font-weight: 600; color: var(--muted-fg);
+    white-space: nowrap; transition: all var(--transition);
+    font-family: var(--font-sans);
+}
+.slide-tab:hover { background: var(--muted); color: var(--fg); }
+.slide-tab.active { background: var(--brand); color: white; border-color: var(--brand); }
+.slide-tab-num { font-family: var(--font-mono); font-size: 10px; opacity: 0.7; }
+.nav-arrows { display: flex; gap: 6px; flex-shrink: 0; }
+.nav-arrow {
+    display: flex; align-items: center; justify-content: center;
+    width: 32px; height: 32px; border-radius: 6px;
+    border: 1px solid var(--border); background: var(--surface);
+    color: var(--fg); font-size: 16px;
+    transition: all var(--transition);
+}
+.nav-arrow:hover:not(:disabled) { border-color: var(--brand); color: var(--brand); }
+.nav-arrow:disabled { opacity: 0.3; cursor: not-allowed; }
+
+/* ── Slides container ── */
+.slides-viewport {
+    margin-top: calc(var(--nav-h) + var(--slide-nav-h));
+}
+
+/* ── Individual Slide ── */
+.slide {
+    min-height: calc(100vh - var(--nav-h) - var(--slide-nav-h));
+    display: none;
+    flex-direction: column;
+}
+.slide.active { display: flex; }
+
+/* ── Title Slide (Slide 0) ── */
+.slide-title-hero {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding: 48px 32px;
+    background: var(--surface);
+    position: relative; overflow: hidden;
+}
+.slide-title-hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: linear-gradient(90deg, var(--border) 1px, transparent 1px),
+                      linear-gradient(0deg, var(--border) 1px, transparent 1px);
+    background-size: 80px 80px;
+    opacity: 0.4;
+    pointer-events: none;
+}
+.slide-title-hero::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, transparent 30%, var(--surface) 75%);
+    pointer-events: none;
+}
+.title-hero-inner { position: relative; z-index: 1; max-width: 800px; }
+.title-kicker { font-family: var(--font-mono); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; color: var(--brand); margin-bottom: 20px; }
+.title-h1 { font-size: clamp(42px, 6vw, 72px); font-weight: 900; letter-spacing: -3px; line-height: 1.05; margin-bottom: 24px; }
+.title-sub { font-size: clamp(18px, 2.5vw, 22px); color: var(--muted-fg); line-height: 1.6; max-width: 580px; margin: 0 auto 40px; }
+.title-diagram-list { display: flex; flex-direction: column; gap: 12px; text-align: left; display: inline-flex; }
+.title-diagram-item { display: flex; align-items: center; gap: 12px; font-size: 15px; font-weight: 600; color: var(--fg); }
+.title-diagram-num { font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: white; background: var(--brand); width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.title-start-btn {
+    margin-top: 40px;
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 14px 28px; border-radius: 10px;
+    background: var(--brand); color: white;
+    font-size: 16px; font-weight: 700; border: none;
+    transition: all var(--transition);
+    box-shadow: 0 4px 20px oklch(0.60 0.24 300 / 0.35);
+}
+.title-start-btn:hover { opacity: 0.88; transform: translateY(-2px); }
+.title-meta { margin-top: 40px; display: flex; gap: 32px; justify-content: center; flex-wrap: wrap; }
+.title-meta-item { display: flex; flex-direction: column; gap: 3px; text-align: center; }
+.title-meta-label { font-family: var(--font-mono); font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted-fg); }
+.title-meta-value { font-size: 13px; font-weight: 700; color: var(--fg); }
+
+/* ── Diagram Slide layout ── */
+.slide-diagram {
+    flex: 1; display: flex; flex-direction: column;
+}
+.slide-header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 32px 16px;
+}
+.slide-kicker { font-family: var(--font-mono); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--brand); margin-bottom: 6px; }
+.slide-title { font-size: clamp(22px, 3vw, 30px); font-weight: 900; letter-spacing: -0.8px; line-height: 1.15; }
+.slide-desc { font-size: 15px; color: var(--muted-fg); line-height: 1.6; margin-top: 8px; max-width: 800px; }
+.slide-body {
+    flex: 1; padding: 24px 32px;
+    background: var(--bg);
+    overflow-y: auto;
+}
+.diagram-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+.chart-svg { width: 100%; max-width: 100%; display: block; }
+.slide-caption { font-size: 13px; color: var(--muted-fg); line-height: 1.6; font-style: italic; margin-top: 4px; }
+
+/* ── Legend ── */
+.legend { display: flex; flex-wrap: wrap; gap: 20px; padding: 16px; background: var(--muted); border-radius: 8px; margin-top: 12px; }
+.legend-group { display: flex; flex-direction: column; gap: 6px; min-width: 150px; }
+.legend-title { font-family: var(--font-mono); font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted-fg); margin-bottom: 4px; }
+.legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 500; color: var(--fg); }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.legend-swatch { width: 24px; height: 4px; border-radius: 2px; flex-shrink: 0; }
+
+/* ── Context Window controls ── */
+.cw-controls { display: flex; align-items: center; gap: 12px; margin-top: 14px; flex-wrap: wrap; }
+.cw-btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; border: none; transition: all 0.15s; }
+.cw-btn-primary { background: var(--brand); color: white; }
+.cw-btn-primary:hover { opacity: 0.85; transform: translateY(-1px); }
+.cw-btn-secondary { background: var(--muted); color: var(--fg); border: 1px solid var(--border); }
+.cw-btn-secondary:hover { background: var(--border); }
+.cw-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+.cw-status { font-family: var(--font-mono); font-size: 12px; color: var(--muted-fg); }
+
+/* ── Scale cards ── */
+.scale-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-top: 16px; }
+.scale-card { border: 1px solid var(--border); border-radius: 10px; padding: 14px; background: var(--surface); }
+.scale-card-header { display: flex; align-items: baseline; gap: 8px; margin-bottom: 6px; }
+.scale-card-size { font-family: var(--font-mono); font-size: 20px; font-weight: 800; }
+.scale-card-era { font-size: 10px; color: var(--muted-fg); font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; }
+.scale-card-model { font-size: 11px; color: var(--muted-fg); margin-bottom: 10px; }
+.scale-bar-track { height: 10px; background: var(--muted); border-radius: 5px; overflow: hidden; margin-bottom: 8px; }
+.scale-bar-fill { height: 100%; border-radius: 5px; }
+.scale-card-equiv { font-size: 12px; line-height: 1.5; color: var(--muted-fg); }
+.scale-card-equiv strong { color: var(--fg); }
+
+/* ── Training vs Inference panels ── */
+.ti-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 16px; }
+.ti-panel { border-radius: 12px; padding: 20px; }
+.ti-panel.training { background: oklch(0.97 0.03 280); border: 2px solid oklch(0.78 0.12 280); }
+.ti-panel.inference { background: oklch(0.97 0.03 200); border: 2px solid oklch(0.78 0.12 200); }
+[data-theme="dark"] .ti-panel.training { background: oklch(0.18 0.06 280); border-color: oklch(0.45 0.18 280); }
+[data-theme="dark"] .ti-panel.inference { background: oklch(0.18 0.06 200); border-color: oklch(0.40 0.18 200); }
+.ti-label { font-family: var(--font-mono); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 4px; }
+.ti-panel.training .ti-label { color: oklch(0.45 0.18 280); }
+.ti-panel.inference .ti-label { color: oklch(0.40 0.18 200); }
+.ti-title { font-size: 20px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 12px; }
+.ti-panel.training .ti-title { color: oklch(0.30 0.18 280); }
+.ti-panel.inference .ti-title { color: oklch(0.30 0.18 200); }
+[data-theme="dark"] .ti-panel.training .ti-title { color: oklch(0.80 0.18 280); }
+[data-theme="dark"] .ti-panel.inference .ti-title { color: oklch(0.80 0.18 200); }
+.ti-stat { margin-bottom: 8px; }
+.ti-stat-label { font-family: var(--font-mono); font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--muted-fg); margin-bottom: 1px; }
+.ti-stat-value { font-size: 14px; font-weight: 800; }
+.ti-panel.training .ti-stat-value { color: oklch(0.38 0.18 280); }
+.ti-panel.inference .ti-stat-value { color: oklch(0.35 0.18 200); }
+[data-theme="dark"] .ti-panel.training .ti-stat-value { color: oklch(0.75 0.20 280); }
+[data-theme="dark"] .ti-panel.inference .ti-stat-value { color: oklch(0.75 0.18 200); }
+.ti-desc { font-size: 13px; line-height: 1.65; color: var(--muted-fg); margin-top: 12px; border-top: 1px solid rgba(0,0,0,0.08); padding-top: 12px; }
+[data-theme="dark"] .ti-desc { border-top-color: rgba(255,255,255,0.08); }
+
+/* ── Degradation example boxes ── */
+.example-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 14px; }
+.example-box { border-radius: 10px; padding: 14px; }
+.example-box.good { background: oklch(0.97 0.04 150); border: 1.5px solid oklch(0.75 0.15 150); }
+.example-box.bad  { background: oklch(0.97 0.04 20);  border: 1.5px solid oklch(0.75 0.15 20); }
+[data-theme="dark"] .example-box.good { background: oklch(0.18 0.06 150); border-color: oklch(0.45 0.15 150); }
+[data-theme="dark"] .example-box.bad  { background: oklch(0.18 0.06 20);  border-color: oklch(0.45 0.15 20); }
+.example-box-label { font-family: var(--font-mono); font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 4px; }
+.example-box.good .example-box-label { color: oklch(0.42 0.18 150); }
+.example-box.bad  .example-box-label { color: oklch(0.48 0.20 20); }
+.example-box-usage { font-size: 28px; font-weight: 900; font-family: var(--font-mono); margin-bottom: 2px; }
+.example-box.good .example-box-usage { color: oklch(0.42 0.18 150); }
+.example-box.bad  .example-box-usage { color: oklch(0.48 0.20 20); }
+.example-box-quality { font-size: 12px; font-weight: 700; margin-bottom: 6px; }
+.example-box.good .example-box-quality { color: oklch(0.42 0.18 150); }
+.example-box.bad  .example-box-quality { color: oklch(0.48 0.20 20); }
+.example-box-quote { font-size: 13px; line-height: 1.55; color: var(--muted-fg); font-style: italic; border-top: 1px solid rgba(0,0,0,0.08); padding-top: 8px; margin-top: 6px; }
+[data-theme="dark"] .example-box-quote { border-top-color: rgba(255,255,255,0.08); }
+
+/* ── Parameter scale bars ── */
+.param-scale { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
+.param-row { display: flex; align-items: center; gap: 12px; }
+.param-row-label { font-family: var(--font-mono); font-size: 12px; font-weight: 700; width: 90px; flex-shrink: 0; text-align: right; }
+.param-bar-track { flex: 1; height: 26px; background: var(--muted); border-radius: 5px; overflow: hidden; }
+.param-bar-fill { height: 100%; border-radius: 5px; display: flex; align-items: center; padding-left: 10px; font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: white; white-space: nowrap; }
+.param-row-note { font-size: 12px; color: var(--muted-fg); width: 200px; flex-shrink: 0; }
+
+/* ── Tooltip ── */
+#tooltip {
+    position: fixed; background: rgba(10,10,16,0.96); color: #fff;
+    padding: 12px 16px; border-radius: 10px; font-size: 13px;
+    pointer-events: none; z-index: 9999; max-width: 260px; line-height: 1.6;
+    opacity: 0; transition: opacity 0.1s; box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+}
+#tooltip.show { opacity: 1; }
+#tooltip .tt-name { font-weight: 800; font-size: 14px; margin-bottom: 4px; }
+#tooltip .tt-co { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; opacity: 0.7; }
+#tooltip .tt-row { display: flex; justify-content: space-between; gap: 12px; font-size: 12px; padding: 2px 0; }
+#tooltip .tt-label { opacity: 0.55; }
+#tooltip .tt-val { font-weight: 700; font-family: var(--font-mono); }
+#tooltip .tt-note { font-size: 11px; margin-top: 8px; opacity: 0.65; font-style: italic; border-top: 1px solid rgba(255,255,255,0.12); padding-top: 8px; }
+
+/* ── Progress bar ── */
+.progress-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 180; height: 3px; background: var(--border); }
+.progress-fill { height: 100%; background: var(--brand); transition: width 0.3s ease; }
+
+/* ── Print styles ── */
+@media print {
+    .top-nav, .slide-nav, .progress-bar, .btn-icon, .back-link, .cw-controls { display: none !important; }
+    .slides-viewport { margin-top: 0; }
+    .slide { display: flex !important; page-break-after: always; min-height: 100vh; }
+    .slide-title-hero::before, .slide-title-hero::after { display: none; }
+    body { background: white; color: black; }
+    .diagram-wrap { box-shadow: none; border: 1px solid #ccc; }
+    .ti-panel.training { background: #f0eeff !important; }
+    .ti-panel.inference { background: #e8f7f4 !important; }
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .slide-header { padding: 16px; }
+    .slide-body { padding: 16px; }
+    .title-h1 { letter-spacing: -1.5px; }
+    .ti-grid { grid-template-columns: 1fr; }
+    .example-pair { grid-template-columns: 1fr; }
+    .param-row-note { display: none; }
+    .slide-tab span:not(.slide-tab-num) { display: none; }
+    .slide-tab { padding: 6px 8px; }
+}
+    </style>
+</head>
+<body>
+
+<!-- ── Top Nav ── -->
+<nav class="top-nav">
+    <a href="/index.html" class="top-nav-logo">
+        <span style="font-size:22px;">🦀</span>
+        Botsup
+    </a>
+    <div class="top-nav-right">
+        <a href="/ruminate/reports/" class="back-link">&larr; Reports</a>
+        <button class="btn-icon" id="dark-toggle" title="Toggle dark mode" onclick="toggleDark()">☾</button>
+        <button class="btn-icon" title="Print / Save PDF" onclick="window.print()">⎙</button>
+    </div>
+</nav>
+
+<!-- ── Slide Navigation Bar ── -->
+<div class="slide-nav">
+    <div class="slide-tabs" id="slide-tabs">
+        <button class="slide-tab active" data-slide="0" onclick="goTo(0)">
+            <span class="slide-tab-num">0</span>
+            <span>Intro</span>
+        </button>
+        <button class="slide-tab" data-slide="1" onclick="goTo(1)">
+            <span class="slide-tab-num">1</span>
+            <span>Timeline</span>
+        </button>
+        <button class="slide-tab" data-slide="2" onclick="goTo(2)">
+            <span class="slide-tab-num">2</span>
+            <span>Context Window</span>
+        </button>
+        <button class="slide-tab" data-slide="3" onclick="goTo(3)">
+            <span class="slide-tab-num">3</span>
+            <span>Degradation</span>
+        </button>
+        <button class="slide-tab" data-slide="4" onclick="goTo(4)">
+            <span class="slide-tab-num">4</span>
+            <span>Training vs Inference</span>
+        </button>
+        <button class="slide-tab" data-slide="5" onclick="goTo(5)">
+            <span class="slide-tab-num">5</span>
+            <span>Parameters</span>
+        </button>
+    </div>
+    <div class="nav-arrows">
+        <button class="nav-arrow" id="prev-btn" onclick="goTo(currentSlide-1)" title="Previous (←)" disabled>&#8592;</button>
+        <button class="nav-arrow" id="next-btn" onclick="goTo(currentSlide+1)" title="Next (→)">&#8594;</button>
+    </div>
+</div>
+
+<!-- ── Slides ── -->
+<div class="slides-viewport" id="slides-viewport">
+
+    <!-- ── SLIDE 0: TITLE ── -->
+    <section class="slide active" id="slide-0">
+        <div class="slide-title-hero">
+            <div class="title-hero-inner">
+                <div class="title-kicker">Ruminate Research &mdash; Talk Visual Aids</div>
+                <h1 class="title-h1">How AI Actually Works</h1>
+                <p class="title-sub">Five interactive diagrams for David's AI literacy talk &mdash; from two years of extraordinary progress to the building blocks inside every model.</p>
+
+                <div class="title-diagram-list">
+                    <div class="title-diagram-item"><div class="title-diagram-num">1</div> AI Progress Timeline &mdash; 24 months plotted as data</div>
+                    <div class="title-diagram-item"><div class="title-diagram-num">2</div> Context Window &mdash; the camera viewfinder explained</div>
+                    <div class="title-diagram-item"><div class="title-diagram-num">3</div> Context Degradation &mdash; the quality cliff</div>
+                    <div class="title-diagram-item"><div class="title-diagram-num">4</div> Training vs. Inference &mdash; build vs. run</div>
+                    <div class="title-diagram-item"><div class="title-diagram-num">5</div> What is a Parameter? &mdash; the atoms of intelligence</div>
+                </div>
+
+                <button class="title-start-btn" onclick="goTo(1)">
+                    Start Presentation &nbsp; &#8594;
+                </button>
+
+                <div class="title-meta">
+                    <div class="title-meta-item">
+                        <span class="title-meta-label">Presenter</span>
+                        <span class="title-meta-value">David</span>
+                    </div>
+                    <div class="title-meta-item">
+                        <span class="title-meta-label">Created</span>
+                        <span class="title-meta-value">June 1, 2026</span>
+                    </div>
+                    <div class="title-meta-item">
+                        <span class="title-meta-label">Keyboard</span>
+                        <span class="title-meta-value">&#8592; &#8594; to navigate</span>
+                    </div>
+                    <div class="title-meta-item">
+                        <span class="title-meta-label">Print</span>
+                        <span class="title-meta-value">⎙ for handouts</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── SLIDE 1: TIMELINE ── -->
+    <section class="slide" id="slide-1">
+        <div class="slide-diagram">
+            <div class="slide-header">
+                <div class="slide-kicker">Diagram 1 of 5</div>
+                <h2 class="slide-title">24 Months of AI Progress</h2>
+                <p class="slide-desc">Between June 2024 and June 2026, AI capability advanced faster than in the preceding decade combined. Hover any dot for model details. Dot size reflects estimated training scale.</p>
+            </div>
+            <div class="slide-body">
+                <div class="diagram-wrap">
+                    <svg id="timeline-svg" class="chart-svg" viewBox="0 0 960 500" role="img" aria-label="AI model timeline June 2024–June 2026"></svg>
+                </div>
+                <div class="legend">
+                    <div class="legend-group">
+                        <div class="legend-title">Company</div>
+                        <div class="legend-item"><div class="legend-dot" style="background:#10a37f"></div> OpenAI</div>
+                        <div class="legend-item"><div class="legend-dot" style="background:#d4845a"></div> Anthropic</div>
+                        <div class="legend-item"><div class="legend-dot" style="background:#4285f4"></div> Google</div>
+                        <div class="legend-item"><div class="legend-dot" style="background:#7b68ee"></div> Meta</div>
+                        <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div> DeepSeek</div>
+                    </div>
+                    <div class="legend-group">
+                        <div class="legend-title">Chart Elements</div>
+                        <div class="legend-item"><div class="legend-swatch" style="background:#4F6EF7;"></div> Frontier context window (left axis)</div>
+                        <div class="legend-item"><div class="legend-swatch" style="background:rgba(160,160,190,0.5); height:10px; border-radius:4px;"></div> Global AI infra investment</div>
+                        <div class="legend-item" style="font-size:11px; color:var(--muted-fg);">★ confirmed &nbsp;◦ estimated params</div>
+                    </div>
+                    <div class="legend-group">
+                        <div class="legend-title">Axes</div>
+                        <div class="legend-item" style="font-size:11px; color:var(--muted-fg);">Left Y: context window tokens (log)</div>
+                        <div class="legend-item" style="font-size:11px; color:var(--muted-fg);">Right Y: parameters in billions (log)</div>
+                    </div>
+                </div>
+                <p class="slide-caption" style="margin-top:10px;">Parameter counts for OpenAI, Anthropic, and Google frontier models are not publicly disclosed. Values shown are widely-cited industry estimates. DeepSeek R1 and Meta Llama counts are confirmed.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── SLIDE 2: CONTEXT WINDOW ── -->
+    <section class="slide" id="slide-2">
+        <div class="slide-diagram">
+            <div class="slide-header">
+                <div class="slide-kicker">Diagram 2 of 5</div>
+                <h2 class="slide-title">How a Context Window Works</h2>
+                <p class="slide-desc">Every AI model has a hard limit on how much text it can hold at once &mdash; like a camera viewfinder sliding over a document. When conversation grows beyond the window, older content falls out and the model loses access to it entirely.</p>
+            </div>
+            <div class="slide-body">
+                <div class="diagram-wrap">
+                    <svg id="cw-svg" class="chart-svg" viewBox="0 0 860 340" role="img" aria-label="Context window animation diagram"></svg>
+                    <div class="cw-controls">
+                        <button class="cw-btn cw-btn-primary" id="cw-add-btn" onclick="cwAddMessage()">+ Add Message</button>
+                        <button class="cw-btn cw-btn-secondary" onclick="cwReset()">&#8634; Reset</button>
+                        <span class="cw-status" id="cw-status">Conversation: 0 / 16 blocks &nbsp;|&nbsp; Context window: 8 blocks</span>
+                    </div>
+                </div>
+                <p class="slide-caption">Click <strong>+ Add Message</strong> to watch early messages fall out of the context window. The model only sees what&rsquo;s inside the frame.</p>
+
+                <h3 style="font-size:18px; font-weight:800; margin: 20px 0 12px; letter-spacing:-0.4px;">Scale: What fits in a context window?</h3>
+                <div class="scale-grid" id="scale-cards"></div>
+                <p class="slide-caption" style="margin-top:10px;">Equivalences use ~750 words per page and ~5 characters per token as rough guides.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── SLIDE 3: DEGRADATION ── -->
+    <section class="slide" id="slide-3">
+        <div class="slide-diagram">
+            <div class="slide-header">
+                <div class="slide-kicker">Diagram 3 of 5</div>
+                <h2 class="slide-title">Context Window Degradation</h2>
+                <p class="slide-desc">A full context window doesn&rsquo;t just slow down &mdash; it causes answer quality to collapse. Models work well under 70&ndash;80% full. Beyond that, a sharp cliff: repetition, lost instructions, subtle errors.</p>
+            </div>
+            <div class="slide-body">
+                <div class="diagram-wrap">
+                    <svg id="degradation-svg" class="chart-svg" viewBox="0 0 860 420" role="img" aria-label="Context usage vs answer quality degradation curve"></svg>
+                </div>
+                <div class="example-pair">
+                    <div class="example-box good">
+                        <div class="example-box-label">Context at 70% full</div>
+                        <div class="example-box-usage">70%</div>
+                        <div class="example-box-quality">Answer quality: High</div>
+                        <div class="example-box-quote">&ldquo;Here&rsquo;s a concise summary of the three key risks you asked about. First, the vendor lock-in issue you mentioned at the start of our conversation &hellip;&rdquo;</div>
+                    </div>
+                    <div class="example-box bad">
+                        <div class="example-box-label">Context at 95% full</div>
+                        <div class="example-box-usage">95%</div>
+                        <div class="example-box-quality">Answer quality: Degraded</div>
+                        <div class="example-box-quote">&ldquo;As I mentioned, there are several risks. Vendor lock-in is one. There are also risks related to&hellip; vendor lock-in. Additionally, you should consider vendor lock-in&hellip;&rdquo;</div>
+                    </div>
+                </div>
+                <p class="slide-caption" style="margin-top:12px;">The degradation curve is illustrative &mdash; exact behaviour varies by model, task type, and where key instructions appear. The cliff effect is well-documented across frontier models.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── SLIDE 4: TRAINING vs INFERENCE ── -->
+    <section class="slide" id="slide-4">
+        <div class="slide-diagram">
+            <div class="slide-header">
+                <div class="slide-kicker">Diagram 4 of 5</div>
+                <h2 class="slide-title">Training vs. Inference</h2>
+                <p class="slide-desc">Training is building the factory &mdash; expensive, slow, done once. Inference is running the factory &mdash; fast, cheap by comparison, millions of times per day.</p>
+            </div>
+            <div class="slide-body">
+                <div class="diagram-wrap">
+                    <svg id="ti-svg" class="chart-svg" viewBox="0 0 860 320" role="img" aria-label="Training vs inference comparison diagram"></svg>
+                </div>
+                <div class="ti-grid">
+                    <div class="ti-panel training">
+                        <div class="ti-label">Phase 1</div>
+                        <div class="ti-title">Training</div>
+                        <div class="ti-stat"><div class="ti-stat-label">Cost</div><div class="ti-stat-value">$10M &ndash; $1B+ per run</div></div>
+                        <div class="ti-stat"><div class="ti-stat-label">Duration</div><div class="ti-stat-value">Weeks to months</div></div>
+                        <div class="ti-stat"><div class="ti-stat-label">Compute</div><div class="ti-stat-value">Tens of thousands of GPUs</div></div>
+                        <div class="ti-stat"><div class="ti-stat-label">Frequency</div><div class="ti-stat-value">Done once (or rarely)</div></div>
+                        <div class="ti-desc">The model sees trillions of tokens of text and adjusts billions of parameters to minimise prediction errors. When training ends, those numbers are frozen &mdash; the &ldquo;weights file.&rdquo;</div>
+                    </div>
+                    <div class="ti-panel inference">
+                        <div class="ti-label">Phase 2</div>
+                        <div class="ti-title">Inference</div>
+                        <div class="ti-stat"><div class="ti-stat-label">Cost</div><div class="ti-stat-value">Fractions of a cent per query</div></div>
+                        <div class="ti-stat"><div class="ti-stat-label">Duration</div><div class="ti-stat-value">Milliseconds to seconds</div></div>
+                        <div class="ti-stat"><div class="ti-stat-label">Compute</div><div class="ti-stat-value">A handful of GPUs</div></div>
+                        <div class="ti-stat"><div class="ti-stat-label">Frequency</div><div class="ti-stat-value">Millions of times per day</div></div>
+                        <div class="ti-desc">You send your prompt. The frozen model runs it through its parameter layers and predicts the next token &mdash; over and over until the answer is complete. It doesn&rsquo;t learn from your query.</div>
+                    </div>
+                </div>
+                <p class="slide-caption" style="margin-top:12px;">Cost figures are approximate. GPT-4-class training costs are estimated at $50M&ndash;$100M per run; Llama-class open models are cheaper by one to two orders of magnitude.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── SLIDE 5: PARAMETERS ── -->
+    <section class="slide" id="slide-5">
+        <div class="slide-diagram">
+            <div class="slide-header">
+                <div class="slide-kicker">Diagram 5 of 5</div>
+                <h2 class="slide-title">What is a Parameter?</h2>
+                <p class="slide-desc">A parameter is a single learned number &mdash; a connection strength between neurons. Every wire in the network has a weight. That weight is a parameter. GPT-4-class models have roughly a trillion of them, all frozen after training.</p>
+            </div>
+            <div class="slide-body">
+                <div class="diagram-wrap">
+                    <svg id="param-svg" class="chart-svg" viewBox="0 0 860 360" role="img" aria-label="Neural network parameter diagram with scale comparison"></svg>
+                </div>
+                <h3 style="font-size:18px; font-weight:800; margin: 20px 0 12px; letter-spacing:-0.4px;">The scale of modern models</h3>
+                <div class="param-scale" id="param-scale"></div>
+                <p class="slide-caption" style="margin-top:12px;">★ = publicly confirmed. MoE (Mixture-of-Experts) models have a large total parameter count but only activate a fraction per query &mdash; so compute cost is much lower than the headline number suggests.</p>
+            </div>
+        </div>
+    </section>
+
+</div><!-- end slides-viewport -->
+
+<!-- Progress bar -->
+<div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+
+<!-- Tooltip -->
+<div id="tooltip"></div>
+
+<script>
+'use strict';
+
+// ── SLIDE NAVIGATION ──────────────────────────────────────────
+const TOTAL_SLIDES = 6;
+let currentSlide = 0;
+
+function goTo(n) {
+    if (n < 0 || n >= TOTAL_SLIDES) return;
+    document.getElementById('slide-' + currentSlide).classList.remove('active');
+    document.querySelector('[data-slide="' + currentSlide + '"]').classList.remove('active');
+    currentSlide = n;
+    document.getElementById('slide-' + currentSlide).classList.add('active');
+    document.querySelector('[data-slide="' + currentSlide + '"]').classList.add('active');
+    document.getElementById('prev-btn').disabled = (currentSlide === 0);
+    document.getElementById('next-btn').disabled = (currentSlide === TOTAL_SLIDES - 1);
+    const pct = TOTAL_SLIDES <= 1 ? 100 : (currentSlide / (TOTAL_SLIDES - 1)) * 100;
+    document.getElementById('progress-fill').style.width = pct + '%';
+    window.scrollTo(0, 0);
+    // Scroll tab into view
+    const tab = document.querySelector('[data-slide="' + currentSlide + '"]');
+    if (tab) tab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+}
+
+document.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); goTo(currentSlide + 1); }
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   { e.preventDefault(); goTo(currentSlide - 1); }
+});
+
+// ── DARK MODE ─────────────────────────────────────────────────
+function toggleDark() {
+    const html = document.documentElement;
+    const isDark = html.getAttribute('data-theme') === 'dark';
+    html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    document.getElementById('dark-toggle').textContent = isDark ? '☾' : '☀';
+}
+
+// ── SVG UTILITY ───────────────────────────────────────────────
+function svgEl(tag, attrs, text) {
+    const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    if (attrs) for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+    if (text !== undefined) el.textContent = text;
+    return el;
+}
+function fmtCtx(k) { return k >= 1000 ? (k/1000).toFixed(k%1000===0?0:1)+'M' : k+'K'; }
+function fmtParams(b) { return b >= 1000 ? (b/1000).toFixed(b%1000===0?0:1)+'T' : b+'B'; }
+
+
+// ═══════════════════════════════════════════════════════════════
+// DIAGRAM 1: TIMELINE
+// ═══════════════════════════════════════════════════════════════
+const CO_COLORS = { OpenAI:'#10a37f', Anthropic:'#d4845a', Google:'#4285f4', Meta:'#7b68ee', DeepSeek:'#ef4444' };
+
+const MODELS = [
+    { d:'2023-11-06', n:'GPT-4 Turbo',           co:'OpenAI',    ctx:128,   params:1760, confirmed:false, note:'MoE estimate: 8×220B = 1.76T total. Unverified.' },
+    { d:'2024-03-04', n:'Claude 3 Opus',          co:'Anthropic', ctx:200,   params:1000, confirmed:false, note:'~1T params estimated. Anthropic does not disclose.' },
+    { d:'2024-05-13', n:'GPT-4o',                 co:'OpenAI',    ctx:128,   params:1000, confirmed:false, note:'Multimodal. Param count not confirmed.' },
+    { d:'2024-05-14', n:'Gemini 1.5 Pro (1M)',    co:'Google',    ctx:1000,  params:500,  confirmed:false, note:'1 million token context — a landmark in May 2024.' },
+    { d:'2024-06-20', n:'Claude 3.5 Sonnet',      co:'Anthropic', ctx:200,   params:1000, confirmed:false, note:'Surpassed Claude 3 Opus on most benchmarks.' },
+    { d:'2024-07-18', n:'GPT-4o mini',            co:'OpenAI',    ctx:128,   params:8,    confirmed:false, note:'Efficient, low-cost model. ~8B params estimated.' },
+    { d:'2024-07-23', n:'Llama 3.1 405B',         co:'Meta',      ctx:128,   params:405,  confirmed:true,  note:'★ Confirmed 405B. First open-weight frontier model.' },
+    { d:'2024-09-12', n:'GPT-o1',                 co:'OpenAI',    ctx:128,   params:1000, confirmed:false, note:'Chain-of-thought reasoning. Extended internal thinking.' },
+    { d:'2024-10-22', n:'Claude 3.5 Sonnet v2',   co:'Anthropic', ctx:200,   params:1000, confirmed:false, note:'Updated with computer use capability.' },
+    { d:'2024-11-04', n:'Claude 3.5 Haiku',       co:'Anthropic', ctx:200,   params:50,   confirmed:false, note:'Lightweight, fast model. ~50B params estimated.' },
+    { d:'2024-12-11', n:'Gemini 2.0 Flash',       co:'Google',    ctx:1000,  params:200,  confirmed:false, note:'Fast multimodal model with 1M context.' },
+    { d:'2025-01-20', n:'DeepSeek R1',            co:'DeepSeek',  ctx:128,   params:671,  confirmed:true,  note:'★ 671B total / 37B active (MoE). Trained for ~$6M.' },
+    { d:'2025-02-24', n:'Claude 3.7 Sonnet',      co:'Anthropic', ctx:200,   params:1000, confirmed:false, note:'First "hybrid reasoning" model: standard + extended thinking.' },
+    { d:'2025-02-27', n:'GPT-4.5',                co:'OpenAI',    ctx:128,   params:1500, confirmed:false, note:'Reportedly largest GPT dense model to date.' },
+    { d:'2025-03-25', n:'Gemini 2.5 Pro',         co:'Google',    ctx:1000,  params:800,  confirmed:false, note:'State-of-the-art across coding, math, and multimodal.' },
+    { d:'2025-04-05', n:'Llama 4 Scout',          co:'Meta',      ctx:10000, params:109,  confirmed:true,  note:'★ 109B total MoE / 17B active. 10 million token context.' },
+    { d:'2025-04-14', n:'GPT-4.1',                co:'OpenAI',    ctx:1000,  params:1000, confirmed:false, note:'1M context. Strong coding performance.' },
+    { d:'2025-04-16', n:'GPT-o3',                 co:'OpenAI',    ctx:200,   params:1500, confirmed:false, note:'Advanced reasoning. $20–$100+ per complex query.' },
+    { d:'2025-05-22', n:'Claude Sonnet 4.5',      co:'Anthropic', ctx:200,   params:1000, confirmed:false, note:'Enhanced agent capabilities and coding performance.' },
+    { d:'2025-06-04', n:'Claude Opus 4',          co:'Anthropic', ctx:200,   params:1500, confirmed:false, note:'Anthropic flagship. Top-tier across all benchmarks.' },
+];
+
+const INFRA = [
+    { d:'2024-01', v: 60  }, { d:'2024-04', v: 110 }, { d:'2024-07', v: 175 },
+    { d:'2024-10', v: 260 }, { d:'2025-01', v: 330 }, { d:'2025-04', v: 420 },
+    { d:'2025-07', v: 490 },
+];
+
+function renderTimeline() {
+    const svg = document.getElementById('timeline-svg');
+    const W = 960, H = 500;
+    const M = { top: 50, right: 165, bottom: 88, left: 105 };
+    const PW = W - M.left - M.right;
+    const PH = H - M.top - M.bottom;
+
+    const T_START = new Date('2023-09-01');
+    const T_END   = new Date('2026-08-01');
+    const T_SPAN  = T_END - T_START;
+    function xT(ds) { return M.left + PW * (new Date(ds) - T_START) / T_SPAN; }
+
+    const CTX_LOG_MIN = Math.log10(4), CTX_LOG_MAX = Math.log10(15000);
+    function yCtx(k) { return M.top + PH - PH * (Math.log10(Math.max(k,4)) - CTX_LOG_MIN) / (CTX_LOG_MAX - CTX_LOG_MIN); }
+
+    const PAR_LOG_MIN = Math.log10(5), PAR_LOG_MAX = Math.log10(2000);
+    function yPar(b) { return M.top + PH - PH * (Math.log10(Math.max(b,5)) - PAR_LOG_MIN) / (PAR_LOG_MAX - PAR_LOG_MIN); }
+
+    const INFRA_MAX = 550;
+    function yInfra(v) { return M.top + PH - (PH * 0.38) * (v / INFRA_MAX); }
+
+    svg.appendChild(svgEl('rect', { x:M.left, y:M.top, width:PW, height:PH, fill:'#f7f8fc', rx:6 }));
+
+    // Infrastructure area
+    const infraPts = INFRA.map(p => `${xT(p.d+'-15')},${yInfra(p.v)}`);
+    const iLast = `${xT(INFRA[INFRA.length-1].d+'-15')},${M.top+PH}`;
+    const iFirst = `${xT(INFRA[0].d+'-15')},${M.top+PH}`;
+    svg.appendChild(svgEl('polygon', { points: infraPts.join(' ')+' '+iLast+' '+iFirst, fill:'rgba(140,140,200,0.13)', stroke:'rgba(100,100,180,0.25)', 'stroke-width':'1.5' }));
+
+    // Gridlines
+    const ctxTicks = [4, 8, 32, 128, 200, 1000, 10000];
+    for (const tk of ctxTicks) {
+        const y = yCtx(tk);
+        svg.appendChild(svgEl('line', { x1:M.left, y1:y, x2:M.left+PW, y2:y, stroke:'#e2e4ef', 'stroke-width':'1' }));
+    }
+    const xLabels = [
+        {d:'2024-01-01',l:'Jan 2024'},{d:'2024-04-01',l:'Apr'},{d:'2024-07-01',l:'Jul'},{d:'2024-10-01',l:'Oct'},
+        {d:'2025-01-01',l:'Jan 2025'},{d:'2025-04-01',l:'Apr'},{d:'2025-07-01',l:'Jul'},{d:'2025-10-01',l:'Oct'},
+        {d:'2026-01-01',l:'Jan 2026'},{d:'2026-04-01',l:'Apr'},
+    ];
+    for (const lb of xLabels) {
+        const x = xT(lb.d);
+        if (x < M.left-5 || x > M.left+PW+5) continue;
+        svg.appendChild(svgEl('line', { x1:x, y1:M.top, x2:x, y2:M.top+PH, stroke:'#e2e4ef', 'stroke-width':'1' }));
+        svg.appendChild(svgEl('text', { x, y:M.top+PH+18, 'text-anchor':'middle', fill:'#888', 'font-size':'11', 'font-family':'JetBrains Mono, monospace' }, lb.l));
+    }
+    svg.appendChild(svgEl('line', { x1:M.left, y1:M.top+PH, x2:M.left+PW, y2:M.top+PH, stroke:'#ccc', 'stroke-width':'1' }));
+
+    // Left Y axis: context
+    svg.appendChild(svgEl('line', { x1:M.left, y1:M.top, x2:M.left, y2:M.top+PH, stroke:'#4F6EF7', 'stroke-width':'2' }));
+    for (const tk of ctxTicks) {
+        const y = yCtx(tk);
+        svg.appendChild(svgEl('line', { x1:M.left-6, y1:y, x2:M.left, y2:y, stroke:'#4F6EF7', 'stroke-width':'2' }));
+        svg.appendChild(svgEl('text', { x:M.left-10, y:y+4, 'text-anchor':'end', fill:'#4F6EF7', 'font-size':'11', 'font-family':'JetBrains Mono, monospace', 'font-weight':'600' }, fmtCtx(tk)));
+    }
+    svg.appendChild(svgEl('text', { x:18, y:M.top+PH/2, 'text-anchor':'middle', fill:'#4F6EF7', 'font-size':'12', 'font-family':'Inter, sans-serif', 'font-weight':'700', transform:`rotate(-90,18,${M.top+PH/2})` }, 'Context Window (tokens)'));
+
+    // Right Y axis: params
+    const parTicks = [8, 50, 200, 500, 1000, 1760];
+    svg.appendChild(svgEl('line', { x1:M.left+PW, y1:M.top, x2:M.left+PW, y2:M.top+PH, stroke:'#C87941', 'stroke-width':'1.5' }));
+    for (const tk of parTicks) {
+        const y = yPar(tk);
+        svg.appendChild(svgEl('line', { x1:M.left+PW, y1:y, x2:M.left+PW+6, y2:y, stroke:'#C87941', 'stroke-width':'1.5' }));
+        svg.appendChild(svgEl('text', { x:M.left+PW+10, y:y+4, 'text-anchor':'start', fill:'#C87941', 'font-size':'11', 'font-family':'JetBrains Mono, monospace', 'font-weight':'600' }, fmtParams(tk)));
+    }
+    svg.appendChild(svgEl('text', { x:W-18, y:M.top+PH/2, 'text-anchor':'middle', fill:'#C87941', 'font-size':'12', 'font-family':'Inter, sans-serif', 'font-weight':'700', transform:`rotate(90,${W-18},${M.top+PH/2})` }, 'Parameters (est.)'));
+
+    // Infra label
+    svg.appendChild(svgEl('text', { x:xT('2024-01-15')+4, y:M.top+PH-(PH*0.38)*(260/INFRA_MAX)-6, fill:'rgba(100,100,180,0.6)', 'font-size':'10', 'font-family':'JetBrains Mono, monospace', 'font-weight':'600' }, 'Global AI Infra Investment ($B)'));
+
+    // Frontier context window step line
+    const sorted = [...MODELS].sort((a,b) => new Date(a.d)-new Date(b.d));
+    let maxCtx = 0; const fpPts = [];
+    for (const m of sorted) {
+        const x = xT(m.d); if (x < M.left) continue;
+        if (m.ctx > maxCtx) {
+            if (fpPts.length > 0) fpPts.push({ x, y: yCtx(maxCtx) });
+            maxCtx = m.ctx; fpPts.push({ x, y: yCtx(maxCtx) });
+        }
+    }
+    if (fpPts.length > 1) {
+        fpPts.push({ x: M.left+PW, y: fpPts[fpPts.length-1].y });
+        const pd = fpPts.map((p,i) => `${i===0?'M':'L'}${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
+        svg.appendChild(svgEl('path', { d:pd, fill:'none', stroke:'rgba(79,110,247,0.25)', 'stroke-width':'8', 'stroke-linecap':'round', 'stroke-linejoin':'round' }));
+        svg.appendChild(svgEl('path', { d:pd, fill:'none', stroke:'#4F6EF7', 'stroke-width':'2.5', 'stroke-linecap':'round', 'stroke-linejoin':'round' }));
+    }
+
+    // Param scatter guide
+    const pSorted = sorted.filter(m => xT(m.d) >= M.left);
+    if (pSorted.length > 1) {
+        const ppd = pSorted.map((m,i) => `${i===0?'M':'L'}${xT(m.d).toFixed(1)},${yPar(m.params).toFixed(1)}`).join(' ');
+        svg.appendChild(svgEl('path', { d:ppd, fill:'none', stroke:'rgba(200,121,65,0.25)', 'stroke-width':'1.5', 'stroke-dasharray':'4,4' }));
+    }
+
+    // June 2024 marker
+    const xJ = xT('2024-06-01');
+    svg.appendChild(svgEl('line', { x1:xJ, y1:M.top, x2:xJ, y2:M.top+PH, stroke:'rgba(79,110,247,0.4)', 'stroke-width':'1.5', 'stroke-dasharray':'6,4' }));
+    svg.appendChild(svgEl('text', { x:xJ+5, y:M.top+16, fill:'rgba(79,110,247,0.7)', 'font-size':'10', 'font-family':'JetBrains Mono, monospace', 'font-weight':'700' }, '▶ 24-month window'));
+
+    // Interactive dots
+    const tooltip = document.getElementById('tooltip');
+    for (const m of sorted) {
+        const x = xT(m.d);
+        if (x < M.left-20 || x > M.left+PW+20) continue;
+        const cy = yCtx(m.ctx);
+        const color = CO_COLORS[m.co] || '#888';
+        const r = Math.max(6, Math.min(18, 5 + Math.log10(m.params)*2.8));
+        const before = new Date(m.d) < new Date('2024-06-01');
+        const g = svgEl('g', { cursor:'pointer', opacity: before ? '0.5' : '1' });
+        g.appendChild(svgEl('circle', { cx:x, cy:cy, r:r+2, fill:'rgba(0,0,0,0.06)' }));
+        g.appendChild(svgEl('circle', { cx:x, cy:cy, r, fill:color, stroke:'white', 'stroke-width':'2' }));
+        g.appendChild(svgEl('circle', { cx:x, cy:yPar(m.params), r:4, fill:color, opacity:'0.45', stroke:'white', 'stroke-width':'1' }));
+        if (m.confirmed) g.appendChild(svgEl('text', { x, y:cy+4.5, 'text-anchor':'middle', fill:'white', 'font-size':'9', 'font-weight':'800', 'pointer-events':'none' }, '★'));
+        g.addEventListener('mouseenter', () => {
+            tooltip.classList.add('show');
+            tooltip.innerHTML = `<div class="tt-name">${m.n}</div><div class="tt-co" style="color:${color}">${m.co}</div><div class="tt-row"><span class="tt-label">Date</span><span class="tt-val">${m.d.slice(0,7)}</span></div><div class="tt-row"><span class="tt-label">Context</span><span class="tt-val">${fmtCtx(m.ctx)} tokens</span></div><div class="tt-row"><span class="tt-label">Parameters</span><span class="tt-val">${m.confirmed?'★ ':''}${fmtParams(m.params)}${m.confirmed?'':' est.'}</span></div>${m.note?`<div class="tt-note">${m.note}</div>`:''}`;
+        });
+        g.addEventListener('mousemove', (e) => {
+            let left = e.clientX+16, top = e.clientY+16;
+            if (left+280 > window.innerWidth) left = e.clientX-280-16;
+            if (top+160 > window.innerHeight) top = e.clientY-160-16;
+            tooltip.style.left = left+'px'; tooltip.style.top = top+'px';
+        });
+        g.addEventListener('mouseleave', () => tooltip.classList.remove('show'));
+        svg.appendChild(g);
+    }
+
+    // Title
+    svg.appendChild(svgEl('text', { x:M.left+PW/2, y:M.top-18, 'text-anchor':'middle', fill:'#1a1a2e', 'font-size':'15', 'font-family':'Inter, sans-serif', 'font-weight':'800' }, 'AI Model Releases: June 2024 – June 2026'));
+}
+
+renderTimeline();
+
+
+// ═══════════════════════════════════════════════════════════════
+// DIAGRAM 2: CONTEXT WINDOW ANIMATION
+// ═══════════════════════════════════════════════════════════════
+const CW_WINDOW_SIZE = 8, CW_TOTAL_BLOCKS = 20;
+let cwBlocks = [], cwTurn = 0;
+const CW_COLORS = { system:{fill:'#7b68ee'}, user:{fill:'#4285f4'}, assistant:{fill:'#10a37f'} };
+
+function cwRender() {
+    const svg = document.getElementById('cw-svg'); svg.innerHTML = '';
+    const W=860, H=340, BW=46, BH=52, BG=8;
+    const RY_HIST=30, RY_WIN=155, RY_OUT=260;
+    const SX=28;
+    const total=cwBlocks.length, winStart=Math.max(0,total-CW_WINDOW_SIZE);
+    const forgotten=cwBlocks.slice(0,winStart), inWin=cwBlocks.slice(winStart);
+
+    function lbl(x,y,t,c='#555',sz=12,w='600') {
+        svg.appendChild(svgEl('text',{x,y,fill:c,'font-size':sz,'font-family':'JetBrains Mono, monospace','font-weight':w,'text-anchor':'middle'},t));
+    }
+    function rlbl(x,y,t,c) { svg.appendChild(svgEl('text',{x,y,fill:c,'font-size':'11','font-family':'JetBrains Mono, monospace','font-weight':'700',transform:`rotate(-90,${x},${y})`},t)); }
+    rlbl(8,RY_HIST+BH/2+4,'HISTORY','#888');
+    rlbl(8,RY_WIN+BH/2+4,'IN CONTEXT','#4F6EF7');
+    rlbl(8,RY_OUT+BH/2+4,'FORGOTTEN','#ef4444');
+
+    const maxD=Math.min(cwBlocks.length,18), histB=cwBlocks.slice(-maxD), histOff=cwBlocks.length-histB.length;
+    for (let i=0;i<histB.length;i++) {
+        const blk=histB[i], gi=histOff+i, inCtx=gi>=winStart;
+        const x=SX+i*(BW+BG), a=inCtx?1:0.35, cfg=CW_COLORS[blk.role]||{fill:'#888'};
+        svg.appendChild(svgEl('rect',{x,y:RY_HIST,width:BW,height:BH,rx:6,fill:cfg.fill,opacity:a}));
+        svg.appendChild(svgEl('text',{x:x+BW/2,y:RY_HIST+22,'text-anchor':'middle',fill:'white','font-size':'8','font-family':'JetBrains Mono, monospace','font-weight':'700',opacity:a},blk.role==='system'?'SYS':blk.role==='user'?'USR':'AI'));
+        svg.appendChild(svgEl('text',{x:x+BW/2,y:RY_HIST+38,'text-anchor':'middle',fill:'white','font-size':'10','font-weight':'800','font-family':'Inter, sans-serif',opacity:a},`#${gi+1}`));
+    }
+    if (total>0) {
+        const wx0=SX+Math.max(0,histB.length-CW_WINDOW_SIZE)*(BW+BG)-4;
+        const wx1=SX+histB.length*(BW+BG)-BG+4;
+        svg.appendChild(svgEl('rect',{x:wx0,y:RY_HIST-8,width:wx1-wx0,height:BH+16,rx:8,fill:'none',stroke:'#4F6EF7','stroke-width':'2.5','stroke-dasharray':'6,3'}));
+        svg.appendChild(svgEl('text',{x:wx0+(wx1-wx0)/2,y:RY_HIST-14,'text-anchor':'middle',fill:'#4F6EF7','font-size':'10','font-family':'JetBrains Mono, monospace','font-weight':'700'},`Context window (${CW_WINDOW_SIZE} blocks)`));
+    }
+    if (inWin.length>0) {
+        const cwW=inWin.length*(BW+BG)+12;
+        svg.appendChild(svgEl('rect',{x:SX-6,y:RY_WIN-8,width:cwW,height:BH+16,rx:10,fill:'rgba(79,110,247,0.07)',stroke:'#4F6EF7','stroke-width':'2'}));
+    }
+    for (let i=0;i<inWin.length;i++) {
+        const blk=inWin[i], x=SX+i*(BW+BG), cfg=CW_COLORS[blk.role]||{fill:'#888'};
+        svg.appendChild(svgEl('rect',{x,y:RY_WIN,width:BW,height:BH,rx:6,fill:cfg.fill}));
+        svg.appendChild(svgEl('text',{x:x+BW/2,y:RY_WIN+22,'text-anchor':'middle',fill:'white','font-size':'8','font-family':'JetBrains Mono, monospace','font-weight':'700'},blk.role==='system'?'SYS':blk.role==='user'?'USR':'AI'));
+        svg.appendChild(svgEl('text',{x:x+BW/2,y:RY_WIN+38,'text-anchor':'middle',fill:'white','font-size':'10','font-weight':'800','font-family':'Inter, sans-serif'},`#${winStart+i+1}`));
+    }
+    if (inWin.length===0) svg.appendChild(svgEl('text',{x:SX+140,y:RY_WIN+BH/2+4,fill:'#bbb','font-size':'13','font-family':'Inter, sans-serif','font-weight':'600'},'Add messages to fill the context window →'));
+    const forgD=forgotten.slice(-maxD);
+    for (let i=0;i<forgD.length;i++) {
+        const x=SX+i*(BW+BG);
+        svg.appendChild(svgEl('rect',{x,y:RY_OUT,width:BW,height:BH,rx:6,fill:'#d1d5db'}));
+        svg.appendChild(svgEl('text',{x:x+BW/2,y:RY_OUT+22,'text-anchor':'middle',fill:'#888','font-size':'8','font-family':'JetBrains Mono, monospace','font-weight':'700'},'????'));
+        svg.appendChild(svgEl('text',{x:x+BW/2,y:RY_OUT+38,'text-anchor':'middle',fill:'#aaa','font-size':'10','font-weight':'800','font-family':'Inter, sans-serif'},`#${i+1}`));
+    }
+    if (forgotten.length===0) svg.appendChild(svgEl('text',{x:SX+140,y:RY_OUT+BH/2+4,fill:'#ddd','font-size':'12','font-family':'Inter, sans-serif','font-weight':'600'},'Nothing forgotten yet'));
+    if (total>0) { svg.appendChild(svgEl('text',{x:80,y:RY_HIST+BH+28,fill:'#4F6EF7','font-size':'18','font-weight':'900'},'↓')); svg.appendChild(svgEl('text',{x:80,y:RY_HIST+BH+44,fill:'#4F6EF7','font-size':'10','font-family':'JetBrains Mono, monospace','font-weight':'700'},'model sees')); }
+    if (forgotten.length>0) { svg.appendChild(svgEl('text',{x:80,y:RY_WIN+BH+28,fill:'#ef4444','font-size':'18','font-weight':'900'},'↓')); svg.appendChild(svgEl('text',{x:80,y:RY_WIN+BH+44,fill:'#ef4444','font-size':'10','font-family':'JetBrains Mono, monospace','font-weight':'700'},'pushed out')); }
+    const st=document.getElementById('cw-status');
+    if (st) st.textContent=`Conversation: ${total} blocks  |  In context: ${Math.min(total,CW_WINDOW_SIZE)}/${CW_WINDOW_SIZE}  |  Forgotten: ${forgotten.length}`;
+    const ab=document.getElementById('cw-add-btn');
+    if (ab) ab.disabled=(cwBlocks.length>=CW_TOTAL_BLOCKS);
+}
+
+function cwAddMessage() { cwBlocks.push({role:['user','assistant'][cwTurn%2]}); cwTurn++; cwRender(); }
+function cwReset() { cwBlocks=[{role:'system'}]; cwTurn=0; cwRender(); }
+cwReset();
+
+// Scale cards
+const SCALE_DATA = [
+    { size:'4K',  era:'GPT-3 era (2020)',           model:'GPT-3, early ChatGPT',                      tokens:4000,    color:'#94a3b8', pct:0.4,  equiv:'<strong>~3 pages</strong> — one short article or a few emails.' },
+    { size:'8K',  era:'Early GPT-4 (2023)',          model:'GPT-4 initial release',                     tokens:8000,    color:'#64748b', pct:0.8,  equiv:'<strong>~6 pages</strong> — a long article but not a research paper.' },
+    { size:'128K',era:'GPT-4 Turbo (late 2023)',     model:'GPT-4 Turbo, GPT-4o, GPT-o1',              tokens:128000,  color:'#10a37f', pct:12.8, equiv:'<strong>~100 pages</strong> — a full novel or a year of earnings calls.' },
+    { size:'200K',era:'Claude 3 era (2024)',          model:'Claude 3 Opus/Sonnet, Claude 3.5+',         tokens:200000,  color:'#d4845a', pct:20,   equiv:'<strong>~150 pages</strong> — multiple research papers or a full codebase.' },
+    { size:'1M',  era:'Gemini 1.5 / GPT-4.1',        model:'Gemini 1.5 Pro, GPT-4.1, Gemini 2.5',      tokens:1000000, color:'#4285f4', pct:100,  equiv:'<strong>~750 pages</strong> — all of Shakespeare fits with room to spare.' },
+    { size:'10M', era:'Llama 4 Scout (2025)',          model:'Meta Llama 4 Scout (open weight)',          tokens:10000000,color:'#7b68ee', pct:100,  equiv:'<strong>~7,500 pages</strong> — 50 codebases or every email a person sent.' },
+];
+
+function renderScaleCards() {
+    const c = document.getElementById('scale-cards'); if (!c) return;
+    for (const card of SCALE_DATA) {
+        const d = document.createElement('div'); d.className = 'scale-card';
+        d.innerHTML = `<div class="scale-card-header"><span class="scale-card-size" style="color:${card.color}">${card.size}</span><span class="scale-card-era">${card.era}</span></div><div class="scale-card-model">${card.model}</div><div class="scale-bar-track"><div class="scale-bar-fill" style="width:${card.pct}%;background:${card.color}"></div></div><div class="scale-card-equiv">${card.equiv}</div>`;
+        c.appendChild(d);
+    }
+}
+renderScaleCards();
+
+
+// ═══════════════════════════════════════════════════════════════
+// DIAGRAM 3: DEGRADATION CURVE
+// ═══════════════════════════════════════════════════════════════
+function renderDegradation() {
+    const svg = document.getElementById('degradation-svg');
+    const W=860, H=420, M={top:60,right:60,bottom:80,left:80};
+    const PW=W-M.left-M.right, PH=H-M.top-M.bottom;
+    function xQ(p) { return M.left+PW*(p/100); }
+    function yQ(q) { return M.top+PH-PH*(q/100); }
+    function quality(p) {
+        if (p<=72) return 92-p*0.04;
+        if (p<=82) return 89-(p-72)*2.2;
+        if (p<=95) return 67-(p-82)*4.0;
+        return 15-(p-95)*0.8;
+    }
+    svg.appendChild(svgEl('rect',{x:M.left,y:M.top,width:PW,height:PH,fill:'#f7f8fc',rx:6}));
+    svg.appendChild(svgEl('rect',{x:xQ(0),y:M.top,width:xQ(72)-xQ(0),height:PH,fill:'rgba(16,163,127,0.06)'}));
+    svg.appendChild(svgEl('rect',{x:xQ(72),y:M.top,width:xQ(85)-xQ(72),height:PH,fill:'rgba(250,180,50,0.08)'}));
+    svg.appendChild(svgEl('rect',{x:xQ(85),y:M.top,width:xQ(100)-xQ(85),height:PH,fill:'rgba(239,68,68,0.07)'}));
+    function zl(x,t,c) { svg.appendChild(svgEl('text',{x,y:M.top+20,'text-anchor':'middle',fill:c,'font-size':'11','font-family':'JetBrains Mono, monospace','font-weight':'700'},t)); }
+    zl(xQ(36),'SAFE ZONE','rgba(16,163,127,0.7)');
+    zl(xQ(78),'DEGRADING','rgba(200,140,20,0.8)');
+    zl(xQ(92),'CLIFF','rgba(220,60,60,0.8)');
+    for (const q of [20,40,60,80,100]) {
+        const y=yQ(q);
+        svg.appendChild(svgEl('line',{x1:M.left,y1:y,x2:M.left+PW,y2:y,stroke:'#e2e4ef','stroke-width':'1'}));
+        svg.appendChild(svgEl('text',{x:M.left-10,y:y+4,'text-anchor':'end',fill:'#888','font-size':'11','font-family':'JetBrains Mono, monospace'},q+'%'));
+    }
+    for (const p of [0,20,40,60,80,100]) {
+        const x=xQ(p);
+        svg.appendChild(svgEl('line',{x1:x,y1:M.top,x2:x,y2:M.top+PH,stroke:'#e2e4ef','stroke-width':'1'}));
+        svg.appendChild(svgEl('text',{x,y:M.top+PH+22,'text-anchor':'middle',fill:'#888','font-size':'11','font-family':'JetBrains Mono, monospace'},p+'%'));
+    }
+    svg.appendChild(svgEl('line',{x1:M.left,y1:M.top,x2:M.left,y2:M.top+PH,stroke:'#bbb','stroke-width':'1.5'}));
+    svg.appendChild(svgEl('line',{x1:M.left,y1:M.top+PH,x2:M.left+PW,y2:M.top+PH,stroke:'#bbb','stroke-width':'1.5'}));
+    svg.appendChild(svgEl('text',{x:M.left-48,y:M.top+PH/2,'text-anchor':'middle',fill:'#555','font-size':'12','font-family':'Inter, sans-serif','font-weight':'700',transform:`rotate(-90,${M.left-48},${M.top+PH/2})`},'Answer Quality'));
+    svg.appendChild(svgEl('text',{x:M.left+PW/2,y:M.top+PH+52,'text-anchor':'middle',fill:'#555','font-size':'12','font-family':'Inter, sans-serif','font-weight':'700'},'Context Window Usage'));
+    const cliffX=xQ(82);
+    svg.appendChild(svgEl('line',{x1:cliffX,y1:M.top+30,x2:cliffX,y2:M.top+PH,stroke:'rgba(239,68,68,0.5)','stroke-width':'2','stroke-dasharray':'6,4'}));
+    svg.appendChild(svgEl('text',{x:cliffX+6,y:M.top+46,fill:'rgba(200,60,60,0.85)','font-size':'11','font-family':'JetBrains Mono, monospace','font-weight':'700'},'cliff starts ~82%'));
+    const pts=[];
+    for (let p=0;p<=100;p+=0.5) pts.push({x:xQ(p),y:yQ(quality(p))});
+    const pathD=pts.map((p,i)=>`${i===0?'M':'L'}${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
+    const fillD=pathD+` L${xQ(100)},${yQ(0)} L${xQ(0)},${yQ(0)} Z`;
+    svg.appendChild(svgEl('path',{d:fillD,fill:'rgba(79,110,247,0.08)'}));
+    svg.appendChild(svgEl('path',{d:pathD,fill:'none',stroke:'rgba(79,110,247,0.22)','stroke-width':'8','stroke-linecap':'round','stroke-linejoin':'round'}));
+    const defs=svgEl('defs');
+    const grad=svgEl('linearGradient',{id:'qual-gradient',x1:'0%',y1:'0%',x2:'100%',y2:'0%'});
+    grad.appendChild(svgEl('stop',{offset:'0%','stop-color':'#4F6EF7'}));
+    grad.appendChild(svgEl('stop',{offset:'68%','stop-color':'#4F6EF7'}));
+    grad.appendChild(svgEl('stop',{offset:'80%','stop-color':'#f59e0b'}));
+    grad.appendChild(svgEl('stop',{offset:'100%','stop-color':'#ef4444'}));
+    defs.appendChild(grad); svg.insertBefore(defs,svg.firstChild);
+    svg.appendChild(svgEl('path',{d:pathD,fill:'none',stroke:'url(#qual-gradient)','stroke-width':'3','stroke-linecap':'round','stroke-linejoin':'round'}));
+    function adot(pct,label,color,side='right') {
+        const x=xQ(pct),y=yQ(quality(pct));
+        svg.appendChild(svgEl('circle',{cx:x,cy:y,r:7,fill:'white',stroke:color,'stroke-width':'2.5'}));
+        svg.appendChild(svgEl('circle',{cx:x,cy:y,r:3,fill:color}));
+        const tx=side==='right'?x+12:x-12, anc=side==='right'?'start':'end';
+        svg.appendChild(svgEl('text',{x:tx,y:y-8,'text-anchor':anc,fill:color,'font-size':'12','font-family':'JetBrains Mono, monospace','font-weight':'700'},label));
+    }
+    adot(70,'70%: quality 87/100','#10a37f','right');
+    adot(95,'95%: quality 23/100','#ef4444','left');
+    svg.appendChild(svgEl('text',{x:M.left+PW/2,y:M.top-28,'text-anchor':'middle',fill:'#1a1a2e','font-size':'15','font-family':'Inter, sans-serif','font-weight':'800'},'Context Usage vs. Answer Quality'));
+    svg.appendChild(svgEl('text',{x:M.left+PW/2,y:M.top-12,'text-anchor':'middle',fill:'#888','font-size':'11','font-family':'JetBrains Mono, monospace','font-weight':'500'},'Illustrative curve — degradation is well-documented; exact shape varies by model'));
+}
+renderDegradation();
+
+
+// ═══════════════════════════════════════════════════════════════
+// DIAGRAM 4: TRAINING vs INFERENCE SVG
+// ═══════════════════════════════════════════════════════════════
+function renderTrainingInference() {
+    const svg = document.getElementById('ti-svg');
+    const W=860, H=320;
+    function rect(x,y,w,h,fill,rx=8,attrs={}) { return svgEl('rect',{x,y,width:w,height:h,fill,rx,...attrs}); }
+    function text(x,y,str,fill,size,weight='600',anchor='middle',family='Inter, sans-serif') { return svgEl('text',{x,y,fill,'font-size':size,'font-weight':weight,'text-anchor':anchor,'font-family':family},str); }
+    const LX=30,LW=370,PY=20,PH=280;
+    svg.appendChild(rect(LX,PY,LW,PH,'oklch(0.97 0.03 280)',12,{stroke:'oklch(0.78 0.12 280)','stroke-width':'2'}));
+    svg.appendChild(rect(LX,PY,LW,52,'oklch(0.60 0.22 280)',12)); svg.appendChild(rect(LX,PY+26,LW,26,'oklch(0.60 0.22 280)',0));
+    svg.appendChild(text(LX+LW/2,PY+20,'TRAINING','rgba(255,255,255,0.7)',10,'700','middle','JetBrains Mono, monospace'));
+    svg.appendChild(text(LX+LW/2,PY+43,'Build the Model','white',18,'900'));
+    const gpuY=PY+70;
+    for (let i=0;i<8;i++) { const gx=LX+16+i*42; svg.appendChild(rect(gx,gpuY,34,34,'oklch(0.55 0.20 280)',5)); svg.appendChild(text(gx+17,gpuY+22,'GPU','white',8,'700','middle','JetBrains Mono, monospace')); }
+    svg.appendChild(text(LX+LW/2,gpuY+50,'× 10,000+ GPUs running in parallel','oklch(0.45 0.18 280)',11,'700','middle','JetBrains Mono, monospace'));
+    const statY=gpuY+72;
+    const stats=[['Cost','$10M – $1B+ per run'],['Time','Weeks to months'],['Result','Frozen "weights file"'],['Frequency','Done once']];
+    for (let i=0;i<stats.length;i++) { const sy=statY+i*32; svg.appendChild(text(LX+18,sy,stats[i][0],'oklch(0.52 0.15 280)',11,'700','start','JetBrains Mono, monospace')); svg.appendChild(text(LX+LW-18,sy,stats[i][1],'oklch(0.30 0.18 280)',12,'800','end','Inter, sans-serif')); }
+    const AX=LX+LW+10, AY=PY+PH/2;
+    svg.appendChild(svgEl('path',{d:`M${AX},${AY} L${AX+38},${AY}`,stroke:'#ccc','stroke-width':'2.5','stroke-dasharray':'5,3','marker-end':'url(#ti-arrow)'}));
+    const arDef=svgEl('defs'); const mk=svgEl('marker',{id:'ti-arrow',markerWidth:'8',markerHeight:'6',refX:'6',refY:'3',orient:'auto'});
+    mk.appendChild(svgEl('polygon',{points:'0 0, 8 3, 0 6',fill:'#bbb'})); arDef.appendChild(mk); svg.appendChild(arDef);
+    svg.appendChild(text(AX+19,AY-10,'gives','#aaa',10,'600','middle','JetBrains Mono, monospace'));
+    svg.appendChild(text(AX+19,AY+20,'you','#aaa',10,'600','middle','JetBrains Mono, monospace'));
+    const RX=AX+50, RW=370;
+    svg.appendChild(rect(RX,PY,RW,PH,'oklch(0.97 0.03 200)',12,{stroke:'oklch(0.78 0.12 200)','stroke-width':'2'}));
+    svg.appendChild(rect(RX,PY,RW,52,'oklch(0.52 0.20 200)',12)); svg.appendChild(rect(RX,PY+26,RW,26,'oklch(0.52 0.20 200)',0));
+    svg.appendChild(text(RX+RW/2,PY+20,'INFERENCE','rgba(255,255,255,0.7)',10,'700','middle','JetBrains Mono, monospace'));
+    svg.appendChild(text(RX+RW/2,PY+43,'Run the Model','white',18,'900'));
+    const flowY=gpuY;
+    const items=['Your prompt','Model','Answer'], colors=['#64748b','oklch(0.45 0.18 200)','#10a37f'];
+    const boxW=90, boxH=34, gap=16;
+    for (let i=0;i<items.length;i++) { const bx=RX+20+i*(boxW+gap+30); svg.appendChild(rect(bx,flowY,boxW,boxH,colors[i],6)); svg.appendChild(text(bx+boxW/2,flowY+22,items[i],'white',11,'700')); if (i<items.length-1) svg.appendChild(text(bx+boxW+15,flowY+22,'→','#aaa',20,'700')); }
+    svg.appendChild(text(RX+RW/2,flowY+50,'Milliseconds to seconds, end-to-end','oklch(0.40 0.18 200)',11,'700','middle','JetBrains Mono, monospace'));
+    const rstats=[['Cost','Fractions of a cent'],['Time','Milliseconds–seconds'],['Input','Frozen weights + your prompt'],['Frequency','Millions of times / day']];
+    for (let i=0;i<rstats.length;i++) { const sy=statY+i*32; svg.appendChild(text(RX+18,sy,rstats[i][0],'oklch(0.45 0.18 200)',11,'700','start','JetBrains Mono, monospace')); svg.appendChild(text(RX+RW-18,sy,rstats[i][1],'oklch(0.28 0.18 200)',12,'800','end','Inter, sans-serif')); }
+}
+renderTrainingInference();
+
+
+// ═══════════════════════════════════════════════════════════════
+// DIAGRAM 5: PARAMETERS
+// ═══════════════════════════════════════════════════════════════
+function renderParameters() {
+    const svg = document.getElementById('param-svg');
+    const W=860, H=360;
+    function text(x,y,str,fill,size,weight='600',anchor='middle',family='Inter, sans-serif') { return svgEl('text',{x,y,fill,'font-size':size,'font-weight':weight,'text-anchor':anchor,'font-family':family},str); }
+    const netLayers=[{x:100,nodes:[80,140,200,260]},{x:230,nodes:[65,125,185,245,305]},{x:360,nodes:[110,190,270]}];
+    const layerLabels=['Input layer','Hidden layer','Output layer'];
+    for (let li=0;li<netLayers.length;li++) svg.appendChild(text(netLayers[li].x,40,layerLabels[li],'#888',11,'700','middle','JetBrains Mono, monospace'));
+    let hlDone=false;
+    for (let li=0;li<netLayers.length-1;li++) {
+        const lA=netLayers[li], lB=netLayers[li+1];
+        for (const ay of lA.nodes) for (const by of lB.nodes) {
+            const hl=!hlDone&&li===0&&ay===140&&by===125; if(hl)hlDone=true;
+            svg.appendChild(svgEl('line',{x1:lA.x,y1:ay,x2:lB.x,y2:by,stroke:hl?'#4F6EF7':'rgba(160,160,200,0.35)','stroke-width':hl?'2.5':'1'}));
+        }
+    }
+    svg.appendChild(svgEl('line',{x1:100,y1:140,x2:230,y2:125,stroke:'#4F6EF7','stroke-width':'2.5'}));
+    const mx=(100+230)/2, my=(140+125)/2;
+    svg.appendChild(svgEl('rect',{x:mx-38,y:my-28,width:76,height:22,rx:5,fill:'#4F6EF7'}));
+    svg.appendChild(text(mx,my-12,'weight = 0.742','white',10,'700','middle','JetBrains Mono, monospace'));
+    svg.appendChild(svgEl('line',{x1:mx,y1:my-6,x2:mx,y2:my+2,stroke:'#4F6EF7','stroke-width':'1.5'}));
+    for (const layer of netLayers) for (const ny of layer.nodes) svg.appendChild(svgEl('circle',{cx:layer.x,cy:ny,r:14,fill:'white',stroke:'oklch(0.68 0.18 280)','stroke-width':'2.5'}));
+    svg.appendChild(text(230,340,'Each connection has a "weight" — a number the model learned during training','#555',12,'600','middle'));
+    const RX=450;
+    svg.appendChild(text(RX+180,40,'A parameter = one learned number','#1a1a2e',14,'800','middle'));
+    const cards=[
+        {y:65,label:'Before training',val:'0.000 (random)',color:'#94a3b8',note:'Initialised randomly — model knows nothing'},
+        {y:135,label:'Mid-training',val:'0.391',color:'#f59e0b',note:'Gradient descent nudges it toward useful values'},
+        {y:205,label:'After training',val:'0.742',color:'#10a37f',note:'Frozen. This number encodes learned knowledge.'},
+    ];
+    for (const c of cards) {
+        svg.appendChild(svgEl('rect',{x:RX,y:c.y,width:360,height:56,rx:8,fill:'white',stroke:'#eee','stroke-width':'1.5'}));
+        svg.appendChild(svgEl('rect',{x:RX,y:c.y,width:6,height:56,rx:3,fill:c.color}));
+        svg.appendChild(text(RX+20,c.y+22,c.label,'#888',10,'700','start','JetBrains Mono, monospace'));
+        svg.appendChild(text(RX+20,c.y+42,c.val,c.color,18,'900','start','JetBrains Mono, monospace'));
+        svg.appendChild(text(RX+348,c.y+34,c.note,'#666',11,'500','end','Inter, sans-serif'));
+    }
+    for (const ay of [122,192]) svg.appendChild(text(RX+180,ay,'↓','#ccc',16,'700','middle'));
+    svg.appendChild(text(RX+180,290,'One model has billions of these numbers — all frozen after training','#888',12,'600','middle'));
+}
+renderParameters();
+
+// Parameter scale bars
+const PARAM_SCALE=[
+    {label:'117M ★', name:'GPT-2 (2019)',          pct:0.008, color:'#94a3b8', note:'First "large" LM. Fits on a laptop.'},
+    {label:'175B ★', name:'GPT-3 (2020)',           pct:0.1,   color:'#64748b', note:'Sparked the ChatGPT era. 1,000× GPT-2.'},
+    {label:'405B ★', name:'Llama 3.1 (2024)',       pct:0.28,  color:'#7b68ee', note:'Open-weight frontier. 405B confirmed.'},
+    {label:'671B ★', name:'DeepSeek R1 (2025)',     pct:0.46,  color:'#ef4444', note:'MoE: 671B total, 37B active. ~$6M to train.'},
+    {label:'~1T',    name:'Claude / GPT-4 class',   pct:0.68,  color:'#d4845a', note:'Estimated. Neither lab discloses.'},
+    {label:'~1.8T',  name:'GPT-4 Turbo est.',       pct:1.0,   color:'#10a37f', note:'8 experts ×~220B. Widely cited, unconfirmed.'},
+];
+
+function renderParamScale() {
+    const c=document.getElementById('param-scale'); if(!c) return;
+    for (const row of PARAM_SCALE) {
+        const d=document.createElement('div'); d.className='param-row';
+        d.innerHTML=`<div class="param-row-label" style="color:${row.color}">${row.label}</div><div class="param-bar-track"><div class="param-bar-fill" style="width:${row.pct*100}%;background:${row.color};">${row.name}</div></div><div class="param-row-note">${row.note}</div>`;
+        c.appendChild(d);
+    }
+}
+renderParamScale();
+
+// Init progress bar
+goTo(0);
+</script>
+</body>
+</html>
