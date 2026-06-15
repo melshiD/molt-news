@@ -1316,6 +1316,62 @@
             </div>
         </div>
 
+        <!-- KEEPING PRIVATE FILES PRIVATE -->
+        <div class="section">
+            <div class="section-label">Privacy &amp; .gitignore</div>
+            <h2 class="section-title">Keeping private files private</h2>
+
+            <p>
+                Not everything belongs on GitHub. Your manuscript chapters and structural notes are good candidates for version control and online backup. But you may also have files you want to keep off the internet entirely: personal counseling notes that informed your writing, rough prayer journals, sensitive pastoral correspondence, or research you're not ready to share. Git has a built-in mechanism for this.
+            </p>
+
+            <h3>The .gitignore file</h3>
+
+            <p>
+                A <code>.gitignore</code> file is a plain text file that tells Git what to ignore. Any file or folder you list in it will not be tracked by Git and will not be uploaded to GitHub. It stays on your computer only. You create it once, put it in your repository folder, and Git respects it from that point forward.
+            </p>
+
+            <p>
+                Here is a simple example. Create a file named <code>.gitignore</code> (note the dot at the start) in your book's folder and add lines like these:
+            </p>
+
+            <div class="command-block">
+                <span class="comment"># Files and folders Git should ignore</span><br><br>
+                personal-notes/<br>
+                <span class="comment"># A folder of private research or pastoral notes</span><br><br>
+                private-drafts/<br>
+                <span class="comment"># Rough drafts you're not ready to share</span><br><br>
+                sensitive-interviews.md<br>
+                <span class="comment"># A specific file you want kept off GitHub</span><br><br>
+                *.private.md<br>
+                <span class="comment"># Any file ending in .private.md</span>
+            </div>
+
+            <p>
+                Lines starting with <code>#</code> are comments for your own reference. Git ignores them. Everything else is a file name or folder name that Git will skip entirely.
+            </p>
+
+            <h3>How to create it</h3>
+
+            <p>
+                <strong>In GitHub Desktop:</strong> Open your book's folder in Finder or File Explorer. Create a new text file and name it exactly <code>.gitignore</code> (the dot is required; it must have no other extension). Open it in any text editor, add your list, and save. GitHub Desktop will recognize it automatically.
+            </p>
+
+            <p>
+                <strong>In the terminal:</strong> Navigate to your repository folder and run <code>touch .gitignore</code>, then open the file in any text editor to add your list.
+            </p>
+
+            <div class="tip-box">
+                <div class="tip-label">What this means for your files</div>
+                <p>
+                    Files listed in <code>.gitignore</code> stay on your computer exactly as they are. Git simply ignores them — they are never tracked, never committed, and never sent to GitHub. Your normal computer backup system (Time Machine, iCloud, etc.) still backs them up as usual. You are only controlling what goes to GitHub, not what gets saved locally.
+                </p>
+                <p>
+                    Once your <code>.gitignore</code> is in place, you don't need to think about it again. Add a file or folder to the list whenever you want something excluded, and Git will leave it alone.
+                </p>
+            </div>
+        </div>
+
         <!-- RESOURCES -->
         <div class="section">
             <div class="section-label">Resources</div>
