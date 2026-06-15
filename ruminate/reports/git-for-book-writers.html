@@ -784,19 +784,27 @@
             .closing-box { padding: var(--space-xl); }
 
             /* Getting Started: steps list */
+            .steps-list {
+                gap: var(--space-lg);
+            }
+
             .steps-list li {
                 gap: var(--space-md);
                 font-size: 16px;
-                line-height: 1.85;
+                line-height: 1.9;
             }
 
             /* Getting Started: command/code blocks, no word-wrap, horizontal scroll */
             .command-block {
                 font-size: 13px;
                 white-space: nowrap;
+                overflow-x: auto;
                 -webkit-overflow-scrolling: touch;
                 padding: var(--space-md);
                 border-radius: 6px;
+                width: 100%;
+                max-width: 100%;
+                box-sizing: border-box;
             }
 
             /* Getting Started: methodology box */
@@ -808,6 +816,18 @@
             .commit-example {
                 font-size: 12px;
                 word-break: break-word;
+                white-space: normal;
+            }
+
+            /* Commit log entries: mono text in flex must be allowed to shrink and wrap */
+            .commit-entry {
+                min-width: 0;
+            }
+
+            .commit-msg {
+                min-width: 0;
+                word-break: break-word;
+                overflow-wrap: break-word;
                 white-space: normal;
             }
 
@@ -845,15 +865,15 @@
 
             /* Resources: list items, larger tap targets, better spacing */
             .resource-list {
-                gap: var(--space-md);
+                gap: var(--space-lg);
             }
 
             .resource-list li {
-                font-size: 15px;
-                line-height: 1.85;
-                padding-left: var(--space-lg);
-                padding-top: var(--space-xs);
-                padding-bottom: var(--space-xs);
+                font-size: 16px;
+                line-height: 1.9;
+                padding-left: 1.25rem;
+                padding-top: var(--space-sm);
+                padding-bottom: var(--space-sm);
             }
 
             /* Resources: URLs wrap gracefully */
@@ -888,7 +908,7 @@
             }
         }
 
-        html { scroll-behavior: smooth; }
+        html { scroll-behavior: smooth; overflow-x: hidden; }
         ::selection { background: var(--brand-primary); color: white; }
     </style>
 </head>
