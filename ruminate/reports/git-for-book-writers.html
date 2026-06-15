@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- STYLE RULE: Never use em dashes (—) in this document. Use commas, periods, or parentheses instead. -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -63,6 +64,7 @@
             font-size: 17px;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
         }
 
         /* Navigation */
@@ -732,7 +734,7 @@
         }
 
         .resource-list li::before {
-            content: '—';
+            content: '-';
             position: absolute;
             left: 0;
             color: var(--brand-primary);
@@ -788,7 +790,7 @@
                 line-height: 1.85;
             }
 
-            /* Getting Started: command/code blocks — no word-wrap, horizontal scroll */
+            /* Getting Started: command/code blocks, no word-wrap, horizontal scroll */
             .command-block {
                 font-size: 13px;
                 white-space: nowrap;
@@ -841,7 +843,7 @@
                 font-size: 11px;
             }
 
-            /* Resources: list items — larger tap targets, better spacing */
+            /* Resources: list items, larger tap targets, better spacing */
             .resource-list {
                 gap: var(--space-md);
             }
@@ -870,12 +872,12 @@
                 font-size: 16px;
             }
 
-            /* Inline code — prevent overflow */
+            /* Inline code: prevent overflow */
             code {
                 word-break: break-word;
             }
 
-            /* Section paragraphs — slightly smaller for readability on narrow screens */
+            /* Section paragraphs: slightly smaller for readability on narrow screens */
             .section p {
                 font-size: 17px;
             }
@@ -1468,7 +1470,7 @@
             <div class="tip-box">
                 <div class="tip-label">What this means for your files</div>
                 <p>
-                    Files listed in <code>.gitignore</code> stay on your computer exactly as they are. Git simply ignores them — they are never tracked, never committed, and never sent to GitHub. Your normal computer backup system (Time Machine, iCloud, etc.) still backs them up as usual. You are only controlling what goes to GitHub, not what gets saved locally.
+                    Files listed in <code>.gitignore</code> stay on your computer exactly as they are. Git simply ignores them: they are never tracked, never committed, and never sent to GitHub. Your normal computer backup system (Time Machine, iCloud, etc.) still backs them up as usual. You are only controlling what goes to GitHub, not what gets saved locally.
                 </p>
                 <p>
                     Once your <code>.gitignore</code> is in place, you don't need to think about it again. Add a file or folder to the list whenever you want something excluded, and Git will leave it alone.
