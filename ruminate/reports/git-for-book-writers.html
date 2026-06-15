@@ -9,14 +9,14 @@
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://botsup.remolt.io/ruminate/reports/git-for-book-writers.html">
     <meta property="og:title" content="Git for Book Writers: Why Version Control Matters When Writing with Claude">
-    <meta property="og:description" content="A plain-English guide for pastors and non-technical writers on why Git — the tool developers use to track code — turns out to be the perfect companion for writing a book with AI.">
+    <meta property="og:description" content="A plain-English guide for pastors and non-technical writers on using Git to protect and organize every version of a manuscript written with AI.">
     <meta property="og:image" content="https://botsup.remolt.io/og-image.jpg">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://botsup.remolt.io/ruminate/reports/git-for-book-writers.html">
     <meta property="twitter:title" content="Git for Book Writers: Why Version Control Matters When Writing with Claude">
-    <meta property="twitter:description" content="A plain-English guide for pastors and non-technical writers on why Git — the tool developers use to track code — turns out to be the perfect companion for writing a book with AI.">
+    <meta property="twitter:description" content="A plain-English guide for pastors and non-technical writers on using Git to protect and organize every version of a manuscript written with AI.">
     <meta property="twitter:image" content="https://botsup.remolt.io/og-image.jpg">
 
     <!-- Favicon -->
@@ -816,7 +816,7 @@
             </div>
             <h1 class="report-title">Git for Book Writers: Why Version Control Matters When Writing with Claude</h1>
             <p class="report-summary">
-                A plain-English guide for pastors and non-technical writers on why Git &mdash; the tool developers use to track code &mdash; turns out to be the perfect companion for writing a book with AI.
+                A plain-English guide for pastors and non-technical writers on using Git to protect and organize every version of a manuscript written with AI.
             </p>
             <div class="report-meta">
                 <div class="report-meta-item">
@@ -829,7 +829,7 @@
                 </div>
                 <div class="report-meta-item">
                     <span class="report-meta-label">Read time</span>
-                    <span class="report-meta-value">18 min read</span>
+                    <span class="report-meta-value">13 min read</span>
                 </div>
                 <div class="report-meta-item">
                     <span class="report-meta-label">Audience</span>
@@ -847,33 +847,29 @@
             <h2 class="section-title">You've probably already lived this</h2>
 
             <div class="scenario-box">
-                You're working on your book with Claude. You ask it to revise Chapter 3. It gives you a great new opening paragraph &mdash; cleaner structure, stronger hook &mdash; but now you realize you've lost the old one you actually liked better. The original had something the revision doesn't: a warmth, a directness, a turn of phrase that came from your years in the pulpit. You paste back and forth between browser tabs. You save a copy "just in case." Files named <code>Chapter3_final</code>, <code>Chapter3_FINAL_v2</code>, <code>Chapter3_actually_final_this_time</code> begin to pile up in your Documents folder. A week later, you can't remember which version had that perfect illustration about the Good Samaritan. You open three files. None of them are right. The one you want seems to have vanished.
+                You're working on your book with Claude. You ask it to revise Chapter 3. It gives you a new opening paragraph, but now you've lost the old one you liked better. You paste back and forth between browser tabs. You save a copy "just in case." Files named <code>Chapter3_final</code>, <code>Chapter3_FINAL_v2</code>, <code>Chapter3_actually_final_this_time</code> start piling up in your Documents folder. A week later, you can't remember which version had that illustration about the Good Samaritan. You open three files. None of them are right.
             </div>
 
             <p>
-                If this sounds familiar, you're not disorganized. You're just using a writing process that wasn't designed for iterative, AI-assisted work. The file-and-folder system that serves us well for finished documents was not built for the back-and-forth process of refining a manuscript through dozens of revisions over months.
+                If this sounds familiar, you're not disorganized. The file-and-folder system that works well for finished documents was not built for the back-and-forth process of refining a manuscript through dozens of revisions over months.
             </p>
 
             <p>
-                There's a better way. It was invented by software developers, but it turns out to be exactly what writers need &mdash; especially writers working with an AI collaborator. It's called Git, and this guide will explain what it is, why it matters for your book, and how to start using it without becoming a programmer.
+                There is a better way. It was built for software developers, but it works just as well for writers working with an AI collaborator. It's called Git.
             </p>
         </div>
 
         <!-- WHAT IS GIT -->
         <div class="section">
             <div class="section-label">What Is Git</div>
-            <h2 class="section-title">A time machine for your manuscript</h2>
+            <h2 class="section-title">A snapshot system for your manuscript</h2>
 
             <p>
-                Git is like Track Changes in Microsoft Word, but much more powerful. Where Track Changes in Word shows you what was different in the last edit, Git saves every version of your writing, forever, with notes you write about what changed and why. You can travel back to any point in your manuscript's history, compare two different drafts side by side, and restore anything you've ever saved.
+                Git is a system that saves labeled snapshots of your writing. Every time you tell Git to save a version, it records exactly what your manuscript looked like at that moment, down to the word. You can return to any snapshot at any time, compare two snapshots side by side, and restore text from any point in your history. Those snapshots are permanent and searchable.
             </p>
 
             <p>
-                Think of it as a detailed journal that your manuscript keeps about itself. Every time you tell Git to save a version, it records exactly what your writing looked like at that moment &mdash; down to the word. And it keeps all of those records, accessible anytime.
-            </p>
-
-            <p>
-                Here are the five concepts you need to understand. Everything else is detail.
+                Here are the five concepts you need. Everything else is detail.
             </p>
 
             <div class="definition-grid">
@@ -883,7 +879,7 @@
                         <span>called a "repo"</span>
                     </div>
                     <div class="definition-body">
-                        The folder that holds your entire book project, including its complete history. Think of it as the archive box that contains not just your current manuscript, but every draft you've ever saved &mdash; organized, searchable, and safe.
+                        The folder that holds your entire book project, including its complete history. Think of it as an archive box containing not just your current manuscript but every draft you have ever saved, organized and searchable.
                     </div>
                 </div>
 
@@ -893,7 +889,7 @@
                         <span>saving a snapshot</span>
                     </div>
                     <div class="definition-body">
-                        Telling Git: "Save this version with this note." You might commit after finishing a writing session with a message like "Chapter 3 &mdash; expanded the Good Samaritan illustration." That message becomes your breadcrumb. Months later, you can search your history for "Good Samaritan" and find exactly which version had it.
+                        Telling Git: "Save this version with this note." You might commit after finishing a writing session with a message like "Chapter 3, expanded the Good Samaritan illustration." That message becomes your breadcrumb. Months later, you can search your history for "Good Samaritan" and find exactly which version had it.
                     </div>
                 </div>
 
@@ -903,7 +899,7 @@
                         <span>an experiment lane</span>
                     </div>
                     <div class="definition-body">
-                        A separate copy of your manuscript where you can try something without changing your main draft. You might create a branch called "chapter3-rewritten-opening" to experiment with a completely different approach. If it works, you keep it. If it doesn't, you throw away the branch and your main draft is untouched.
+                        A separate copy of your manuscript where you can try something without changing your main draft. Create a branch called "chapter3-rewritten-opening" to experiment with a completely different approach. If it works, keep it. If not, delete the branch and your main draft is untouched.
                     </div>
                 </div>
 
@@ -913,7 +909,7 @@
                         <span>combining versions</span>
                     </div>
                     <div class="definition-body">
-                        Folding changes from one version back into another. You tried that experimental opening on a branch, and it's better. Merging it back into your main manuscript brings those changes in cleanly, alongside anything else you wrote while the experiment was running.
+                        Folding changes from one version back into another. You tried that experimental opening on a branch and it worked better. Merging it back into your main manuscript brings those changes in cleanly, alongside anything else you wrote while the experiment was running.
                     </div>
                 </div>
 
@@ -923,13 +919,13 @@
                         <span>the online backup</span>
                     </div>
                     <div class="definition-body">
-                        A website that stores your Git repository securely online, accessible from any computer. It's your off-site backup &mdash; if your laptop dies, your entire manuscript history is safe. It also makes collaboration possible: a co-author, editor, or ministry team member can access your work without emailing drafts back and forth.
+                        A website that stores your Git repository securely online, accessible from any computer. If your laptop is lost or damaged, your entire manuscript history is safe. It also lets you share with a co-author or editor without emailing drafts back and forth.
                     </div>
                 </div>
             </div>
 
             <p style="margin-top: var(--space-xl);">
-                That's the vocabulary. You don't need to memorize it today. The concepts will become natural as you use them. What matters now is the <em>mental model</em>: Git is a system that records every saved version of your writing, lets you name those versions, and lets you go back to any of them at any time.
+                The concepts will become natural as you use them. What matters now is the mental model: Git records every saved version of your writing, lets you name those versions, and lets you go back to any of them at any time.
             </p>
         </div>
 
@@ -939,7 +935,7 @@
             <h2 class="section-title">Four reasons this combination matters for writers</h2>
 
             <p>
-                Git is useful for any writer working on a long project. But it's <em>especially</em> valuable when you're working with Claude. Here's why.
+                Git is useful for any writer working on a long project. It's especially valuable when you're working with Claude.
             </p>
 
             <div class="findings-list">
@@ -948,31 +944,31 @@
                     <div class="finding-number">Challenge 1</div>
                     <div class="finding-title">Claude doesn't remember your manuscript</div>
                     <div class="finding-text">
-                        Each conversation with Claude starts completely fresh. Claude has no memory of what you worked on last Tuesday, what you agreed to change, or what Chapter 2 said three revisions ago. This isn't a flaw &mdash; it's just how AI assistants work. But it means there's no built-in "go back to version 3" option when something goes wrong. Unless you saved it, it's gone. Git becomes Claude's external memory for your manuscript. Before you ask Claude to revise anything, you commit the current version. Now that version exists in your history forever, no matter what Claude does next.
+                        Each conversation with Claude starts completely fresh. Claude has no memory of what you worked on last Tuesday, what you agreed to change, or what Chapter 2 said three revisions ago. This is how AI assistants work. It means there's no built-in "go back to version 3" option when something goes wrong. Unless you saved it, it's gone. Git becomes Claude's external memory for your manuscript. Before you ask Claude to revise anything, commit the current version. That version now exists in your history forever, no matter what Claude does next.
                     </div>
                 </div>
 
                 <div class="finding">
                     <div class="finding-number">Challenge 2</div>
-                    <div class="finding-title">AI revisions are unpredictable &mdash; you won't know until you read them</div>
+                    <div class="finding-title">AI revisions are unpredictable</div>
                     <div class="finding-text">
-                        Sometimes Claude produces a revision that's genuinely better. Sometimes it loses the pastoral warmth of your voice in favor of a cleaner structure. Sometimes it changes the theological emphasis in ways that are subtle but significant. You won't know which it is until you've read it carefully &mdash; and sometimes that takes days. Git lets you accept Claude's suggestions provisionally without fear. You saved the old version. Read Claude's revision. Think about it. Take it to your elders. Then decide. There's no pressure to commit to the AI's version before you're ready.
+                        Sometimes Claude produces a revision that improves the structure. Sometimes it loses the pastoral warmth of your voice. Sometimes it changes the theological emphasis in ways that are subtle. You won't know which it is until you've read it carefully, and that can take days. Git lets you accept Claude's suggestions provisionally. The old version is saved. Read Claude's revision. Think about it. Show it to your elders. Then decide. There's no pressure to commit to the AI's version before you're ready.
                     </div>
                 </div>
 
                 <div class="finding">
                     <div class="finding-number">Challenge 3</div>
-                    <div class="finding-title">Writing with Claude is iterative &mdash; and the iterations add up</div>
+                    <div class="finding-title">Writing with Claude is iterative</div>
                     <div class="finding-text">
-                        Writing a book with AI assistance isn't a single pass. You write a draft, Claude suggests revisions, you blend its ideas with your voice, Claude refines again, you edit for theological precision, Claude smooths the prose. This process is genuinely powerful &mdash; but after fifteen rounds of revision, it's easy to lose track of what actually improved and what subtly drifted. Git gives you a complete record of the evolution: Draft &rarr; Claude revision 1 &rarr; your edits &rarr; Claude revision 2 &rarr; final polish. You can compare any two points in that history and see exactly what changed. You can catch the moment when a chapter stopped sounding like you.
+                        Writing a book with AI assistance involves many revision passes. You write a draft, Claude suggests revisions, you blend its ideas with your voice, Claude refines again, you edit for theological precision. After fifteen rounds, it's easy to lose track of what improved and what drifted. Git gives you a complete record: Draft &rarr; Claude revision 1 &rarr; your edits &rarr; Claude revision 2 &rarr; final polish. You can compare any two points in that history and see exactly what changed.
                     </div>
                 </div>
 
                 <div class="finding">
                     <div class="finding-number">Challenge 4</div>
-                    <div class="finding-title">Books take months &mdash; your memory won't serve you</div>
+                    <div class="finding-title">Books take months</div>
                     <div class="finding-text">
-                        You might write Chapter 5 in January, then come back to Chapter 2 in March after a revival weekend, a hospital visit, and a board meeting. By March, you've forgotten exactly what state Chapter 2 was in, what you were trying to fix, and what you'd already tried. Git's commit history is a precise log of decisions made over months: what you changed, when, and what you wrote about why. Your commit messages become the breadcrumbs that let future-you pick up exactly where past-you left off.
+                        You might write Chapter 5 in January, then return to Chapter 2 in March. By March, you've forgotten what state Chapter 2 was in, what you were trying to fix, and what you'd already tried. Git's commit history is a precise log of decisions made over months: what changed, when, and what you wrote about why. Your commit messages become the record that lets you pick up exactly where you left off.
                     </div>
                 </div>
 
@@ -981,7 +977,7 @@
             <div class="tip-box" style="margin-top: var(--space-xl);">
                 <div class="tip-label">For pastors writing from a sermon series</div>
                 <p>
-                    When you're turning your sermon series into a book, Claude can help expand each sermon into a full chapter &mdash; adding context, deepening the exegesis, smoothing transitions for a reader who wasn't in the room. Git lets you keep your original sermon text completely intact in its own file while Claude works on the expanded chapter version in a separate file or branch. At any point, you can compare the finished chapter back to the sermon you preached and ask: did we keep the core message? Is the fire still here? Git makes that comparison effortless and that question answerable.
+                    When you're turning your sermon series into a book, Claude can help expand each sermon into a full chapter, adding context, deepening the exegesis, and smoothing transitions for a reader who wasn't in the room. Git lets you keep your original sermon text completely intact in its own file while Claude works on the expanded chapter version separately. At any point, you can compare the finished chapter back to the sermon you preached and ask: did we keep the core message?
                 </p>
             </div>
         </div>
@@ -992,99 +988,120 @@
             <h2 class="section-title">Writing a book with Git and Claude: week by week</h2>
 
             <p>
-                Let's walk through what this actually looks like in practice. The book is <em>Parables for Modern Life: A Pastor's Guide to Jesus's Stories Today.</em> You're eight chapters in, working with Claude as your writing partner.
+                Let's walk through what this actually looks like. The book is <em>Parables for Modern Life: A Pastor's Guide to Jesus's Stories Today.</em> You're eight chapters in, working with Claude as your writing partner.
+            </p>
+
+            <p>
+                Each step below can be done two ways: using <strong>GitHub Desktop</strong> (a free visual application, no command line required) or by typing <strong>terminal commands</strong>. Both are shown.
             </p>
 
             <div class="week-block">
-                <div class="week-label">Week 1 &mdash; Setting Up</div>
+                <div class="week-label">Week 1: Setting Up</div>
                 <h4>Creating your book's repository</h4>
                 <p>
-                    You create a folder on your computer called <code>parables-book</code>. Inside it, you create files for your outline, your chapter notes, and Chapter 1. You initialize Git (one command, or one click in GitHub Desktop). Then you make your first commit.
+                    You create a folder on your computer called <code>parables-book</code>. Inside it, you create files for your outline, your chapter notes, and Chapter 1. You initialize Git (one click in GitHub Desktop, or one command in the terminal). Then you make your first commit.
                 </p>
-                <div class="commit-log">
-                    <div class="commit-entry">
-                        <div class="commit-dot"></div>
-                        <div class="commit-msg">"Started book project &mdash; outline and Chapter 1 rough draft"</div>
-                    </div>
+                <div class="command-block">
+                    <span class="prompt">$</span> git init<br>
+                    <span class="comment"># Sets up Git tracking in your parables-book folder</span><br><br>
+                    <span class="prompt">$</span> git add .<br>
+                    <span class="comment"># Stages all files for saving</span><br><br>
+                    <span class="prompt">$</span> git commit -m "Started book project, outline and Chapter 1 rough draft"
                 </div>
                 <p>
-                    This commit is your foundation. Everything else in your book's history will build from this point. Your manuscript, at this moment, is permanent.
+                    This commit is your foundation. Everything else in your book's history builds from this point.
                 </p>
             </div>
 
             <div class="week-block">
-                <div class="week-label">Week 2 &mdash; Working with Claude</div>
+                <div class="week-label">Week 2: Working with Claude</div>
                 <h4>Chapter 2: The Good Samaritan</h4>
                 <p>
-                    You write a rough draft of the Good Samaritan chapter &mdash; your voice, your illustrations, your pastoral instincts. You commit it.
+                    You write a rough draft of the Good Samaritan chapter in your voice. You commit it.
                 </p>
                 <div class="commit-log">
                     <div class="commit-entry">
                         <div class="commit-dot"></div>
-                        <div class="commit-msg">"Chapter 2 rough draft &mdash; Good Samaritan"</div>
+                        <div class="commit-msg">"Chapter 2 rough draft, Good Samaritan"</div>
                     </div>
                 </div>
+                <div class="command-block">
+                    <span class="prompt">$</span> git add .<br>
+                    <span class="prompt">$</span> git commit -m "Chapter 2 rough draft, Good Samaritan"
+                </div>
                 <p>
-                    Now you ask Claude to help strengthen the section on modern application &mdash; where you help readers see themselves in the Samaritan's position at a hospital waiting room, or on a highway, or in a grocery store checkout line. Claude gives you something genuinely helpful. You save its version and commit.
+                    Now you ask Claude to help strengthen the section on modern application. Claude gives you a revised version. You save it and commit.
                 </p>
                 <div class="commit-log">
                     <div class="commit-entry">
                         <div class="commit-dot"></div>
-                        <div class="commit-msg">"Chapter 2 &mdash; Claude revision of modern application section"</div>
+                        <div class="commit-msg">"Chapter 2, Claude revision of modern application section"</div>
                     </div>
                 </div>
                 <p>
-                    You read Claude's revision. Most of it is good, but one paragraph sounds like a self-help book rather than a sermon. You blend Claude's ideas with your pastoral voice, fixing that paragraph.
+                    You read Claude's revision. Most of it works, but one paragraph sounds like a self-help book rather than a sermon. You blend Claude's ideas with your pastoral voice.
                 </p>
                 <div class="commit-log">
                     <div class="commit-entry">
                         <div class="commit-dot"></div>
-                        <div class="commit-msg">"Chapter 2 &mdash; blended Claude's suggestions with my voice, restored pastoral register"</div>
+                        <div class="commit-msg">"Chapter 2, blended Claude suggestions with my voice, restored pastoral register"</div>
                     </div>
                 </div>
                 <p>
-                    That third commit is important. You're naming exactly what you did and why. Three months later, if something feels off about Chapter 2, this note will tell you where to look.
+                    That third commit message names exactly what you did and why. Three months later, if something feels off about Chapter 2, this note tells you where to look.
                 </p>
             </div>
 
             <div class="week-block">
-                <div class="week-label">Week 3 &mdash; Branching to Experiment</div>
+                <div class="week-label">Week 3: Branching to Experiment</div>
                 <h4>Chapter 3 has two possible openings. You're not sure which is better.</h4>
                 <p>
-                    Should Chapter 3 open with a personal story about the time you sat with a dying parishioner, or should it open with the biblical context of the Prodigal Son's original Jewish audience? Both feel right. You can't decide which is better without actually writing both out fully.
+                    Should Chapter 3 open with a personal story about sitting with a dying parishioner, or with the biblical context of the Prodigal Son's original Jewish audience? Both feel right. With Git, you don't have to choose now.
                 </p>
                 <p>
-                    With Git, you don't have to choose now. You create a branch called <code>chapter3-personal-opening</code>. You write the chapter with the personal story, then commit it. Then you create a second branch called <code>chapter3-biblical-context</code> and write that version. Two complete chapters, in two branches, neither affecting your main manuscript.
+                    You create a branch called <code>chapter3-personal-opening</code> and write that version. Then you create <code>chapter3-biblical-context</code> and write that one. Two complete versions, neither touching your main manuscript.
                 </p>
+                <div class="command-block">
+                    <span class="prompt">$</span> git branch chapter3-personal-opening<br>
+                    <span class="comment"># Creates the branch</span><br><br>
+                    <span class="prompt">$</span> git checkout chapter3-personal-opening<br>
+                    <span class="comment"># Switches to it so you write there</span>
+                </div>
                 <p>
-                    You print both. You read them on a Saturday morning with coffee. You share them with your associate pastor. You both agree: the personal story is stronger. You merge that branch into your main manuscript and delete the other. It took thirty seconds. Your main draft is cleaner and more confident than if you'd agonized for a week over an outline.
+                    You print both versions. You read them on a Saturday morning. You share them with your associate pastor. You both agree: the personal story is stronger. You switch back to main and merge that branch in.
                 </p>
+                <div class="command-block">
+                    <span class="prompt">$</span> git checkout main<br>
+                    <span class="comment"># Switch back to your main manuscript</span><br><br>
+                    <span class="prompt">$</span> git merge chapter3-personal-opening<br>
+                    <span class="comment"># Bring the chosen version in</span>
+                </div>
             </div>
 
             <div class="week-block">
-                <div class="week-label">Week 4 &mdash; Going Back in Time</div>
+                <div class="week-label">Week 4: Going Back in Time</div>
                 <h4>The opening you changed was better before you changed it.</h4>
                 <p>
-                    You've been refining Chapter 2 for three weeks. Something is nagging at you. The chapter is more polished now, but it's lost something. You go back through your commit history and find the version from Week 2 &mdash; the rough draft before Claude touched it. You read the opening paragraph. There it is: a directness, a specific detail about a conversation you had with a widow in your congregation, that got smoothed away in revision.
+                    You've been refining Chapter 2 for three weeks. Something is off. You go back through your commit history and find the version from Week 2, before Claude touched it. You read the opening paragraph. A directness, a specific detail about a conversation with a widow in your congregation, that got smoothed away in revision.
                 </p>
                 <p>
-                    You restore just that opening paragraph from the earlier version. You don't have to undo three weeks of work &mdash; Git lets you pull just that one paragraph from the past while keeping everything else you've improved. You commit the fix.
+                    You restore just that opening paragraph from the earlier version. Git lets you pull one paragraph from the past while keeping everything else you've improved.
                 </p>
                 <div class="commit-log">
                     <div class="commit-entry">
                         <div class="commit-dot"></div>
-                        <div class="commit-msg">"Restored original Chapter 2 opening &mdash; the widow story is essential, don't smooth it"</div>
+                        <div class="commit-msg">"Restored original Chapter 2 opening, the widow story is essential, don't smooth it"</div>
                     </div>
                 </div>
                 <p>
-                    That note is written to future-you. If you're ever tempted to revise that paragraph again, you'll see this message and remember why you fought to keep it.
+                    That note is written to future-you. If you're ever tempted to revise that paragraph again, you'll see this message.
                 </p>
             </div>
 
             <div class="tip-box">
-                <div class="tip-label">The freedom this gives you</div>
+                <div class="tip-label">What this changes</div>
                 <p>
-                    Notice what's different about this writing process: you can experiment without fear. You can try Claude's suggestions without worry. You can branch off into a risky direction and know your main manuscript is safe. You can go back to any version at any time. None of this is possible when your file system is <code>Chapter2_FINAL_v4b.docx</code>. Git turns writing-with-AI from an anxious process of hoping you don't lose something good into a confident, documented journey toward a better book.
+                    You can experiment without fear. You can try Claude's suggestions without worry. You can branch into a risky direction and know your main manuscript is safe. None of this is possible when your file system is <code>Chapter2_FINAL_v4b.docx</code>.
                 </p>
             </div>
         </div>
@@ -1092,20 +1109,20 @@
         <!-- GETTING STARTED -->
         <div class="section">
             <div class="section-label">Getting Started</div>
-            <h2 class="section-title">Practical steps to begin &mdash; no programming required</h2>
+            <h2 class="section-title">Practical steps for non-programmers</h2>
 
             <h3>Option A: GitHub Desktop (Recommended for Most Writers)</h3>
 
             <p>
-                GitHub Desktop is a free application that gives you the full power of Git through a visual interface. No command line. No typing cryptic instructions. You click buttons, write notes, and your manuscript history is maintained automatically.
+                GitHub Desktop is a free application that gives you the full power of Git through a visual interface. No command line. You click buttons, write notes, and your manuscript history is maintained automatically.
             </p>
 
             <ol class="steps-list">
-                <li>Download <strong>GitHub Desktop</strong> at desktop.github.com. It's free and available for Mac and Windows.</li>
-                <li>Create a free account at <strong>GitHub.com</strong>. This is where your manuscript history will be backed up online.</li>
+                <li>Download <strong>GitHub Desktop</strong> at desktop.github.com. Free for Mac and Windows.</li>
+                <li>Create a free account at <strong>GitHub.com</strong>. This is where your manuscript history will be backed up online. Private repositories are free.</li>
                 <li>In GitHub Desktop, choose <strong>Create New Repository</strong>. Name it after your book. Choose a folder on your computer. Click Create.</li>
-                <li>Write your chapters as <strong>plain text or Markdown files</strong> (more on this below). Save them in your book's folder.</li>
-                <li>In GitHub Desktop, you'll see your changed files listed. Write a short note in the <strong>Summary</strong> field describing what you did. Click <strong>Commit to main</strong>.</li>
+                <li>Write your chapters as <strong>plain text or Markdown files</strong> in your book's folder.</li>
+                <li>In GitHub Desktop, you'll see your changed files listed. Write a short note in the <strong>Summary</strong> field. Click <strong>Commit to main</strong>.</li>
                 <li>Click <strong>Push to origin</strong> to send your committed version to GitHub online. This is your off-site backup.</li>
             </ol>
 
@@ -1113,37 +1130,79 @@
                 That's the full workflow. Write. Commit with a note. Push online. Repeat.
             </p>
 
-            <h3>Option B: Git in the Command Line</h3>
+            <h3>Option B: Git in the Terminal</h3>
 
             <p>
-                If you're comfortable with a terminal or command prompt, Git's command line is powerful and fast. The three commands you'll use most are:
+                If you're comfortable with a terminal or command prompt, the three commands you'll use most are:
             </p>
 
             <div class="command-block">
                 <span class="prompt">$</span> git add .<br>
                 <span class="comment"># Stages all your changes for saving</span><br><br>
-                <span class="prompt">$</span> git commit -m "Chapter 3 &mdash; added the parable of the talents application section"<br>
+                <span class="prompt">$</span> git commit -m "Chapter 3, added the parable of the talents application section"<br>
                 <span class="comment"># Saves a snapshot with your note</span><br><br>
                 <span class="prompt">$</span> git push<br>
                 <span class="comment"># Sends it to GitHub as a backup</span>
             </div>
 
             <p>
-                That said, Option A (GitHub Desktop) is completely fine and does everything most writers need. There's no prize for using the command line.
+                Option A (GitHub Desktop) does everything most writers need. There's no advantage to using the command line unless you prefer it.
             </p>
 
             <h3>What to write in</h3>
 
             <p>
-                Git works best with plain text files. This means formats like <code>.md</code> (Markdown) or <code>.txt</code>, rather than Word documents or Google Docs. Markdown is a simple way of formatting text &mdash; you type <code>## Chapter Title</code> for a heading, <code>**bold**</code> for bold, and the text is otherwise just writing. Many writers find it freeing: no fiddling with fonts or margins, just your words on the page.
+                Git works best with plain text files. Use <code>.md</code> (Markdown) or <code>.txt</code> formats rather than Word documents. Markdown is a simple formatting system: type <code>## Chapter Title</code> for a heading, <code>**bold**</code> for bold, and the rest is just writing. When you need a formatted version for an editor or publisher, you can export to Word or PDF.
             </p>
 
             <p>
-                If you write in Markdown, you can export to Word or PDF when you need a formatted version for your editor or publisher. Applications like Obsidian (free), Typora, or VS Code make writing in Markdown comfortable &mdash; they show you the formatting as you type, so it doesn't feel like writing in code.
+                The four tools below all save your chapters as plain Markdown files, which means Git can track every change line by line. Each one pairs with GitHub Desktop for Git management.
             </p>
 
-            <p>
-                If you prefer to write in Word, you can still use Git, but it works less cleanly. Word's .docx format doesn't show clean line-by-line differences. Consider writing in Markdown and using Word only for final layout.
+            <div class="definition-grid">
+                <div class="definition-card">
+                    <div class="definition-term">
+                        Typora
+                        <span>Best for beginners</span>
+                    </div>
+                    <div class="definition-body">
+                        A word-processor-style Markdown editor. You see formatted text as you write, not Markdown syntax. Files save as plain <code>.md</code> files that Git tracks perfectly. One-time $15 purchase. Mac, Windows, Linux. Pair with GitHub Desktop for Git management.
+                    </div>
+                </div>
+
+                <div class="definition-card">
+                    <div class="definition-term">
+                        VS Code
+                        <span>Best Git integration</span>
+                    </div>
+                    <div class="definition-body">
+                        A free text editor from Microsoft with Git built in natively. You can commit and push directly from the sidebar without leaving the app. Add the extensions <strong>Markdown All in One</strong> (preview and shortcuts) and <strong>Code Spell Checker</strong> for a writing-ready setup. Mac, Windows, Linux.
+                    </div>
+                </div>
+
+                <div class="definition-card">
+                    <div class="definition-term">
+                        iA Writer
+                        <span>Best writing experience</span>
+                    </div>
+                    <div class="definition-body">
+                        A minimalist writing app with focus mode, strong typography, and clean Markdown support. Saves plain <code>.md</code> files. No built-in Git, so pair with GitHub Desktop. Mac and iOS ($49.99 Mac, subscription iOS). The cleanest writing environment of the four options.
+                    </div>
+                </div>
+
+                <div class="definition-card">
+                    <div class="definition-term">
+                        Obsidian
+                        <span>Best for note-heavy projects</span>
+                    </div>
+                    <div class="definition-body">
+                        A free writing and note-taking app built around Markdown files. The <strong>Longform plugin</strong> adds chapter management and word-count goals designed for book-length projects. Git integration is available via the <strong>Obsidian Git plugin</strong>. Takes more initial setup than the other options. Mac, Windows, Linux.
+                    </div>
+                </div>
+            </div>
+
+            <p style="margin-top: var(--space-lg);">
+                <strong>Start here:</strong> Typora and GitHub Desktop. The combination works in under an hour with no configuration. If you want Git controls built into your writing environment, use VS Code instead.
             </p>
 
             <h3>What to commit</h3>
@@ -1151,39 +1210,36 @@
             <p>Keep these files in your repository:</p>
 
             <div class="methodology-box">
-                <p><strong>Chapter files</strong> &mdash; One file per chapter: <code>chapter-01-introduction.md</code>, <code>chapter-02-good-samaritan.md</code>, etc.</p>
-                <p style="margin-top: var(--space-sm);"><strong>Structural documents</strong> &mdash; Your outline, chapter summaries, theological notes, overall arc.</p>
-                <p style="margin-top: var(--space-sm);"><strong>Research and sources</strong> &mdash; Notes on biblical commentaries, quotes you might use, reference material.</p>
-                <p style="margin-top: var(--space-sm);"><strong>Prompts that worked</strong> &mdash; When you find a Claude prompt that produces excellent results, save it. "Here is the prompt that got Claude to expand a sermon into a chapter without losing the preached voice." Future-you will thank you.</p>
+                <p><strong>Chapter files.</strong> One file per chapter: <code>chapter-01-introduction.md</code>, <code>chapter-02-good-samaritan.md</code>, etc.</p>
+                <p style="margin-top: var(--space-sm);"><strong>Structural documents.</strong> Your outline, chapter summaries, theological notes, overall arc.</p>
+                <p style="margin-top: var(--space-sm);"><strong>Research and sources.</strong> Notes on commentaries, quotes you might use, reference material.</p>
+                <p style="margin-top: var(--space-sm);"><strong>Prompts that worked.</strong> When you find a Claude prompt that produces useful results, save it in a text file. "Here is the prompt that got Claude to expand a sermon into a chapter without losing the preached voice." Future-you will thank you.</p>
             </div>
 
             <h3>When to commit</h3>
 
-            <p>
-                Commit whenever you reach a point you'd want to be able to return to. Good moments to commit:
-            </p>
             <ul class="resource-list" style="list-style: none; margin-top: var(--space-md);">
                 <li>At the end of every writing session, even if the chapter isn't finished</li>
                 <li>Before asking Claude for any significant revision</li>
                 <li>When you finish a complete draft of a chapter</li>
                 <li>When you finish incorporating feedback from your editor or co-author</li>
-                <li>Any time you think "I like this version &mdash; I want to be able to get back here"</li>
+                <li>Any time you think "I like this version and I want to be able to get back here"</li>
             </ul>
 
             <h3>How to write good commit messages</h3>
 
             <p>
-                Your commit messages are the index to your manuscript's history. Write them for your future self, six months from now, who is trying to find the version with that one illustration.
+                Your commit messages are the index to your manuscript's history. Write them for your future self, six months from now, trying to find the version with that one illustration.
             </p>
 
             <div class="commit-examples">
                 <div class="commit-example good">
                     <span class="commit-check">&#10003;</span>
-                    Chapter 3 &mdash; expanded parable explanation based on Wesley's commentary on wealth
+                    Chapter 3: expanded parable explanation based on Wesley's commentary on wealth
                 </div>
                 <div class="commit-example good">
                     <span class="commit-check">&#10003;</span>
-                    Reworked Chapter 1 opening &mdash; now starts with the earthquake story from 2019 Honduras trip
+                    Reworked Chapter 1 opening: now starts with the earthquake story from 2019 Honduras trip
                 </div>
                 <div class="commit-example good">
                     <span class="commit-check">&#10003;</span>
@@ -1191,7 +1247,7 @@
                 </div>
                 <div class="commit-example good">
                     <span class="commit-check">&#10003;</span>
-                    Chapter 5 first complete draft &mdash; submitted to Pastor Williams for feedback
+                    Chapter 5 first complete draft, submitted to Pastor Williams for feedback
                 </div>
                 <div class="commit-example bad">
                     <span class="commit-check">&#10007;</span>
@@ -1208,7 +1264,7 @@
             </div>
 
             <p style="margin-top: var(--space-lg);">
-                The specificity is what makes it useful. "Chapter 2 revision" tells you nothing in six months. "Chapter 2 &mdash; restored the widow story after Claude removed it in polish pass" tells you exactly where to look.
+                The specificity is what makes it useful. "Chapter 2 revision" tells you nothing in six months. "Chapter 2, restored the widow story after Claude removed it in polish pass" tells you exactly where to look.
             </p>
         </div>
 
@@ -1220,42 +1276,42 @@
             <div class="concern-block">
                 <div class="concern-q">"Isn't this overkill for a book?"</div>
                 <div class="concern-a">
-                    Maybe, if you're writing a short project alone and never expect to revise. But you're writing with Claude, which means you'll revise frequently, compare versions, try experiments, and refine over months. That's exactly the workflow Git was built for. Without it, you're managing all that complexity manually &mdash; through file names, email drafts, and your own memory. Git doesn't add work; it removes the overhead of managing versions yourself.
+                    It depends on the project. For a short writing project with few revisions, it may be. For a book written over months with an AI collaborator, Git removes overhead you would otherwise manage manually through file names, email drafts, and your own memory. Commits replace the need for <code>Chapter2_FINAL_v4b.docx</code>.
                 </div>
             </div>
 
             <div class="concern-block">
                 <div class="concern-q">"What if I mess it up?"</div>
                 <div class="concern-a">
-                    Git is one of the most forgiving tools in existence. The only way to truly lose work is to delete the files outside of Git, which you won't be doing. Within Git, nearly every action is reversible. Your files still exist on your computer. Your commits still exist in the history. Your GitHub backup still exists online. If something goes wrong and you're confused, open Claude and paste the error message. Claude can walk you through Git recovery steps quickly and clearly. The risk of catastrophic loss is genuinely low.
+                    Git is designed to be reversible. Your files still exist on your computer. Your commits still exist in your history. Your GitHub backup still exists online. If something goes wrong and you're confused, paste the error message into Claude and ask for help. Claude can walk you through Git recovery steps.
                 </div>
             </div>
 
             <div class="concern-block">
                 <div class="concern-q">"Do I have to use the command line?"</div>
                 <div class="concern-a">
-                    No. GitHub Desktop handles everything through a visual interface. Click to see your changes, type your commit message, click to commit, click to push. That's the full workflow. Many writers find they never need anything more. Writing apps like Obsidian and VS Code also have Git built in as optional features.
+                    No. GitHub Desktop handles everything visually. Click to see your changes, type your commit message, click to commit, click to push. That's the full workflow. VS Code also has Git built into its sidebar if you want to stay inside one application.
                 </div>
             </div>
 
             <div class="concern-block">
                 <div class="concern-q">"Can I still use Word or Google Docs?"</div>
                 <div class="concern-a">
-                    Yes, with caveats. Word documents and Google Docs are binary formats &mdash; Git can track them and save versions, but it can't show you exactly what lines changed between versions the way it can with plain text. For the full benefit of Git (seeing what actually changed between drafts), plain text formats like Markdown work best. Consider writing your chapters in Markdown and exporting to Word only when you need a formatted draft for an editor or publisher. Many writers find this approach freeing &mdash; during the writing phase, they can focus on words instead of formatting.
+                    Yes, with caveats. Word documents and Google Docs use binary formats. Git can track them and save versions, but it cannot show you line-by-line differences between drafts the way it can with plain text. For the full benefit of Git, plain text formats like Markdown work best. Write your chapters in Markdown and export to Word when you need a formatted draft for an editor or publisher.
                 </div>
             </div>
 
             <div class="concern-block">
                 <div class="concern-q">"What about my co-author or editor?"</div>
                 <div class="concern-a">
-                    This is where Git becomes genuinely excellent. When your book is on GitHub, you can invite your co-author, editor, or ministry team as collaborators. They can see the full history, suggest changes in their own branch, and you can review and merge their edits just as you would Claude's. Pastors co-writing with a deacon, an associate pastor, or an elder board member: Git is purpose-built for exactly this kind of distributed, asynchronous collaboration. No more "which version of the manuscript did you edit?" emails.
+                    When your book is on GitHub, you can invite a co-author, editor, or ministry team member as a collaborator. They can see the full history, suggest changes in their own branch, and you can review and merge their edits. No more "which version did you edit?" emails.
                 </div>
             </div>
 
             <div class="concern-block">
                 <div class="concern-q">"Is my manuscript private on GitHub?"</div>
                 <div class="concern-a">
-                    Yes. When you create a repository on GitHub, you can make it private, which means only you (and anyone you explicitly invite) can see it. Private repositories are free on GitHub. Your unpublished manuscript is visible only to you until you're ready to share it.
+                    Yes. When you create a repository on GitHub, you can make it private. Only you and anyone you explicitly invite can see it. Private repositories are free.
                 </div>
             </div>
         </div>
@@ -1268,37 +1324,38 @@
             <div class="resource-group">
                 <div class="resource-group-title">To Get Started Today</div>
                 <ul class="resource-list">
-                    <li><strong>GitHub Desktop</strong> &mdash; Free application for Mac and Windows. Visual Git interface with no command line required. <a href="https://desktop.github.com" target="_blank" rel="noopener">desktop.github.com</a></li>
-                    <li><strong>GitHub.com</strong> &mdash; Free account for backing up and sharing your repository. Private repos are free. <a href="https://github.com" target="_blank" rel="noopener">github.com</a></li>
-                    <li><strong>The Markdown Guide</strong> &mdash; Plain-English introduction to writing in Markdown. You can learn enough to start in twenty minutes. <a href="https://www.markdownguide.org" target="_blank" rel="noopener">markdownguide.org</a></li>
+                    <li><strong>GitHub Desktop.</strong> Free visual Git client for Mac and Windows. No command line required. <a href="https://desktop.github.com" target="_blank" rel="noopener">desktop.github.com</a></li>
+                    <li><strong>GitHub.com.</strong> Free account for backing up and sharing your repository. Private repos are free. <a href="https://github.com" target="_blank" rel="noopener">github.com</a></li>
+                    <li><strong>The Markdown Guide.</strong> Plain-English introduction to writing in Markdown. Enough to start in twenty minutes. <a href="https://www.markdownguide.org" target="_blank" rel="noopener">markdownguide.org</a></li>
                 </ul>
             </div>
 
             <div class="resource-group">
                 <div class="resource-group-title">Learn Git Without the Jargon</div>
                 <ul class="resource-list">
-                    <li><strong>"Git and GitHub for Poets"</strong> &mdash; A free YouTube series by The Coding Train (Daniel Shiffman). Despite the programmer-ish name, it's genuinely beginner-friendly and uses plain-English examples. Search YouTube for "Git and GitHub for Poets."</li>
-                    <li><strong>GitHub's own beginner guides</strong> &mdash; GitHub maintains excellent "Hello World" tutorials at docs.github.com that assume no technical background.</li>
+                    <li><strong>"Git and GitHub for Poets"</strong> by Daniel Shiffman (The Coding Train). Free YouTube series. Beginner-friendly, no technical background required. Search YouTube for "Git and GitHub for Poets."</li>
+                    <li><strong>GitHub's beginner guides.</strong> GitHub maintains "Hello World" tutorials at docs.github.com that assume no technical background.</li>
                 </ul>
             </div>
 
             <div class="resource-group">
                 <div class="resource-group-title">Writing Apps That Work Well With Git</div>
                 <ul class="resource-list">
-                    <li><strong>Obsidian</strong> &mdash; Free writing app built around Markdown files. Excellent for long-form projects like books. Has Git integration through a plugin. Great for writers who want a visual, organized workspace.</li>
-                    <li><strong>VS Code</strong> &mdash; Free text editor from Microsoft. Git is built in. Excellent Markdown preview. More of a developer's tool, but writers find it comfortable.</li>
-                    <li><strong>Typora</strong> &mdash; Paid Markdown editor with a clean, word-processor-like feel. Hides the Markdown syntax so you see formatted text as you write. Good for writers who want minimal visual distraction.</li>
-                    <li><strong>Scrivener</strong> &mdash; The gold standard for long-form writing. Can export to plain text for use with Git. Works best if you use Scrivener for composition and Git for version control of the exported files.</li>
+                    <li><strong>Typora</strong> (Mac, Windows, Linux. $15 one-time). Word-processor-style Markdown editor. The least technical option. Pair with GitHub Desktop for Git. Best starting point for non-technical writers.</li>
+                    <li><strong>VS Code</strong> (Mac, Windows, Linux. Free). Text editor from Microsoft with native Git built in. Extensions to add: Markdown All in One, Code Spell Checker, Markdown Preview Enhanced. Best if you want everything in one app.</li>
+                    <li><strong>iA Writer</strong> (Mac, iOS, Windows, Android. $49.99 Mac / subscription iOS). Minimalist writing app with excellent focus mode and typography. Saves plain Markdown files. Pair with GitHub Desktop.</li>
+                    <li><strong>Obsidian</strong> (Mac, Windows, Linux. Free). Knowledge base and writing app built on local Markdown files. Add the Longform plugin for chapter management and the Obsidian Git plugin for version control. More setup required than the other options.</li>
+                    <li><strong>Scrivener</strong> (Mac, Windows. Paid). The traditional choice for long-form writing. Can export to plain text for Git version control. Works best if you use Scrivener for composition and Git for version control of the exported files.</li>
                 </ul>
             </div>
 
             <div class="resource-group">
                 <div class="resource-group-title">Claude Prompts Worth Saving</div>
                 <ul class="resource-list">
-                    <li>"Help me write a commit message for these changes: [paste a brief summary of what you changed]." Claude will suggest a specific, useful commit message.</li>
-                    <li>"I have two versions of Chapter 3. Here is Version A: [paste]. Here is Version B: [paste]. Can you help me identify the strongest elements of each and suggest how to blend them?"</li>
-                    <li>"I'm about to ask you to revise this chapter section. Before you do, I want you to identify what is strongest about it that I should make sure to preserve: [paste section]."</li>
-                    <li>"Review this chapter and flag any places where my pastoral voice feels like it's been replaced by generic self-help language: [paste chapter]."</li>
+                    <li>"Help me write a commit message for these changes: [paste a brief summary of what you changed]."</li>
+                    <li>"I have two versions of Chapter 3. Here is Version A: [paste]. Here is Version B: [paste]. Identify the strongest elements of each and suggest how to blend them."</li>
+                    <li>"Before you revise this section, identify what is strongest about it that I should make sure to preserve: [paste section]."</li>
+                    <li>"Review this chapter and flag any places where my pastoral voice has been replaced by generic self-help language: [paste chapter]."</li>
                 </ul>
             </div>
         </div>
@@ -1306,20 +1363,17 @@
         <!-- CLOSING -->
         <div class="section">
             <div class="section-label">Closing</div>
-            <h2 class="section-title">The freedom to write your best book</h2>
+            <h2 class="section-title">What this gives you</h2>
 
             <div class="closing-box">
                 <p>
-                    Writing a book is daunting. It is an act of sustained attention over months or years &mdash; an act of faith that your message is worth the effort, that the words will come together, that the finished manuscript will carry what you've meant to say. Writing with Claude as your assistant opens up new possibilities. It can help you expand a 25-minute sermon into a 3,000-word chapter. It can suggest a stronger opening when yours is weak. It can make difficult theological concepts accessible to a lay reader without draining them of their depth. But it also introduces new uncertainty: What if it changes something essential? What if I lose the version I liked?
+                    Writing a book with Claude introduces a specific problem: you'll revise frequently, try experiments, and generate many versions of the same chapter over many months. Without a system, you manage that complexity through file names and memory, and things get lost.
                 </p>
                 <p>
-                    <strong>Git removes that uncertainty.</strong> Every version of your manuscript is saved. Every experiment can be tried without risk. Every revision that turns out to be wrong can be undone. You can branch off and write a bold, unconventional chapter to see if it works, knowing your main manuscript is untouched. You can ask Claude to rework an entire section, knowing the original is three commits away. You can come back to Chapter 2 after six months away and read exactly what changed and when.
+                    <strong>Git solves that problem.</strong> Every version is saved. Every experiment can be tried on a branch without touching your main draft. Any revision that doesn't work can be undone. You can read commit messages from six months ago and see exactly what changed and when.
                 </p>
                 <p>
-                    For pastors and writers working to communicate timeless truths in fresh ways, that freedom matters. The message you've been given to carry is too important to lose in a naming convention. Your book deserves a safety net.
-                </p>
-                <p>
-                    <strong>Git is that safety net. It costs nothing. It takes an afternoon to learn. And it will change how you write.</strong>
+                    <strong>Git is free. GitHub Desktop takes an afternoon to learn. Start with Typora or VS Code, commit after every session, and push to GitHub for backup.</strong> Your manuscript history will take care of itself from there.
                 </p>
             </div>
         </div>
@@ -1330,7 +1384,7 @@
             <h2 class="section-title">References</h2>
             <ol class="sources-list">
                 <li>
-                    Git Documentation. <em>Git &mdash; Getting Started.</em> Official documentation for the Git version control system. <a href="https://git-scm.com/doc" target="_blank" rel="noopener">git-scm.com/doc</a>
+                    Git Documentation. <em>Git: Getting Started.</em> Official documentation for the Git version control system. <a href="https://git-scm.com/doc" target="_blank" rel="noopener">git-scm.com/doc</a>
                 </li>
                 <li>
                     GitHub, Inc. <em>GitHub Desktop.</em> Free visual Git client for Mac and Windows. <a href="https://desktop.github.com" target="_blank" rel="noopener">desktop.github.com</a>
@@ -1346,6 +1400,12 @@
                 </li>
                 <li>
                     Chacon, Scott and Straub, Ben. <em>Pro Git</em> (2nd ed., 2014). The definitive technical book on Git. Available free online at <a href="https://git-scm.com/book/en/v2" target="_blank" rel="noopener">git-scm.com/book</a>. Chapters 1&ndash;3 are readable by non-developers.
+                </li>
+                <li>
+                    Typora. <em>Typora: A Markdown Editor, Markdown Reader.</em> Cross-platform Markdown editor. <a href="https://typora.io" target="_blank" rel="noopener">typora.io</a>
+                </li>
+                <li>
+                    iA Inc. <em>iA Writer.</em> Distraction-free writing application with Markdown support. <a href="https://ia.net/writer" target="_blank" rel="noopener">ia.net/writer</a>
                 </li>
             </ol>
         </div>
