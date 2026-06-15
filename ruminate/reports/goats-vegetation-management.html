@@ -661,6 +661,14 @@
 
         /* Responsive */
         @media (max-width: 768px) {
+            html {
+                overflow-x: hidden;
+            }
+            pre, code {
+                overflow-x: auto;
+                word-wrap: break-word;
+                max-width: 100%;
+            }
             .nav-inner { padding: var(--space-md); }
             .nav-links { gap: var(--space-md); }
             .report-header { padding: var(--space-2xl) var(--space-md); }
