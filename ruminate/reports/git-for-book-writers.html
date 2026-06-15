@@ -780,6 +780,110 @@
             .footer { padding: var(--space-xl) var(--space-md); }
             .definition-card { grid-template-columns: 1fr; gap: var(--space-xs); }
             .closing-box { padding: var(--space-xl); }
+
+            /* Getting Started: steps list */
+            .steps-list li {
+                gap: var(--space-md);
+                font-size: 16px;
+                line-height: 1.85;
+            }
+
+            /* Getting Started: command/code blocks — no word-wrap, horizontal scroll */
+            .command-block {
+                font-size: 13px;
+                white-space: nowrap;
+                -webkit-overflow-scrolling: touch;
+                padding: var(--space-md);
+                border-radius: 6px;
+            }
+
+            /* Getting Started: methodology box */
+            .methodology-box {
+                padding: var(--space-lg);
+            }
+
+            /* Getting Started: commit good/bad examples */
+            .commit-example {
+                font-size: 12px;
+                word-break: break-word;
+                white-space: normal;
+            }
+
+            /* Getting Started: week timeline blocks */
+            .week-block {
+                padding: var(--space-lg);
+                padding-top: calc(var(--space-lg) + 4px);
+            }
+
+            /* Getting Started: finding cards */
+            .finding {
+                padding: var(--space-md) var(--space-lg);
+            }
+
+            /* Getting Started: tip boxes */
+            .tip-box {
+                padding: var(--space-md) var(--space-lg);
+            }
+
+            /* Getting Started: scenario quote box */
+            .scenario-box {
+                font-size: 16px;
+                padding: var(--space-md) var(--space-lg);
+            }
+
+            /* Resources: spacing between groups */
+            .resource-group {
+                margin-bottom: var(--space-2xl);
+            }
+
+            .resource-group-title {
+                margin-bottom: var(--space-lg);
+                font-size: 11px;
+            }
+
+            /* Resources: list items — larger tap targets, better spacing */
+            .resource-list {
+                gap: var(--space-md);
+            }
+
+            .resource-list li {
+                font-size: 15px;
+                line-height: 1.85;
+                padding-left: var(--space-lg);
+                padding-top: var(--space-xs);
+                padding-bottom: var(--space-xs);
+            }
+
+            /* Resources: URLs wrap gracefully */
+            .resource-list a {
+                word-break: break-word;
+                display: inline;
+            }
+
+            /* Concern Q&A blocks */
+            .concern-q {
+                font-size: 17px;
+                line-height: 1.4;
+            }
+
+            .concern-a {
+                font-size: 16px;
+            }
+
+            /* Inline code — prevent overflow */
+            code {
+                word-break: break-word;
+            }
+
+            /* Section paragraphs — slightly smaller for readability on narrow screens */
+            .section p {
+                font-size: 17px;
+            }
+
+            /* Report summary */
+            .report-summary {
+                font-size: 18px;
+            }
         }
 
         html { scroll-behavior: smooth; }
