@@ -749,6 +749,51 @@
 
         .resource-list a:hover { text-decoration: underline; }
 
+        /* Resource section ordered list */
+        .resource-ol {
+            padding-left: 1.5rem;
+        }
+
+        .resource-ol li {
+            font-size: 16px;
+            line-height: 1.75;
+            color: oklch(0.28 0 0);
+            margin-bottom: var(--space-sm);
+        }
+
+        .resource-ol li:last-child { margin-bottom: 0; }
+
+        .resource-ol a {
+            color: var(--brand-primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .resource-ol a:hover { text-decoration: underline; }
+
+        /* Getting Started steps ordered list */
+        .steps-ol {
+            padding-left: 1.5rem;
+        }
+
+        .steps-ol li {
+            font-size: 17px;
+            line-height: 1.8;
+            color: oklch(0.28 0 0);
+            margin-bottom: var(--space-md);
+            padding-left: var(--space-xs);
+        }
+
+        .steps-ol li:last-child { margin-bottom: 0; }
+
+        .steps-ol a {
+            color: var(--brand-primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .steps-ol a:hover { text-decoration: underline; }
+
         /* Closing section */
         .closing-box {
             background: var(--brand-gradient);
@@ -880,6 +925,35 @@
             .resource-list a {
                 word-break: break-word;
                 display: inline;
+            }
+
+            /* Getting Started: steps ol */
+            .steps-ol {
+                padding-left: 1.25rem;
+            }
+
+            .steps-ol li {
+                font-size: 16px;
+                line-height: 1.9;
+                margin-bottom: var(--space-lg);
+                padding-top: var(--space-xs);
+                padding-bottom: var(--space-xs);
+            }
+
+            /* Resources: ordered list */
+            .resource-ol {
+                padding-left: 1.25rem;
+            }
+
+            .resource-ol li {
+                line-height: 1.9;
+                margin-bottom: var(--space-md);
+                padding-top: var(--space-xs);
+                padding-bottom: var(--space-xs);
+            }
+
+            .resource-ol a {
+                word-break: break-word;
             }
 
             /* Concern Q&A blocks */
@@ -1237,7 +1311,7 @@
                 <a href="https://desktop.github.com" target="_blank" rel="noopener">GitHub Desktop</a> is a free application that gives you the full power of Git through a visual interface. No command line. You click buttons, write notes, and your manuscript history is maintained automatically.
             </p>
 
-            <ol>
+            <ol class="steps-ol">
                 <li>Download <a href="https://desktop.github.com" target="_blank" rel="noopener">GitHub Desktop</a>. Free for Mac and Windows.</li>
                 <li>Create a free account at <a href="https://github.com" target="_blank" rel="noopener">GitHub.com</a>. This is where your manuscript history will be backed up online. Private repositories are free.</li>
                 <li>In GitHub Desktop, choose <strong>Create New Repository</strong>. Name it after your book. Choose a folder on your computer. Click Create.</li>
@@ -1499,40 +1573,40 @@
 
             <div class="resource-group">
                 <div class="resource-group-title">To Get Started Today</div>
-                <ul class="resource-list">
+                <ol class="resource-ol">
                     <li><strong>GitHub Desktop.</strong> Free visual Git client for Mac and Windows. No command line required. <a href="https://desktop.github.com" target="_blank" rel="noopener">desktop.github.com</a></li>
                     <li><strong>GitHub.com.</strong> Free account for backing up and sharing your repository. Private repos are free. <a href="https://github.com" target="_blank" rel="noopener">github.com</a></li>
                     <li><strong>The Markdown Guide.</strong> Plain-English introduction to writing in Markdown. Enough to start in twenty minutes. <a href="https://www.markdownguide.org" target="_blank" rel="noopener">markdownguide.org</a></li>
-                </ul>
+                </ol>
             </div>
 
             <div class="resource-group">
                 <div class="resource-group-title">Learn Git Without the Jargon</div>
-                <ul class="resource-list">
+                <ol class="resource-ol">
                     <li><strong>"Git and GitHub for Poets"</strong> by Daniel Shiffman (The Coding Train). Free YouTube series. Beginner-friendly, no technical background required. Search YouTube for "Git and GitHub for Poets."</li>
                     <li><strong>GitHub's beginner guides.</strong> GitHub maintains "Hello World" tutorials at <a href="https://docs.github.com" target="_blank" rel="noopener">docs.github.com</a> that assume no technical background.</li>
-                </ul>
+                </ol>
             </div>
 
             <div class="resource-group">
                 <div class="resource-group-title">Writing Apps That Work Well With Git</div>
-                <ul class="resource-list">
+                <ol class="resource-ol">
                     <li><a href="https://typora.io" target="_blank" rel="noopener"><strong>Typora</strong></a> (Mac, Windows, Linux. $15 one-time). Word-processor-style Markdown editor. The least technical option. Pair with <a href="https://desktop.github.com" target="_blank" rel="noopener">GitHub Desktop</a> for Git. Best starting point for non-technical writers.</li>
                     <li><a href="https://code.visualstudio.com" target="_blank" rel="noopener"><strong>VS Code</strong></a> (Mac, Windows, Linux. Free). Text editor from Microsoft with native Git built in. Extensions to add: Markdown All in One, Code Spell Checker, Markdown Preview Enhanced. Best if you want everything in one app.</li>
                     <li><a href="https://ia.net/writer" target="_blank" rel="noopener"><strong>iA Writer</strong></a> (Mac, iOS, Windows, Android. $49.99 Mac / subscription iOS). Minimalist writing app with excellent focus mode and typography. Saves plain Markdown files. Pair with <a href="https://desktop.github.com" target="_blank" rel="noopener">GitHub Desktop</a>.</li>
                     <li><a href="https://obsidian.md" target="_blank" rel="noopener"><strong>Obsidian</strong></a> (Mac, Windows, Linux. Free). Knowledge base and writing app built on local Markdown files. Add the Longform plugin for chapter management and the Obsidian Git plugin for version control. More setup required than the other options.</li>
                     <li><a href="https://www.literatureandlatte.com/scrivener" target="_blank" rel="noopener"><strong>Scrivener</strong></a> (Mac, Windows. Paid). The traditional choice for long-form writing. Can export to plain text for Git version control. Works best if you use Scrivener for composition and Git for version control of the exported files.</li>
-                </ul>
+                </ol>
             </div>
 
             <div class="resource-group">
                 <div class="resource-group-title">Claude Prompts Worth Saving</div>
-                <ul class="resource-list">
+                <ol class="resource-ol">
                     <li>"Help me write a commit message for these changes: [paste a brief summary of what you changed]."</li>
                     <li>"I have two versions of Chapter 3. Here is Version A: [paste]. Here is Version B: [paste]. Identify the strongest elements of each and suggest how to blend them."</li>
                     <li>"Before you revise this section, identify what is strongest about it that I should make sure to preserve: [paste section]."</li>
                     <li>"Review this chapter and flag any places where my pastoral voice has been replaced by generic self-help language: [paste chapter]."</li>
-                </ul>
+                </ol>
             </div>
         </div>
 
