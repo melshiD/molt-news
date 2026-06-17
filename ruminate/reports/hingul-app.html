@@ -217,6 +217,23 @@
       font-size: 14px;
       border-radius: var(--radius-sm);
     }
+    .btn-audio {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+      width: 32px;
+      height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-sm);
+      color: var(--color-text-muted);
+      transition: color var(--transition);
+      padding: 0;
+      flex-shrink: 0;
+    }
+    .btn-audio:hover { color: var(--color-primary); }
 
     /* ============================================================
        BADGES
@@ -240,6 +257,32 @@
       font-size: 16px;
       font-weight: 800;
       color: var(--color-accent);
+    }
+    .nav-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--color-accent);
+      color: #fff;
+      font-size: 9px;
+      font-weight: 700;
+      min-width: 14px;
+      height: 14px;
+      border-radius: 99px;
+      padding: 0 3px;
+      margin-left: 2px;
+      vertical-align: middle;
+    }
+    .audio-notice {
+      background: var(--color-warning-bg);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      margin-bottom: 16px;
+      font-size: 13px;
+      color: var(--color-warning);
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
     }
 
     /* ============================================================
@@ -326,7 +369,9 @@
       border: 1px solid var(--color-border);
       transition: all var(--transition);
       box-shadow: var(--shadow-sm);
+      position: relative;
     }
+    .vocab-audio-btn { position: absolute; top: 4px; right: 4px; }
     .vocab-card:active { transform: scale(0.97); }
     .vocab-card.seen { border-color: var(--color-primary); }
     .vocab-korean { font-size: 22px; font-weight: 700; font-family: var(--font-korean); margin-bottom: 2px; }
@@ -461,8 +506,10 @@
       cursor: pointer;
       margin-bottom: 20px;
       transition: transform var(--transition);
+      position: relative;
     }
     .flashcard-wrap:active { transform: scale(0.98); }
+    .fc-audio-btn { position: absolute; top: 12px; right: 12px; }
 
     /* ============================================================
        STATS ROW
@@ -539,6 +586,11 @@
       <h1 class="mb-4" id="greeting">Good morning! 👋</h1>
       <p class="mb-20">Ready to learn Korean today?</p>
 
+      <div id="audio-banner" class="audio-notice" style="display:none">
+        <span>🔇 No audio — add a DeepGram key in Settings for pronunciation.</span>
+        <button onclick="document.getElementById('audio-banner').style.display='none'" style="background:none;border:none;cursor:pointer;font-size:16px;color:var(--color-warning);flex-shrink:0">✕</button>
+      </div>
+
       <div class="card mb-16">
         <div class="flex-between mb-12">
           <div>
@@ -602,8 +654,8 @@
 
     <!-- ── REVIEW ── -->
     <div id="screen-review" class="screen">
-      <h1 class="mb-4">Flashcards</h1>
-      <p class="mb-20">Review words with spaced repetition.</p>
+      <h1 class="mb-4" id="review-heading">Flashcards</h1>
+      <p class="mb-20" id="review-subheading">Review words with spaced repetition.</p>
       <div id="review-content"></div>
     </div>
 
@@ -629,6 +681,30 @@
         <label style="cursor:pointer;display:flex;align-items:center;gap:8px">
           <input type="checkbox" id="toggle-roman" onchange="applyRomanization(this.checked)" checked style="width:18px;height:18px;cursor:pointer">
         </label>
+      </div>
+
+      <div class="mb-16"></div>
+
+      <div class="card mb-8">
+        <h3 class="mb-12">Audio</h3>
+
+        <div class="flex-between mb-12">
+          <div class="font-bold" style="font-size:14px">Source</div>
+          <select id="audio-source-select" onchange="applyAudioSource(this.value)"
+            style="padding:6px 10px;border-radius:var(--radius-sm);border:1px solid var(--color-border);background:var(--color-bg);color:var(--color-text);font-size:14px">
+            <option value="webspeech">Web Speech</option>
+            <option value="deepgram">DeepGram</option>
+          </select>
+        </div>
+
+        <div style="font-size:14px;font-weight:600;margin-bottom:6px">DeepGram API Key</div>
+        <div class="flex gap-8 mb-8">
+          <input type="password" id="deepgram-key-input" placeholder="Paste your API key"
+            style="flex:1;padding:8px 12px;border-radius:var(--radius-sm);border:1px solid var(--color-border);background:var(--color-bg);color:var(--color-text);font-size:14px">
+          <button class="btn btn-primary btn-sm" style="width:auto;white-space:nowrap" onclick="saveDeepgramKey()">Save</button>
+        </div>
+        <div id="deepgram-status" class="text-sm text-muted mb-12"></div>
+        <button class="btn btn-outline btn-sm" onclick="testAudio()">Test Audio 🔊</button>
       </div>
 
       <div class="mb-20"></div>
@@ -664,7 +740,7 @@
     </button>
     <button class="nav-item" onclick="navigate('review')" data-screen="review">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 4l5 5-5 5V7zM3 5h18v14H3V5z"/></svg>
-      Review
+      Review<span id="review-badge" class="nav-badge" style="display:none"></span>
     </button>
     <button class="nav-item" onclick="navigate('settings')" data-screen="settings">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
@@ -689,7 +765,7 @@ const DEFAULT_DATA = {
     totalXP: 0
   },
   progress: { lessons: {}, vocabulary: {} },
-  settings: { theme: 'light', showRomanization: true }
+  settings: { theme: 'light', showRomanization: true, deepgramApiKey: '', audioSource: 'webspeech' }
 };
 
 function db_load() {
@@ -716,6 +792,17 @@ function db_completeLesson(id, xp) {
   };
   d.user.totalXP += xp;
   db_updateStreak(d);
+  // Mark vocabulary words from this lesson as introduced
+  const allLessons = [...VOCAB_LESSONS, ...HANGUL_LESSONS, ...GRAMMAR_LESSONS];
+  const lesson = allLessons.find(l => l.id === id);
+  if (lesson && lesson.vocabulary) {
+    lesson.vocabulary.forEach(wordId => {
+      const vp = d.progress.vocabulary[wordId] || { seen: false, correct: 0, incorrect: 0, level: 0, nextReview: 0, introduced: false };
+      vp.introduced = true;
+      vp.seen = true;
+      d.progress.vocabulary[wordId] = vp;
+    });
+  }
   db_save(d);
 }
 
@@ -731,7 +818,7 @@ function db_updateStreak(d) {
 
 function db_rateWord(wordId, correct) {
   const d = db_load();
-  const vp = d.progress.vocabulary[wordId] || { seen: true, correct: 0, incorrect: 0, level: 0 };
+  const vp = d.progress.vocabulary[wordId] || { seen: true, correct: 0, incorrect: 0, level: 0, introduced: false };
   vp.seen = true;
   correct ? (vp.correct++, vp.level = Math.min(5, vp.level + 1))
            : (vp.incorrect++, vp.level = Math.max(0, vp.level - 1));
@@ -742,7 +829,107 @@ function db_rateWord(wordId, correct) {
 }
 
 function db_getVocabProgress(id) {
-  return db_load().progress.vocabulary[id] || { seen: false, correct: 0, incorrect: 0, level: 0, nextReview: 0 };
+  return db_load().progress.vocabulary[id] || { seen: false, correct: 0, incorrect: 0, level: 0, nextReview: 0, introduced: false };
+}
+
+/* ============================================================
+   AUDIO MANAGER
+   ============================================================ */
+
+const AudioManager = {
+  source: 'none',
+  _koreanVoice: null,
+
+  async init() {
+    const d = db_load();
+    const preferred = d.settings.audioSource || 'webspeech';
+    if (preferred === 'deepgram' && d.settings.deepgramApiKey) {
+      this.source = 'deepgram';
+      return;
+    }
+    if (await this._initWebSpeech()) {
+      this.source = 'webspeech';
+      return;
+    }
+    this.source = 'none';
+    const banner = document.getElementById('audio-banner');
+    if (banner) banner.style.display = 'flex';
+  },
+
+  async _initWebSpeech() {
+    if (!('speechSynthesis' in window)) return false;
+    const voices = await new Promise(resolve => {
+      const v = speechSynthesis.getVoices();
+      if (v.length > 0) return resolve(v);
+      speechSynthesis.addEventListener('voiceschanged', () => resolve(speechSynthesis.getVoices()), { once: true });
+      setTimeout(() => resolve(speechSynthesis.getVoices()), 1000);
+    });
+    const korean = voices.find(v => v.lang.startsWith('ko'));
+    if (!korean) return false;
+    this._koreanVoice = korean;
+    return true;
+  },
+
+  _speakWebSpeech(text) {
+    if (!this._koreanVoice) return;
+    speechSynthesis.cancel();
+    const utt = new SpeechSynthesisUtterance(text);
+    utt.voice = this._koreanVoice;
+    utt.lang = 'ko-KR';
+    utt.rate = 0.85;
+    speechSynthesis.speak(utt);
+  },
+
+  async _speakDeepGram(text) {
+    const key = db_load().settings.deepgramApiKey;
+    if (!key) return false;
+    try {
+      const resp = await fetch('https://api.deepgram.com/v1/speak?model=aura-asteria-ko', {
+        method: 'POST',
+        headers: { 'Authorization': `Token ${key}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text })
+      });
+      if (!resp.ok) throw new Error(resp.status);
+      const blob = await resp.blob();
+      const url = URL.createObjectURL(blob);
+      const audio = new Audio(url);
+      audio.onended = () => URL.revokeObjectURL(url);
+      audio.play();
+      return true;
+    } catch (e) {
+      console.warn('DeepGram TTS failed:', e);
+      return false;
+    }
+  },
+
+  async speak(text) {
+    if (!text) return;
+    if (this.source === 'deepgram') {
+      const ok = await this._speakDeepGram(text);
+      if (ok) return;
+      this._speakWebSpeech(text);
+      return;
+    }
+    if (this.source === 'webspeech') {
+      this._speakWebSpeech(text);
+    }
+  }
+};
+
+function _audioBtn(text) {
+  if (AudioManager.source === 'none') return '';
+  const escaped = text.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+  return `<button class="btn-audio" onclick="event.stopPropagation();AudioManager.speak('${escaped}')" aria-label="Play pronunciation" title="Play pronunciation">🔊</button>`;
+}
+
+function _formatTimeLeft(ms) {
+  if (ms <= 0) return 'now';
+  const mins = Math.floor(ms / 60000);
+  if (mins < 60) return `${mins} minute${mins !== 1 ? 's' : ''}`;
+  const hours = Math.floor(mins / 60);
+  if (hours < 24) return `${hours} hour${hours !== 1 ? 's' : ''}`;
+  const days = Math.floor(hours / 24);
+  return `${days} day${days !== 1 ? 's' : ''}`;
 }
 
 /* ============================================================
@@ -750,40 +937,40 @@ function db_getVocabProgress(id) {
    ============================================================ */
 
 const HANGUL_LESSONS = [
-  { id: 'hangul-01', title: 'Meet Hangul',        subtitle: 'The Korean alphabet',    xp: 10, icon: '🔤', prerequisites: [] },
-  { id: 'hangul-02', title: 'Basic Vowels',        subtitle: '아야어여오요우유으이',      xp: 15, icon: '🔵', prerequisites: ['hangul-01'] },
-  { id: 'hangul-03', title: 'Consonants I',        subtitle: 'ㄱ ㄴ ㄷ ㄹ ㅁ',         xp: 15, icon: '🟣', prerequisites: ['hangul-02'] },
-  { id: 'hangul-04', title: 'Consonants II',       subtitle: 'ㅂ ㅅ ㅇ ㅈ ㅊ',         xp: 15, icon: '🟠', prerequisites: ['hangul-03'] },
-  { id: 'hangul-05', title: 'Consonants III',      subtitle: 'ㅋ ㅌ ㅍ ㅎ',            xp: 15, icon: '🟡', prerequisites: ['hangul-04'] },
-  { id: 'hangul-06', title: 'Diphthongs',          subtitle: '애 에 의 위 외 와 워',    xp: 20, icon: '🌀', prerequisites: ['hangul-05'] },
-  { id: 'hangul-07', title: 'Tense Consonants',    subtitle: 'ㄲ ㄸ ㅃ ㅆ ㅉ',         xp: 20, icon: '⚡', prerequisites: ['hangul-06'] },
-  { id: 'hangul-08', title: 'Syllable Blocks',     subtitle: 'Building 받침',          xp: 20, icon: '🧱', prerequisites: ['hangul-07'] },
-  { id: 'hangul-09', title: 'Final Consonants I',  subtitle: 'ㄱ ㄴ ㄷ ㄹ ㅁ as 받침', xp: 25, icon: '🎯', prerequisites: ['hangul-08'] },
-  { id: 'hangul-10', title: 'Final Consonants II', subtitle: 'Complex 받침 rules',     xp: 25, icon: '🏆', prerequisites: ['hangul-09'] },
-  { id: 'hangul-11', title: 'Reading Practice I',  subtitle: 'Simple words',           xp: 30, icon: '📖', prerequisites: ['hangul-10'] },
-  { id: 'hangul-12', title: 'Reading Practice II', subtitle: 'Short sentences',        xp: 30, icon: '📚', prerequisites: ['hangul-11'] },
+  { id: 'hangul-01', title: 'Meet Hangul',        subtitle: 'The Korean alphabet',    xp: 10, icon: '🔤', prerequisites: [],             vocabulary: [] },
+  { id: 'hangul-02', title: 'Basic Vowels',        subtitle: '아야어여오요우유으이',      xp: 15, icon: '🔵', prerequisites: ['hangul-01'],  vocabulary: [] },
+  { id: 'hangul-03', title: 'Consonants I',        subtitle: 'ㄱ ㄴ ㄷ ㄹ ㅁ',         xp: 15, icon: '🟣', prerequisites: ['hangul-02'],  vocabulary: [] },
+  { id: 'hangul-04', title: 'Consonants II',       subtitle: 'ㅂ ㅅ ㅇ ㅈ ㅊ',         xp: 15, icon: '🟠', prerequisites: ['hangul-03'],  vocabulary: [] },
+  { id: 'hangul-05', title: 'Consonants III',      subtitle: 'ㅋ ㅌ ㅍ ㅎ',            xp: 15, icon: '🟡', prerequisites: ['hangul-04'],  vocabulary: [] },
+  { id: 'hangul-06', title: 'Diphthongs',          subtitle: '애 에 의 위 외 와 워',    xp: 20, icon: '🌀', prerequisites: ['hangul-05'],  vocabulary: [] },
+  { id: 'hangul-07', title: 'Tense Consonants',    subtitle: 'ㄲ ㄸ ㅃ ㅆ ㅉ',         xp: 20, icon: '⚡', prerequisites: ['hangul-06'],  vocabulary: [] },
+  { id: 'hangul-08', title: 'Syllable Blocks',     subtitle: 'Building 받침',          xp: 20, icon: '🧱', prerequisites: ['hangul-07'],  vocabulary: [] },
+  { id: 'hangul-09', title: 'Final Consonants I',  subtitle: 'ㄱ ㄴ ㄷ ㄹ ㅁ as 받침', xp: 25, icon: '🎯', prerequisites: ['hangul-08'],  vocabulary: [] },
+  { id: 'hangul-10', title: 'Final Consonants II', subtitle: 'Complex 받침 rules',     xp: 25, icon: '🏆', prerequisites: ['hangul-09'],  vocabulary: [] },
+  { id: 'hangul-11', title: 'Reading Practice I',  subtitle: 'Simple words',           xp: 30, icon: '📖', prerequisites: ['hangul-10'],  vocabulary: [] },
+  { id: 'hangul-12', title: 'Reading Practice II', subtitle: 'Short sentences',        xp: 30, icon: '📚', prerequisites: ['hangul-11'],  vocabulary: [] },
 ];
 
 const VOCAB_LESSONS = [
-  { id: 'vocab-greetings', title: 'Greetings',       subtitle: '안녕하세요, 감사합니다…', xp: 20, icon: '👋', prerequisites: ['hangul-01'] },
-  { id: 'vocab-numbers',   title: 'Numbers',          subtitle: '일 이 삼 사 오…',        xp: 20, icon: '🔢', prerequisites: ['vocab-greetings'] },
-  { id: 'vocab-colors',    title: 'Colors',           subtitle: '빨강 파랑 노랑…',        xp: 20, icon: '🎨', prerequisites: ['vocab-greetings'] },
-  { id: 'vocab-food',      title: 'Food & Drink',     subtitle: '밥 물 커피 김치…',      xp: 25, icon: '🍜', prerequisites: ['vocab-numbers'] },
-  { id: 'vocab-family',    title: 'Family',           subtitle: '엄마 아빠 형 누나…',    xp: 25, icon: '👨‍👩‍👧', prerequisites: ['vocab-numbers'] },
-  { id: 'vocab-time',      title: 'Days & Time',      subtitle: '월요일 오늘 내일…',     xp: 25, icon: '📅', prerequisites: ['vocab-food'] },
+  { id: 'vocab-greetings', title: 'Greetings',    subtitle: '안녕하세요, 감사합니다…', xp: 20, icon: '👋', prerequisites: ['hangul-01'],      vocabulary: ['v001','v002','v003','v004','v005'] },
+  { id: 'vocab-numbers',   title: 'Numbers',      subtitle: '일 이 삼 사 오…',        xp: 20, icon: '🔢', prerequisites: ['vocab-greetings'], vocabulary: ['v006','v007','v008','v009','v010'] },
+  { id: 'vocab-colors',    title: 'Colors',       subtitle: '빨강 파랑 노랑…',        xp: 20, icon: '🎨', prerequisites: ['vocab-greetings'], vocabulary: ['v011','v012','v013','v014','v015'] },
+  { id: 'vocab-food',      title: 'Food & Drink', subtitle: '밥 물 커피 김치…',       xp: 25, icon: '🍜', prerequisites: ['vocab-numbers'],   vocabulary: ['v016','v017','v018','v019','v020'] },
+  { id: 'vocab-family',    title: 'Family',       subtitle: '엄마 아빠 형 누나…',     xp: 25, icon: '👨‍👩‍👧', prerequisites: ['vocab-numbers'],   vocabulary: [] },
+  { id: 'vocab-time',      title: 'Days & Time',  subtitle: '월요일 오늘 내일…',      xp: 25, icon: '📅', prerequisites: ['vocab-food'],      vocabulary: [] },
 ];
 
 const GRAMMAR_LESSONS = [
-  { id: 'grammar-01', title: 'Sentence Structure', subtitle: 'Subject + Object + Verb', xp: 20, icon: '📐', prerequisites: ['hangul-01'] },
-  { id: 'grammar-02', title: 'Topic Marker',        subtitle: '은/는',                  xp: 25, icon: '🏷️', prerequisites: ['grammar-01'] },
-  { id: 'grammar-03', title: 'Subject Marker',      subtitle: '이/가',                  xp: 25, icon: '👤', prerequisites: ['grammar-02'] },
-  { id: 'grammar-04', title: 'Object Marker',       subtitle: '을/를',                  xp: 25, icon: '🎯', prerequisites: ['grammar-03'] },
-  { id: 'grammar-05', title: 'To Be / Not To Be',   subtitle: '이다 / 아니다',          xp: 30, icon: '✅', prerequisites: ['grammar-04'] },
-  { id: 'grammar-06', title: 'Present Tense',       subtitle: 'Verb + 아요/어요',        xp: 30, icon: '⏱️', prerequisites: ['grammar-05'] },
-  { id: 'grammar-07', title: 'Negation',            subtitle: '안 + verb / ~지 않다',    xp: 30, icon: '🚫', prerequisites: ['grammar-06'] },
-  { id: 'grammar-08', title: 'Questions',           subtitle: 'Forming ~요?',           xp: 25, icon: '❓', prerequisites: ['grammar-07'] },
-  { id: 'grammar-09', title: 'Past Tense',          subtitle: 'Verb + 았/었어요',        xp: 35, icon: '⏮️', prerequisites: ['grammar-08'] },
-  { id: 'grammar-10', title: 'Location',            subtitle: '에 vs 에서',             xp: 35, icon: '📍', prerequisites: ['grammar-09'] },
+  { id: 'grammar-01', title: 'Sentence Structure', subtitle: 'Subject + Object + Verb', xp: 20, icon: '📐', prerequisites: ['hangul-01'],  vocabulary: [] },
+  { id: 'grammar-02', title: 'Topic Marker',        subtitle: '은/는',                  xp: 25, icon: '🏷️', prerequisites: ['grammar-01'], vocabulary: [] },
+  { id: 'grammar-03', title: 'Subject Marker',      subtitle: '이/가',                  xp: 25, icon: '👤', prerequisites: ['grammar-02'], vocabulary: [] },
+  { id: 'grammar-04', title: 'Object Marker',       subtitle: '을/를',                  xp: 25, icon: '🎯', prerequisites: ['grammar-03'], vocabulary: [] },
+  { id: 'grammar-05', title: 'To Be / Not To Be',   subtitle: '이다 / 아니다',          xp: 30, icon: '✅', prerequisites: ['grammar-04'], vocabulary: [] },
+  { id: 'grammar-06', title: 'Present Tense',       subtitle: 'Verb + 아요/어요',        xp: 30, icon: '⏱️', prerequisites: ['grammar-05'], vocabulary: [] },
+  { id: 'grammar-07', title: 'Negation',            subtitle: '안 + verb / ~지 않다',    xp: 30, icon: '🚫', prerequisites: ['grammar-06'], vocabulary: [] },
+  { id: 'grammar-08', title: 'Questions',           subtitle: 'Forming ~요?',           xp: 25, icon: '❓', prerequisites: ['grammar-07'], vocabulary: [] },
+  { id: 'grammar-09', title: 'Past Tense',          subtitle: 'Verb + 았/었어요',        xp: 35, icon: '⏮️', prerequisites: ['grammar-08'], vocabulary: [] },
+  { id: 'grammar-10', title: 'Location',            subtitle: '에 vs 에서',             xp: 35, icon: '📍', prerequisites: ['grammar-09'], vocabulary: [] },
 ];
 
 const VOCABULARY = [
@@ -1024,6 +1211,7 @@ const LESSON_CONTENT = {
    ============================================================ */
 
 let _currentScreen = 'home';
+let _pendingLessonReview = null;
 
 function navigate(screen) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -1039,8 +1227,24 @@ function navigate(screen) {
 
   if (screen === 'curriculum') renderCurriculum();
   if (screen === 'vocabulary') renderVocabulary();
-  if (screen === 'review')     initReview();
+  if (screen === 'review') {
+    const lid = _pendingLessonReview;
+    _pendingLessonReview = null;
+    initReview(lid);
+  }
+  if (screen === 'settings') {
+    const d = db_load();
+    const ki = document.getElementById('deepgram-key-input');
+    if (ki && d.settings.deepgramApiKey) ki.value = d.settings.deepgramApiKey;
+    const ss = document.getElementById('audio-source-select');
+    if (ss) ss.value = d.settings.audioSource || 'webspeech';
+  }
   updateHeader();
+}
+
+function startLessonReview(lessonId) {
+  _pendingLessonReview = lessonId;
+  navigate('review');
 }
 
 /* ============================================================
@@ -1065,6 +1269,18 @@ function updateHeader() {
     const greet = hour < 12 ? 'Good morning! 👋' : hour < 17 ? 'Good afternoon! ☀️' : 'Good evening! 🌙';
     document.getElementById('greeting').textContent = greet;
   }
+
+  // Review badge: count due introduced words
+  const now = Date.now();
+  const dueCount = VOCABULARY.filter(w => {
+    const vp = db_getVocabProgress(w.id);
+    return vp.introduced === true && vp.nextReview <= now;
+  }).length;
+  const badge = document.getElementById('review-badge');
+  if (badge) {
+    badge.textContent = dueCount;
+    badge.style.display = dueCount > 0 ? 'inline-flex' : 'none';
+  }
 }
 
 /* ============================================================
@@ -1077,6 +1293,7 @@ function renderLessonNode(lesson) {
   const unlocked = lesson.prerequisites.every(p => d.progress.lessons[p]?.completed);
   const state = prog?.completed ? 'completed' : unlocked ? 'current' : 'locked';
   const statusIcon = state === 'completed' ? '✅' : state === 'current' ? '▶️' : '🔒';
+  const hasVocab = lesson.vocabulary && lesson.vocabulary.length > 0;
 
   return `
     <div class="lesson-node ${state}" onclick="${state !== 'locked' ? `startLesson('${lesson.id}')` : ''}">
@@ -1084,6 +1301,7 @@ function renderLessonNode(lesson) {
       <div class="lesson-info">
         <div class="lesson-title">${lesson.title}</div>
         <div class="lesson-subtitle korean">${lesson.subtitle}</div>
+        ${state === 'completed' && hasVocab ? `<button class="btn btn-outline btn-sm" style="margin-top:6px;width:auto;font-size:12px;padding:4px 10px" onclick="event.stopPropagation();startLessonReview('${lesson.id}')">Review 🃏</button>` : ''}
       </div>
       <div class="lesson-meta">
         <span>${statusIcon}</span>
@@ -1114,8 +1332,10 @@ function renderVocabulary() {
       <div class="vocab-grid">
         ${words.map(w => {
           const vp = db_getVocabProgress(w.id);
+          const ab = _audioBtn(w.korean);
           return `
             <div class="vocab-card ${vp.seen ? 'seen' : ''}">
+              ${ab ? `<div class="vocab-audio-btn">${ab}</div>` : ''}
               <div class="vocab-korean">${w.korean}</div>
               ${showRoman ? `<div class="vocab-roman">${w.romanization}</div>` : ''}
               <div class="vocab-english">${w.english}</div>
@@ -1177,7 +1397,10 @@ function _renderStep() {
   else if (step.type === 'teach-chars') {
     const cards = step.chars.map(c => `
       <div class="card-flat" style="display:flex;align-items:center;gap:14px;margin-bottom:8px">
-        <div class="korean" style="font-size:44px;font-weight:900;min-width:56px;text-align:center">${c.char}</div>
+        <div style="display:flex;align-items:center;gap:4px;min-width:56px">
+          <div class="korean" style="font-size:44px;font-weight:900">${c.char}</div>
+          ${_audioBtn(c.char)}
+        </div>
         <div>
           <div style="font-size:20px;font-weight:700;color:var(--color-primary)">${c.rom}</div>
           <div class="text-sm text-muted">${c.tip}</div>
@@ -1193,7 +1416,10 @@ function _renderStep() {
   else if (step.type === 'teach-examples') {
     const examples = step.examples.map(ex => `
       <div class="example-block mb-8">
-        <div class="example-korean">${ex.korean}</div>
+        <div style="display:flex;align-items:flex-start;gap:4px">
+          <div class="example-korean" style="flex:1">${ex.korean}</div>
+          ${_audioBtn(ex.korean)}
+        </div>
         <div class="example-roman">${ex.roman}</div>
         <div class="example-english">${ex.english}</div>
         <div class="breakdown-chips">${ex.chips.map(c => `<span class="chip">${c}</span>`).join('')}</div>
@@ -1337,13 +1563,17 @@ function _advanceStep() {
 }
 
 function _showResults(xp) {
+  const allLessons = [...VOCAB_LESSONS, ...HANGUL_LESSONS, ...GRAMMAR_LESSONS];
+  const lessonDef  = allLessons.find(l => l.id === _lessonId);
+  const hasVocab   = lessonDef && lessonDef.vocabulary && lessonDef.vocabulary.length > 0;
+
   document.getElementById('lesson-content').innerHTML = `
     <div style="text-align:center;padding:60px 0">
       <div style="font-size:80px;margin-bottom:16px">🎉</div>
       <h1 class="mb-8">Lesson Complete!</h1>
       <div class="xp-badge" style="font-size:18px;padding:10px 20px;margin-bottom:28px">⚡ +${xp} XP earned</div>
       <button class="btn btn-primary" style="margin-bottom:10px" onclick="navigate('curriculum')">Back to Lessons</button>
-      <button class="btn btn-outline" onclick="navigate('review')">Review Flashcards</button>
+      ${hasVocab ? `<button class="btn btn-outline" onclick="startLessonReview('${_lessonId}')">Review New Words 🃏</button>` : ''}
     </div>`;
   updateHeader();
 }
@@ -1354,40 +1584,116 @@ function _showResults(xp) {
 
 let _flashQueue = [];
 let _currentCard = null;
+let _reviewTotal = 0;
+let _reviewEasyCount = 0;
+let _reviewHardCount = 0;
+let _reviewMode = 'srs';
 
-function initReview() {
-  const now = Date.now();
-  _flashQueue = VOCABULARY.filter(w => {
-    const vp = db_getVocabProgress(w.id);
-    return !vp.seen || vp.nextReview <= now;
-  }).sort(() => Math.random() - 0.5);
+function initReview(lessonId) {
+  _reviewEasyCount = 0;
+  _reviewHardCount = 0;
 
-  if (_flashQueue.length === 0) _flashQueue = [...VOCABULARY].sort(() => Math.random() - 0.5);
+  const heading    = document.getElementById('review-heading');
+  const subheading = document.getElementById('review-subheading');
+
+  if (lessonId) {
+    const allLessons = [...VOCAB_LESSONS, ...HANGUL_LESSONS, ...GRAMMAR_LESSONS];
+    const lesson = allLessons.find(l => l.id === lessonId);
+    const wordIds = (lesson && lesson.vocabulary) ? lesson.vocabulary : [];
+    _flashQueue = VOCABULARY.filter(w => wordIds.includes(w.id)).sort(() => Math.random() - 0.5);
+    _reviewMode = 'lesson';
+    if (heading)    heading.textContent    = `Review: ${lesson ? lesson.title : ''}`;
+    if (subheading) subheading.textContent = 'All new words from this lesson.';
+  } else {
+    const now = Date.now();
+    _flashQueue = VOCABULARY.filter(w => {
+      const vp = db_getVocabProgress(w.id);
+      return vp.introduced === true && vp.nextReview <= now;
+    }).sort(() => Math.random() - 0.5);
+    _reviewMode = 'srs';
+    if (heading)    heading.textContent    = 'Flashcards';
+    if (subheading) subheading.textContent = 'Review words with spaced repetition.';
+  }
+
+  _reviewTotal = _flashQueue.length;
   _showNextCard();
 }
 
 function _showNextCard() {
   const el = document.getElementById('review-content');
+
   if (_flashQueue.length === 0) {
-    el.innerHTML = `
-      <div style="text-align:center;padding:60px 0">
-        <div style="font-size:64px;margin-bottom:16px">✅</div>
-        <h2 class="mb-8">All done!</h2>
-        <p>No more cards due for review right now.</p>
-      </div>`;
+    if (_reviewMode === 'srs' && _reviewTotal === 0) {
+      // Nothing was due — show countdown or "no words yet"
+      const now = Date.now();
+      const future = VOCABULARY
+        .map(w => ({ vp: db_getVocabProgress(w.id) }))
+        .filter(x => x.vp.introduced === true && x.vp.nextReview > now);
+
+      if (future.length === 0) {
+        el.innerHTML = `
+          <div style="text-align:center;padding:60px 0">
+            <div style="font-size:64px;margin-bottom:16px">📚</div>
+            <h2 class="mb-8">No words yet</h2>
+            <p>Complete a vocabulary lesson to introduce words.</p>
+            <button class="btn btn-primary" style="margin-top:24px" onclick="navigate('curriculum')">Go to Lessons</button>
+          </div>`;
+      } else {
+        const nextDue = Math.min(...future.map(x => x.vp.nextReview));
+        el.innerHTML = `
+          <div style="text-align:center;padding:60px 0">
+            <div style="font-size:64px;margin-bottom:16px">⏰</div>
+            <h2 class="mb-8">Nothing due for review</h2>
+            <p class="mb-16">Check back later!</p>
+            <div style="background:var(--color-primary-bg);border-radius:var(--radius-md);padding:16px;display:inline-block">
+              <div style="font-size:13px;color:var(--color-text-muted);margin-bottom:4px">Next review in</div>
+              <div style="font-size:22px;font-weight:800;color:var(--color-primary)">${_formatTimeLeft(nextDue - now)}</div>
+            </div>
+          </div>`;
+      }
+    } else {
+      // Session complete
+      el.innerHTML = `
+        <div style="text-align:center;padding:60px 0">
+          <div style="font-size:64px;margin-bottom:16px">🎉</div>
+          <h2 class="mb-8">Session Complete!</h2>
+          <p class="mb-16">${_reviewTotal} card${_reviewTotal !== 1 ? 's' : ''} reviewed</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:24px">
+            <div class="stat-cell">
+              <div class="stat-value text-success">${_reviewEasyCount}</div>
+              <div class="stat-label">Easy 😊</div>
+            </div>
+            <div class="stat-cell">
+              <div class="stat-value" style="color:var(--color-accent)">${_reviewHardCount}</div>
+              <div class="stat-label">Hard 😓</div>
+            </div>
+          </div>
+          <button class="btn btn-primary" onclick="navigate('curriculum')">Back to Lessons</button>
+        </div>`;
+    }
     return;
   }
+
   _currentCard = _flashQueue.pop();
+  const cardNum = _reviewTotal - _flashQueue.length;
+  const ab = _audioBtn(_currentCard.korean);
+
   el.innerHTML = `
+    <div style="text-align:right;font-size:12px;color:var(--color-text-muted);margin-bottom:8px">
+      Card ${cardNum} of ${_reviewTotal}
+    </div>
     <div class="flashcard-wrap" onclick="_revealCard()" id="fc-front">
+      ${ab ? `<div class="fc-audio-btn">${ab}</div>` : ''}
       <div>
         <div class="korean" style="font-size:48px;font-weight:900;margin-bottom:8px">${_currentCard.korean}</div>
         <div class="text-muted text-sm">Tap to reveal</div>
       </div>
     </div>
     <div id="fc-back" style="display:none">
-      <div class="card text-center mb-16">
-        <div class="text-muted text-sm mb-4">${_currentCard.romanization}</div>
+      <div class="card text-center mb-16" style="position:relative">
+        ${ab ? `<div class="fc-audio-btn">${ab}</div>` : ''}
+        <div class="korean" style="font-size:40px;font-weight:900;margin-bottom:4px">${_currentCard.korean}</div>
+        <div class="text-muted text-sm mb-8">${_currentCard.romanization}</div>
         <div style="font-size:20px;font-weight:700">${_currentCard.english}</div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
@@ -1395,6 +1701,9 @@ function _showNextCard() {
         <button class="btn btn-primary" onclick="_rateCard(true)">Easy 😊</button>
       </div>
     </div>`;
+
+  // Auto-play pronunciation
+  setTimeout(() => AudioManager.speak(_currentCard.korean), 300);
 }
 
 function _revealCard() {
@@ -1404,6 +1713,7 @@ function _revealCard() {
 
 function _rateCard(easy) {
   db_rateWord(_currentCard.id, easy);
+  if (easy) _reviewEasyCount++; else _reviewHardCount++;
   _showNextCard();
 }
 
@@ -1424,6 +1734,35 @@ function applyRomanization(on) {
   db_save(d);
 }
 
+function applyAudioSource(val) {
+  const d = db_load();
+  d.settings.audioSource = val;
+  db_save(d);
+  AudioManager.init();
+}
+
+function saveDeepgramKey() {
+  const key = document.getElementById('deepgram-key-input').value.trim();
+  const d = db_load();
+  d.settings.deepgramApiKey = key;
+  db_save(d);
+  AudioManager.init();
+  if (key) {
+    const banner = document.getElementById('audio-banner');
+    if (banner) banner.style.display = 'none';
+  }
+  const status = document.getElementById('deepgram-status');
+  if (status) {
+    status.textContent = key ? 'Key saved.' : 'Key cleared.';
+    status.style.color = 'var(--color-success)';
+    setTimeout(() => { if (status) status.textContent = ''; }, 3000);
+  }
+}
+
+function testAudio() {
+  AudioManager.speak('안녕하세요');
+}
+
 function resetProgress() {
   if (!confirm('Reset all progress? This cannot be undone.')) return;
   localStorage.removeItem(DB_KEY);
@@ -1434,11 +1773,12 @@ function resetProgress() {
    INIT
    ============================================================ */
 
-(function init() {
+(async function init() {
   const d = db_load();
   document.body.setAttribute('data-theme', d.settings.theme);
   document.getElementById('toggle-dark').checked  = d.settings.theme === 'dark';
   document.getElementById('toggle-roman').checked = d.settings.showRomanization;
+  await AudioManager.init();
   navigate('home');
 })();
 </script>
