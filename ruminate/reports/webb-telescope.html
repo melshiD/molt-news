@@ -1061,7 +1061,9 @@
             <div class="g-item span2">
                 <img src="https://science.nasa.gov/wp-content/uploads/2023/06/webb-flickr-52210366419-b1d32fcb3f-4k-jpg.webp"
                      alt="Webb's First Deep Field: thousands of galaxies — some over 13 billion light-years away — in a patch of sky the size of a grain of sand held at arm's length. Gravitational lensing bends light into curved arcs from distant background galaxies."
-                     loading="eager">
+                     loading="eager"
+                     onerror="console.error('Webb image failed to load: First Deep Field',this.src)"
+                     onload="console.log('Webb image loaded: First Deep Field')">
                 <div class="g-caption">
                     <span class="g-cap-date">Jul 11, 2022 &nbsp;·&nbsp; Image 1 of 5</span>
                     <div class="g-cap-title">First Deep Field — SMACS 0723</div>
@@ -1074,7 +1076,9 @@
             <div class="g-item g-item-fixed">
                 <img src="https://science.nasa.gov/wp-content/uploads/2023/06/webb-flickr-52259221868-30e1c78f0c-4k-jpg.webp"
                      alt="Cosmic Cliffs in the Carina Nebula (NGC 3324): a towering star-birth region with thousands of infant stars revealed by Webb's infrared vision behind curtains of gas and dust"
-                     loading="lazy">
+                     loading="lazy"
+                     onerror="console.error('Webb image failed to load: Cosmic Cliffs',this.src)"
+                     onload="console.log('Webb image loaded: Cosmic Cliffs')">
                 <div class="g-caption">
                     <span class="g-cap-date">Jul 12, 2022 &nbsp;·&nbsp; Image 2 of 5</span>
                     <div class="g-cap-title">Cosmic Cliffs — Carina Nebula (NGC 3324)</div>
@@ -1084,7 +1088,9 @@
             <div class="g-item g-item-fixed">
                 <img src="https://science.nasa.gov/wp-content/uploads/2023/06/webb-flickr-52210580092-d3444f7153-4k-jpg.webp"
                      alt="Stephan's Quintet: five galaxies in close proximity, two actively merging; Webb reveals shockwaves, star formation, and black hole outflows in 150 million pixels"
-                     loading="lazy">
+                     loading="lazy"
+                     onerror="console.error('Webb image failed to load: Stephan\'s Quintet',this.src)"
+                     onload="console.log('Webb image loaded: Stephan\'s Quintet')">
                 <div class="g-caption">
                     <span class="g-cap-date">Jul 12, 2022 &nbsp;·&nbsp; Image 3 of 5</span>
                     <div class="g-cap-title">Stephan's Quintet</div>
@@ -1094,7 +1100,9 @@
             <div class="g-item g-item-fixed">
                 <img src="https://science.nasa.gov/wp-content/uploads/2023/12/webb-southern-ring-nebula-1000px.jpg"
                      alt="Southern Ring Nebula (NGC 3132): a dying star 2,500 light-years away surrounded by concentric gas rings; Webb revealed a second dusty central star never seen before"
-                     loading="lazy">
+                     loading="lazy"
+                     onerror="console.error('Webb image failed to load: Southern Ring Nebula',this.src)"
+                     onload="console.log('Webb image loaded: Southern Ring Nebula')">
                 <div class="g-caption">
                     <span class="g-cap-date">Jul 12, 2022 &nbsp;·&nbsp; Image 4 of 5</span>
                     <div class="g-cap-title">Southern Ring Nebula (NGC 3132)</div>
@@ -1104,33 +1112,33 @@
         </div>
 
         <div class="gallery-grid-trio">
-            <div class="g-item"><img src="https://science.nasa.gov/wp-content/uploads/2023/06/stsci-01gfnnq73y2xhcbv91s6hmx5qy.png" alt="Tarantula Nebula 30 Doradus in the Large Magellanic Cloud showing thousands of young stars in vivid orange and blue tones" onerror="this.closest('.g-item').style.display='none'"></div>
-            <div class="g-item"><img src="https://science.nasa.gov/wp-content/uploads/2023/07/rho-ophiuchi-nircam-final-4k.webp" alt="Rho Ophiuchi molecular cloud complex showing vivid star-forming nebulae with jets of molecular hydrogen in orange and blue — Webb's first-anniversary image" onerror="this.closest('.g-item').style.display='none'"></div>
-            <div class="g-item"><img src="https://science.nasa.gov/wp-content/uploads/2023/06/stsci-01gnp0fsapzqmvwp3eqnb9a5wt.png" alt="Pillars of Creation in NIRCam infrared showing tall dusty columns of gas with embedded newborn stars in orange and gold in the Eagle Nebula" onerror="this.closest('.g-item').style.display='none'"></div>
+            <div class="g-item"><img src="https://assets.science.nasa.gov/content/dam/science/missions/webb/science/2022/09/STScI-01GA76Q01D09HFEV174SVMQDMV.png" alt="Tarantula Nebula 30 Doradus in the Large Magellanic Cloud showing thousands of young stars in vivid orange and blue tones" onerror="console.error('Webb image failed to load: Tarantula Nebula',this.src);this.closest('.g-item').style.display='none'"></div>
+            <div class="g-item"><img src="https://assets.science.nasa.gov/content/dam/science/missions/webb/science/2023/07/STScI-01H44AVB69N1P8RAEJ12NW2RB2.png" alt="Rho Ophiuchi molecular cloud complex showing vivid star-forming nebulae with jets of molecular hydrogen in orange and blue — Webb's first-anniversary image" onerror="console.error('Webb image failed to load: Rho Ophiuchi',this.src);this.closest('.g-item').style.display='none'"></div>
+            <div class="g-item"><img src="https://assets.science.nasa.gov/content/dam/science/missions/webb/science/2022/10/STScI-01GGF8H15VZ09MET9HFBRQX4S3.png" alt="Pillars of Creation in NIRCam infrared showing tall dusty columns of gas with embedded newborn stars in orange and gold in the Eagle Nebula" onerror="console.error('Webb image failed to load: Pillars of Creation',this.src);this.closest('.g-item').style.display='none'"></div>
         </div>
 
         <div class="gallery-grid-trio">
-            <div class="g-item"><img src="https://science.nasa.gov/wp-content/uploads/2023/03/stsci-01gykrsypymx9gdxqvnkss8n59.png" alt="Wolf-Rayet 124 dying massive star surrounded by an orange and red nebula of ejected gas and dust 15000 light-years away" onerror="this.closest('.g-item').style.display='none'"></div>
-            <div class="g-item"><img src="https://science.nasa.gov/wp-content/uploads/2023/06/stsci-01g8jxk2wr9e13y29d5y4j6jck.png" alt="Chamaeleon I molecular cloud showing dusty yellow-orange nebulosity with countless background stars visible through the cloud 630 light-years away" onerror="this.closest('.g-item').style.display='none'"></div>
-            <div class="g-item"><img src="https://science.nasa.gov/wp-content/uploads/2022/11/stsci-01gh4x59k0q1ejqdtrr0gbzss3.png" alt="L1527 protostar in Taurus molecular cloud — glowing hourglass nebula in vivid orange and blue surrounding a hidden newborn star 460 light-years away" onerror="this.closest('.g-item').style.display='none'"></div>
+            <div class="g-item"><img src="https://assets.science.nasa.gov/content/dam/science/missions/webb/science/2023/03/STScI-01GTYAME8Q4353E2WQQH2965S5.png" alt="Wolf-Rayet 124 dying massive star surrounded by an orange and red nebula of ejected gas and dust 15000 light-years away" onerror="console.error('Webb image failed to load: Wolf-Rayet 124',this.src);this.closest('.g-item').style.display='none'"></div>
+            <div class="g-item"><img src="https://assets.science.nasa.gov/content/dam/science/missions/webb/science/2023/01/STScI-01GQ5CG6E5B5RASD9SWQHZKXW9.png" alt="Chamaeleon I molecular cloud showing dusty yellow-orange nebulosity with countless background stars visible through the cloud 630 light-years away" onerror="console.error('Webb image failed to load: Chamaeleon I',this.src);this.closest('.g-item').style.display='none'"></div>
+            <div class="g-item"><img src="https://assets.science.nasa.gov/content/dam/science/missions/webb/science/2022/11/STScI-01GGWD12YEES5K5163RJFYQT20.png" alt="L1527 protostar in Taurus molecular cloud — glowing hourglass nebula in vivid orange and blue surrounding a hidden newborn star 460 light-years away" onerror="console.error('Webb image failed to load: L1527',this.src);this.closest('.g-item').style.display='none'"></div>
         </div>
 
         <div class="gallery-grid-trio">
-            <div class="g-item"><img src="https://science.nasa.gov/wp-content/uploads/2023/06/stsci-01gvkfb9hxhx5ykpqkzq6b2a2r.png" alt="Herbig-Haro 46/47 showing twin jets of ionized gas erupting from a newborn protostar embedded in a glowing disk-shaped nebula 1470 light-years away" onerror="this.closest('.g-item').style.display='none'"></div>
-            <div class="g-item"><img src="https://science.nasa.gov/wp-content/uploads/2023/01/stsci-01gqjgfh3yq3yrgshxp39wr7tm.png" alt="NGC 346 star-forming region in the Small Magellanic Cloud showing vivid protostars and jets in pink orange and blue 200000 light-years away" onerror="this.closest('.g-item').style.display='none'"></div>
-            <div class="g-item"><img src="https://science.nasa.gov/wp-content/uploads/2023/06/stsci-01g8gzr4kbsczx09wsa6j8f2bv.png" alt="Jupiter in Webb NIRCam infrared showing the Great Red Spot aurora rings at both poles and faint ring system in vivid orange and blue" onerror="this.closest('.g-item').style.display='none'"></div>
+            <div class="g-item"><img src="https://assets.science.nasa.gov/content/dam/science/missions/webb/science/2023/07/STScI-01H5309J2AAYSABKVQ89R7V44T.png" alt="Herbig-Haro 46/47 showing twin jets of ionized gas erupting from a newborn protostar embedded in a glowing disk-shaped nebula 1470 light-years away" onerror="console.error('Webb image failed to load: Herbig-Haro 46/47',this.src);this.closest('.g-item').style.display='none'"></div>
+            <div class="g-item"><img src="https://assets.science.nasa.gov/content/dam/science/missions/webb/science/2023/01/STScI-01GNYMD5RCRF1S01A8M2S5M0Z1.png" alt="NGC 346 star-forming region in the Small Magellanic Cloud showing vivid protostars and jets in pink orange and blue 200000 light-years away" onerror="console.error('Webb image failed to load: NGC 346',this.src);this.closest('.g-item').style.display='none'"></div>
+            <div class="g-item"><img src="https://assets.science.nasa.gov/content/dam/science/missions/webb/science/2023/10/STScI-01HCX1B69H5ZEF6S18S0F6PM1V.png" alt="Jupiter in Webb NIRCam infrared showing the Great Red Spot aurora rings at both poles and faint ring system in vivid orange and blue" onerror="console.error('Webb image failed to load: Jupiter',this.src);this.closest('.g-item').style.display='none'"></div>
         </div>
 
         <div class="gallery-grid-trio">
-            <div class="g-item"><img src="https://science.nasa.gov/wp-content/uploads/2023/06/stsci-01gbtfb5faj54ata46jfvhaqks.png" alt="Neptune showing its rings and seven moons in crisp near-infrared — rings unseen since Voyager 2's 1989 flyby" onerror="this.closest('.g-item').style.display='none'"></div>
-            <div class="g-item"><img src="https://science.nasa.gov/wp-content/uploads/2022/09/orion-nircam-final2.jpg" alt="Orion Nebula photodissociation region showing rich layered structure where ultraviolet light from hot stars destroys molecules 1340 light-years away" onerror="this.closest('.g-item').style.display='none'"></div>
-            <div class="g-item"><img src="https://science.nasa.gov/wp-content/uploads/2023/06/stsci-01h7fdsjb9e9p5y5y5h2ya7n1.png" alt="Saturn and its rings imaged by Webb NIRCam showing the planet appearing nearly black in near-infrared while its rings glow brilliantly against the dark sky" onerror="this.closest('.g-item').style.display='none'"></div>
+            <div class="g-item"><img src="https://assets.science.nasa.gov/dynamicimage/assets/science/missions/webb/science/2022/09/STScI-01GCCVKJAMF8RJ79STAVK4CXQA.png" alt="Neptune showing its rings and seven moons in crisp near-infrared — rings unseen since Voyager 2's 1989 flyby" onerror="console.error('Webb image failed to load: Neptune',this.src);this.closest('.g-item').style.display='none'"></div>
+            <div class="g-item"><img src="https://assets.science.nasa.gov/content/dam/science/missions/webb/science/2023/06/STScI-01H2TX9HDRY87KFD082A74YADF.jpg" alt="Orion Bar photodissociation region showing rich layered structure where ultraviolet light from hot stars destroys molecules 1340 light-years away" onerror="console.error('Webb image failed to load: Orion Bar',this.src);this.closest('.g-item').style.display='none'"></div>
+            <div class="g-item"><img src="https://assets.science.nasa.gov/content/dam/science/missions/webb/outreach/migrated/2023/STScI-01H41MPWAVF7SRQSHZWQNYV2J0.png" alt="Saturn and its rings imaged by Webb NIRCam showing the planet appearing nearly black in near-infrared while its rings glow brilliantly against the dark sky" onerror="console.error('Webb image failed to load: Saturn',this.src);this.closest('.g-item').style.display='none'"></div>
         </div>
 
         <div class="gallery-grid-trio">
-            <div class="g-item"><img src="https://science.nasa.gov/wp-content/uploads/2023/04/stsci-01gykvavfegm3d21b3ks8e0vxw.png" alt="Uranus in Webb NIRCam showing the ice giant's tilted ring system glowing brightly and a vivid polar cap of atmospheric methane haze with six moons visible" onerror="this.closest('.g-item').style.display='none'"></div>
-            <div class="g-item"><img src="https://science.nasa.gov/wp-content/uploads/2022/09/stsci-01gh06fmz3jcrbfm29tzbttekp.png" alt="Phantom Galaxy M74 in Webb MIRI mid-infrared showing its grand design spiral arms glowing in vivid teal and gold star-forming regions 32 million light-years away" onerror="this.closest('.g-item').style.display='none'"></div>
-            <div class="g-item"><img src="https://science.nasa.gov/wp-content/uploads/2022/10/stsci-01gdhd8n1q56ryfxhsrfvvg2r9.png" alt="IC 5332 face-on spiral galaxy in Webb MIRI mid-infrared showing an open lacy arm structure unlike its optical appearance 29 million light-years away" onerror="this.closest('.g-item').style.display='none'"></div>
+            <div class="g-item"><img src="https://assets.science.nasa.gov/content/dam/science/missions/webb/science/2023/04/STScI-01GWQDPJTF1MY8ZGN4WBMWMACJ.png" alt="Uranus in Webb NIRCam showing the ice giant's tilted ring system glowing brightly and a vivid polar cap of atmospheric methane haze with six moons visible" onerror="console.error('Webb image failed to load: Uranus',this.src);this.closest('.g-item').style.display='none'"></div>
+            <div class="g-item"><img src="https://assets.science.nasa.gov/dynamicimage/assets/science/missions/webb/science/2024/01/STScI-01HM9SJJYK57J82GWPYVV2292X.png" alt="Phantom Galaxy NGC 628 in Webb NIRCam and MIRI infrared showing its grand design spiral arms with star-forming regions 32 million light-years away" onerror="console.error('Webb image failed to load: Phantom Galaxy NGC 628',this.src);this.closest('.g-item').style.display='none'"></div>
+            <div class="g-item"><img src="https://assets.science.nasa.gov/content/dam/science/missions/webb/science/2024/01/STScI-01HM9QNBCG4Q4SHHKAB7WDPEWN.png" alt="IC 5332 face-on spiral galaxy in Webb NIRCam and MIRI infrared showing an open lacy arm structure unlike its optical appearance 29 million light-years away" onerror="console.error('Webb image failed to load: IC 5332',this.src);this.closest('.g-item').style.display='none'"></div>
         </div>
 
         <div class="spectrum-card fade-in">
@@ -1617,6 +1625,31 @@
             if (e.key === 'Escape') { close(); return; }
             if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { show(current - 1); return; }
             if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { show(current + 1); return; }
+        });
+    })();
+    </script>
+
+    <script>
+    // Monitor all Webb gallery images for load errors
+    (function() {
+        var imgs = document.querySelectorAll('img');
+        var loaded = 0, failed = 0;
+        imgs.forEach(function(img) {
+            if (!img.getAttribute('onerror')) {
+                img.addEventListener('error', function() {
+                    failed++;
+                    console.error('Webb image failed to load:', img.alt || '(no alt)', img.src);
+                });
+            }
+            if (!img.getAttribute('onload')) {
+                img.addEventListener('load', function() {
+                    loaded++;
+                });
+            }
+        });
+        window.addEventListener('load', function() {
+            console.log('[Webb Images] Loaded: ' + loaded + ', Failed: ' + failed + ', Total: ' + imgs.length);
+            if (failed > 0) console.warn('[Webb Images] ' + failed + ' image(s) failed to load — check onerror messages above for URLs.');
         });
     })();
     </script>
