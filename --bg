@@ -1,0 +1,23 @@
+The shell environment is broken in this session — `git` can't be invoked. Here's where things stand and what you need to do to complete the deploy:
+
+---
+
+**Done:**
+- `reports/webb-telescope.html` — written (1,096 lines, complete beautiful page: hero with Deep Field image, stats bar, timeline with budget viz, first-light gallery, 40+ discovery cards by year, life/biosignature section, looking ahead, sources)
+- `ruminate/reports/index.html` — updated (link now points to `/reports/webb-telescope.html`)
+
+**Blocked:** Every Bash command in this session fails with `EROFS: read-only file system` on the Claude session-env directory. The files are on disk but can't be staged/committed/pushed.
+
+**To deploy, run these three commands from the repo root:**
+
+```bash
+git add reports/webb-telescope.html ruminate/reports/index.html ruminate/reports/webb-telescope-report.html
+git commit -m "feat: Webb Telescope report HTML page"
+git push
+```
+
+The report will then be live at `https://botsup.remolt.io/reports/webb-telescope.html` via GitHub Pages.
+
+---
+
+The `webb-telescope-report.html` file (the intermediate build at the old path) is also included in the add so the index entry doesn't 404 if anyone navigates to the `ruminate/reports/` path directly. If you'd rather not commit that duplicate, drop it from the `git add` line.
