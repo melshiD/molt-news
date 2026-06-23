@@ -661,6 +661,100 @@
             .nav-links .nav-link:not(.nav-support) { display: none; }
             .hero-spike-wrap { display: none; }
         }
+
+        /* ── LIGHTBOX ── */
+        .g-item img, img.disc-card-img { cursor: zoom-in; }
+
+        .lb-overlay {
+            display: none;
+            position: fixed; inset: 0; z-index: 500;
+            background: oklch(0.03 0.01 260 / 0.96);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            align-items: center;
+            justify-content: center;
+            gap: var(--lg);
+        }
+        .lb-overlay.lb-open { display: flex; }
+
+        .lb-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: min(88vw, 1200px);
+            gap: var(--sm);
+        }
+        .lb-img {
+            max-width: min(88vw, 1200px);
+            max-height: 78vh;
+            object-fit: contain;
+            border: 1px solid var(--border-gold);
+            border-radius: var(--r-sm);
+            box-shadow: 0 0 60px oklch(0.75 0.14 78 / 0.10), 0 20px 80px oklch(0 0 0 / 0.6);
+            display: block;
+            animation: lb-fade 220ms ease-out;
+        }
+        @keyframes lb-fade { from { opacity: 0; transform: scale(0.97); } to { opacity: 1; transform: none; } }
+
+        .lb-caption {
+            color: var(--text-muted);
+            font-size: 13px;
+            font-family: var(--font-body);
+            text-align: center;
+            max-width: 720px;
+            line-height: 1.55;
+            padding: 0 var(--md);
+        }
+        .lb-caption strong { color: var(--gold); font-weight: 600; }
+
+        .lb-btn {
+            background: none; border: 1px solid transparent;
+            color: var(--gold);
+            font-size: 2.8rem;
+            cursor: pointer;
+            padding: var(--sm) var(--md);
+            border-radius: var(--r);
+            transition: background var(--t-fast), border-color var(--t-fast), color var(--t-fast);
+            flex-shrink: 0;
+            line-height: 1;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        .lb-btn:hover { background: var(--gold-glow); border-color: var(--border-gold); color: oklch(0.85 0.16 78); }
+        .lb-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+        .lb-btn:disabled { opacity: 0.2; cursor: default; }
+
+        .lb-close {
+            position: absolute; top: var(--lg); right: var(--lg);
+            background: none; border: 1px solid transparent;
+            color: var(--gold-dim);
+            font-size: 1.4rem; line-height: 1;
+            cursor: pointer;
+            padding: var(--xs) var(--sm);
+            border-radius: var(--r-sm);
+            transition: color var(--t-fast), background var(--t-fast), border-color var(--t-fast);
+        }
+        .lb-close:hover { color: var(--gold); background: var(--gold-glow); border-color: var(--border-gold); }
+        .lb-close:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+        .lb-counter {
+            position: absolute; top: var(--lg); left: 50%;
+            transform: translateX(-50%);
+            color: var(--text-dim);
+            font-size: 12px;
+            font-family: var(--font-mono);
+            letter-spacing: 0.06em;
+            user-select: none;
+            -webkit-user-select: none;
+            pointer-events: none;
+        }
+
+        @media (max-width: 600px) {
+            .lb-btn { font-size: 2rem; padding: var(--xs) var(--sm); }
+            .lb-img { max-height: 68vh; }
+            .lb-close { top: var(--sm); right: var(--sm); }
+            .lb-counter { top: var(--sm); }
+        }
     </style>
 </head>
 <body>
@@ -1412,6 +1506,18 @@
 
     </main>
 
+    <!-- ── LIGHTBOX OVERLAY ── -->
+    <div id="lb" class="lb-overlay" role="dialog" aria-modal="true" aria-label="Image viewer" tabindex="-1">
+        <button class="lb-close" aria-label="Close (Esc)">&times;</button>
+        <div class="lb-counter" aria-live="polite"></div>
+        <button class="lb-btn lb-prev" aria-label="Previous image">&#8249;</button>
+        <div class="lb-content">
+            <img class="lb-img" src="" alt="">
+            <div class="lb-caption"></div>
+        </div>
+        <button class="lb-btn lb-next" aria-label="Next image">&#8250;</button>
+    </div>
+
     <footer class="footer">
         <div class="footer-links">
             <a href="/index.html" class="footer-link">Botsup Archive</a>
@@ -1436,6 +1542,83 @@
             { threshold: 0.08, rootMargin: '0px 0px -24px 0px' }
         );
         document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
+
+    <script>
+    (function () {
+        var lb = document.getElementById('lb');
+        var lbImg = lb.querySelector('.lb-img');
+        var lbCaption = lb.querySelector('.lb-caption');
+        var lbCounter = lb.querySelector('.lb-counter');
+        var lbPrev = lb.querySelector('.lb-prev');
+        var lbNext = lb.querySelector('.lb-next');
+        var lbClose = lb.querySelector('.lb-close');
+
+        var imgs = [];
+        var current = 0;
+        var lastFocus = null;
+
+        function collectImgs() {
+            imgs = Array.from(document.querySelectorAll('.g-item img, img.disc-card-img'));
+        }
+
+        function show(idx) {
+            current = ((idx % imgs.length) + imgs.length) % imgs.length;
+            var img = imgs[current];
+            lbImg.src = img.src;
+            lbImg.alt = img.alt;
+            var item = img.closest('.g-item');
+            var titleEl = item && item.querySelector('.g-cap-title');
+            var descEl = item && item.querySelector('.g-cap-desc');
+            if (titleEl) {
+                lbCaption.innerHTML = '<strong>' + titleEl.textContent + '</strong>' +
+                    (descEl ? ' — ' + descEl.textContent : '');
+            } else {
+                lbCaption.textContent = img.alt;
+            }
+            lbCounter.textContent = (current + 1) + ' / ' + imgs.length;
+        }
+
+        function open(idx) {
+            collectImgs();
+            lastFocus = document.activeElement;
+            show(idx);
+            lb.classList.add('lb-open');
+            lb.focus();
+            document.body.style.overflow = 'hidden';
+        }
+
+        function close() {
+            lb.classList.remove('lb-open');
+            document.body.style.overflow = '';
+            lbImg.src = '';
+            if (lastFocus) lastFocus.focus();
+        }
+
+        document.addEventListener('click', function (e) {
+            var t = e.target;
+            if (t.tagName !== 'IMG') return;
+            var inGItem = t.closest('.g-item');
+            var isDiscImg = t.classList.contains('disc-card-img');
+            if (!inGItem && !isDiscImg) return;
+            collectImgs();
+            var idx = imgs.indexOf(t);
+            if (idx !== -1) open(idx);
+        });
+
+        lbClose.addEventListener('click', close);
+        lbPrev.addEventListener('click', function () { show(current - 1); });
+        lbNext.addEventListener('click', function () { show(current + 1); });
+
+        lb.addEventListener('click', function (e) { if (e.target === lb) close(); });
+
+        document.addEventListener('keydown', function (e) {
+            if (!lb.classList.contains('lb-open')) return;
+            if (e.key === 'Escape') { close(); return; }
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { show(current - 1); return; }
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { show(current + 1); return; }
+        });
+    })();
     </script>
 
 </body>
