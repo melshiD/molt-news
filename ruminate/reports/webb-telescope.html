@@ -534,6 +534,44 @@
         .ahead-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: var(--sm); line-height: 1.3; }
         .ahead-text { font-size: 14px; line-height: 1.75; color: oklch(0.64 0.01 80); }
 
+        /* ── GET INVOLVED ── */
+        .get-involved-section { padding: var(--2xl) var(--xl); position: relative; z-index: 1; }
+        .get-involved-inner { max-width: 900px; margin: 0 auto; }
+        .get-involved-card {
+            display: flex; align-items: center; justify-content: space-between; gap: var(--xl);
+            background: oklch(0.11 0.022 258 / 0.7);
+            border: 1px solid var(--border-gold);
+            border-radius: var(--r);
+            padding: var(--xl) var(--2xl);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            transition: border-color var(--t-base), box-shadow var(--t-base);
+        }
+        .get-involved-card:hover { border-color: var(--gold); box-shadow: 0 6px 28px var(--gold-glow); }
+        .get-involved-text-group { flex: 1; }
+        .get-involved-label {
+            font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 2px; color: var(--gold); margin-bottom: var(--xs);
+        }
+        .get-involved-title {
+            font-family: var(--font-display); font-size: 22px; font-weight: 700;
+            color: var(--text); letter-spacing: -0.5px; margin-bottom: var(--xs);
+        }
+        .get-involved-desc { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+        .get-involved-btn {
+            display: inline-flex; align-items: center; gap: var(--xs);
+            background: var(--gold); color: oklch(0.08 0 0);
+            padding: 10px 22px; border-radius: 24px;
+            font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 1px;
+            text-decoration: none; white-space: nowrap;
+            transition: background var(--t-fast), transform var(--t-fast);
+            flex-shrink: 0;
+        }
+        .get-involved-btn:hover { background: oklch(0.82 0.14 78); transform: translateY(-1px); }
+        @media (max-width: 640px) {
+            .get-involved-card { flex-direction: column; align-items: flex-start; }
+        }
+
         /* ── SOURCES ── */
         .sources-section {
             background: oklch(0.07 0.015 260 / 0.9);
@@ -1286,6 +1324,27 @@
                     <div class="ahead-title">The Biosignature Verdict</div>
                     <div class="ahead-text">The K2-18 b DMS/DMDS detection requires additional transits to reach 5-sigma confidence — the discovery threshold in astronomy. Those observations are scheduled in Webb's active program. If the signal holds and strengthens, it would be the first empirical evidence for life beyond Earth in the history of science. If it fades, the search continues with better constraints on which planet classes to target next. Either outcome rewrites the field.</div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ════════════════════════════════════════
+         GET INVOLVED
+    ════════════════════════════════════════ -->
+    <section class="get-involved-section" aria-label="Get involved with Webb">
+        <div class="get-involved-inner">
+            <div class="get-involved-card fade-in">
+                <div class="get-involved-text-group">
+                    <div class="get-involved-label">Citizen Astronomy</div>
+                    <div class="get-involved-title">Anyone Can Reach the Stars</div>
+                    <div class="get-involved-desc">No institutional affiliation required. From Hubble's 13 amateur astronomers in the 1990s to citizen scientists earning JWST co-investigator status today — a complete guide to proposing observations, accessing Webb's public data, and participating through citizen science projects.</div>
+                </div>
+                <a href="webb-citizen-access.html" class="get-involved-btn" aria-label="Read the citizen astronomy guide">
+                    Citizen Guide
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                        <path d="M5 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
             </div>
         </div>
     </section>
