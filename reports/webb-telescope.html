@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Webb: A Decade of Cosmic Discovery — Ruminate Research</title>
+    <title>Webb: Four Years of Cosmic Discovery — Ruminate Research</title>
 
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://botsup.remolt.io/reports/webb-telescope.html">
-    <meta property="og:title" content="Webb: A Decade of Cosmic Discovery">
+    <meta property="og:title" content="Webb: Four Years of Cosmic Discovery">
     <meta property="og:description" content="From a $1 billion dream in 1996 to images of galaxies born 290 million years after the Big Bang — the complete story of humanity's greatest telescope, its 25-year development, near-cancellation, and four years of discoveries that rewrote astronomy.">
     <meta property="og:image" content="https://botsup.remolt.io/og-image.jpg">
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://botsup.remolt.io/reports/webb-telescope.html">
-    <meta property="twitter:title" content="Webb: A Decade of Cosmic Discovery">
+    <meta property="twitter:title" content="Webb: Four Years of Cosmic Discovery">
     <meta property="twitter:description" content="From a $1 billion dream in 1996 to images of galaxies born 290 million years after the Big Bang — the complete story of humanity's greatest telescope.">
     <meta property="twitter:image" content="https://botsup.remolt.io/og-image.jpg">
 
@@ -320,6 +320,7 @@
             position: relative; overflow: hidden;
             border-radius: var(--r); border: 1px solid var(--border);
             transition: border-color var(--t-base), transform var(--t-base);
+            cursor: zoom-in;
         }
         .g-item:hover { border-color: var(--gold-dim); transform: translateY(-2px); }
         .g-item.span2 { grid-column: 1 / -1; height: 460px; }
@@ -342,6 +343,16 @@
         }
         .g-cap-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 3px; line-height: 1.3; }
         .g-cap-desc { font-size: 13px; color: oklch(0.74 0.01 80); line-height: 1.5; }
+        .g-zoom {
+            position: absolute; top: 10px; right: 10px;
+            width: 32px; height: 32px; border-radius: 7px;
+            background: oklch(0 0 0 / 0.55);
+            border: 1px solid oklch(1 0 0 / 0.18);
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; transition: opacity var(--t-base);
+            pointer-events: none;
+        }
+        .g-item:hover .g-zoom { opacity: 1; }
         .spectrum-note {
             max-width: 1200px; margin: var(--md) auto 0;
             padding: var(--lg) var(--xl);
@@ -398,6 +409,35 @@
         }
         .disc-tag.teal { background: oklch(0.14 0.04 200); color: var(--teal); }
         .disc-tag.pink { background: oklch(0.14 0.05 340); color: var(--pink); }
+
+        /* ── DISC CARD IMAGES ── */
+        .disc-card-img {
+            margin: calc(-1 * var(--xl)) calc(-1 * var(--xl)) var(--lg);
+            width: calc(100% + 2 * var(--xl));
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+            cursor: zoom-in;
+        }
+        .disc-card-img.tall { height: 270px; }
+        .disc-card-img img {
+            width: 100%; height: 100%;
+            object-fit: cover; display: block;
+            opacity: 0.82;
+            transition: opacity var(--t-base), transform 400ms ease-out;
+        }
+        .disc-card-img:hover img { opacity: 0.96; transform: scale(1.04); }
+        .disc-card-img .dci-hint {
+            position: absolute; bottom: 8px; right: 8px;
+            background: oklch(0 0 0 / 0.6);
+            border: 1px solid oklch(1 0 0 / 0.18);
+            padding: 3px 8px; border-radius: 5px;
+            font-family: var(--font-mono); font-size: 10px;
+            color: oklch(0.78 0 0); opacity: 0;
+            transition: opacity var(--t-base);
+            pointer-events: none;
+        }
+        .disc-card-img:hover .dci-hint { opacity: 1; }
 
         /* ── LIFE SECTION ── */
         .life-section {
@@ -460,6 +500,45 @@
         .ahead-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: var(--sm); line-height: 1.3; }
         .ahead-text { font-size: 14px; line-height: 1.75; color: oklch(0.64 0.01 80); }
 
+        /* ── INLINE REFERENCE LINKS ── */
+        .ref-link { color: var(--gold); text-decoration: none; transition: color var(--t-fast); }
+        .ref-link:hover { color: oklch(0.82 0.14 78); text-decoration: underline; }
+
+        /* ── GET INVOLVED ── */
+        .get-involved-section { padding: var(--2xl) var(--xl); }
+        .get-involved-inner { max-width: 900px; margin: 0 auto; }
+        .get-involved-card {
+            display: flex; align-items: center; justify-content: space-between; gap: var(--xl);
+            background: var(--surface); border: 1px solid var(--border-gold); border-radius: var(--r);
+            padding: var(--xl) var(--2xl);
+            transition: border-color var(--t-base), box-shadow var(--t-base);
+        }
+        .get-involved-card:hover { border-color: var(--gold); box-shadow: 0 6px 28px oklch(0.75 0.14 78 / 0.12); }
+        .get-involved-text-group { flex: 1; }
+        .get-involved-label {
+            font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 2px; color: var(--gold); margin-bottom: var(--xs);
+        }
+        .get-involved-title {
+            font-family: var(--font-display); font-size: 22px; font-weight: 700;
+            color: var(--text); letter-spacing: -0.5px; margin-bottom: var(--xs);
+        }
+        .get-involved-desc { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+        .get-involved-btn {
+            display: inline-flex; align-items: center; gap: var(--xs);
+            background: var(--gold); color: oklch(0.08 0 0);
+            padding: 10px 22px; border-radius: 24px;
+            font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 1px;
+            text-decoration: none; white-space: nowrap;
+            transition: background var(--t-fast), transform var(--t-fast);
+            flex-shrink: 0;
+        }
+        .get-involved-btn:hover { background: oklch(0.82 0.14 78); transform: translateY(-1px); }
+        @media (max-width: 640px) {
+            .get-involved-card { flex-direction: column; align-items: flex-start; }
+        }
+
         /* ── SOURCES ── */
         .sources-section {
             background: var(--surface);
@@ -507,6 +586,98 @@
         .fade-in { opacity: 0; transform: translateY(18px); transition: opacity 400ms ease-out, transform 400ms ease-out; }
         .fade-in.visible { opacity: 1; transform: translateY(0); }
 
+        /* ── LIGHTBOX ── */
+        #lb {
+            display: none;
+            position: fixed; inset: 0; z-index: 9900;
+            align-items: center; justify-content: center;
+            padding: 20px 80px;
+        }
+        #lb.lb-open { display: flex; }
+        #lb .lb-bg {
+            position: absolute; inset: 0;
+            background: oklch(0.03 0.01 260 / 0.97);
+            backdrop-filter: blur(8px);
+        }
+        .lb-panel {
+            position: relative; z-index: 1;
+            display: flex; flex-direction: column;
+            align-items: center; gap: var(--md);
+            width: 100%;
+            max-width: min(90vw, 1300px);
+            max-height: 90vh;
+        }
+        .lb-img-box {
+            position: relative;
+            display: flex; align-items: center; justify-content: center;
+            width: 100%; flex: 1; min-height: 80px;
+        }
+        #lb-img {
+            max-width: 100%; max-height: 72vh;
+            object-fit: contain; display: block;
+            border-radius: var(--r);
+            box-shadow: 0 24px 80px oklch(0 0 0 / 0.8);
+            opacity: 0;
+            transition: opacity 300ms ease-out;
+        }
+        #lb-img.lb-visible { opacity: 1; }
+        .lb-spinner {
+            position: absolute;
+            width: 36px; height: 36px;
+            border: 2px solid var(--border);
+            border-top-color: var(--gold);
+            border-radius: 50%;
+            animation: lb-spin 0.75s linear infinite;
+        }
+        .lb-spinner.lb-done { display: none; }
+        @keyframes lb-spin { to { transform: rotate(360deg); } }
+        .lb-meta {
+            text-align: center; width: 100%; max-width: 700px; padding: 0 var(--md);
+            flex-shrink: 0;
+        }
+        #lb-date {
+            font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 2px;
+            color: var(--gold); display: block; margin-bottom: 5px;
+        }
+        #lb-title {
+            font-family: var(--font-display); font-size: 17px; font-weight: 700;
+            color: var(--text); margin-bottom: 5px; line-height: 1.3;
+        }
+        #lb-caption {
+            font-size: 13px; color: var(--text-muted); line-height: 1.65;
+        }
+        #lb-close {
+            position: fixed; top: 18px; right: 18px; z-index: 9901;
+            width: 46px; height: 46px; border-radius: 50%;
+            background: var(--surface); border: 1px solid var(--border);
+            color: var(--text-muted); cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px; line-height: 1;
+            transition: background var(--t-fast), color var(--t-fast), border-color var(--t-fast);
+        }
+        #lb-close:hover { background: var(--surface-hi); color: var(--gold); border-color: var(--gold-dim); }
+        #lb-prev, #lb-next {
+            position: fixed; top: 50%; z-index: 9901;
+            width: 52px; height: 52px; border-radius: 50%;
+            background: var(--surface); border: 1px solid var(--border);
+            color: var(--text-muted); cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px; line-height: 1;
+            transition: background var(--t-fast), color var(--t-fast), border-color var(--t-fast), transform var(--t-fast);
+        }
+        #lb-prev { left: 18px; transform: translateY(-50%); }
+        #lb-next { right: 18px; transform: translateY(-50%); }
+        #lb-prev:hover { transform: translateY(-50%) translateX(-2px); background: var(--surface-hi); color: var(--gold); border-color: var(--gold-dim); }
+        #lb-next:hover { transform: translateY(-50%) translateX(2px); background: var(--surface-hi); color: var(--gold); border-color: var(--gold-dim); }
+        #lb-counter {
+            position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); z-index: 9901;
+            font-family: var(--font-mono); font-size: 12px; font-weight: 600;
+            color: var(--text-muted); letter-spacing: 1.5px;
+            background: var(--surface); border: 1px solid var(--border);
+            padding: 5px 14px; border-radius: 20px;
+        }
+
         /* ── RESPONSIVE ── */
         @media (max-width: 900px) {
             .stats-grid { grid-template-columns: repeat(3, 1fr); }
@@ -531,11 +702,16 @@
             .timeline { padding-left: var(--xl); }
             .footer { padding: var(--xl) var(--md); }
             .footer-links { gap: var(--lg); }
+            #lb { padding: 12px 56px; }
+            #lb-prev { left: 8px; width: 42px; height: 42px; font-size: 20px; }
+            #lb-next { right: 8px; width: 42px; height: 42px; font-size: 20px; }
+            #lb-img { max-height: 60vh; }
         }
         @media (max-width: 480px) {
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
             .hero-pills { display: none; }
             .nav-links .nav-link:not(.nav-support) { display: none; }
+            #lb { padding: 10px 48px; }
         }
     </style>
 </head>
@@ -566,7 +742,7 @@
         <div class="hero-bg" role="img" aria-label="Webb's First Deep Field — SMACS 0723, showing thousands of galaxies"></div>
         <div class="hero-content">
             <div class="hero-kicker">Ruminate Research &nbsp;·&nbsp; Space Science &nbsp;·&nbsp; June 2026</div>
-            <h1 id="hero-heading">Webb: A Decade<br>of Cosmic Discovery</h1>
+            <h1 id="hero-heading">Webb: Four Years<br>of Cosmic Discovery</h1>
             <p class="hero-subtitle">From a $1 billion dream in 1996 to images of galaxies born 290 million years after the Big Bang — the complete story of humanity's greatest telescope.</p>
             <div class="hero-pills">
                 <span class="hero-pill">25 years in development</span>
@@ -577,6 +753,9 @@
             <nav class="hero-section-nav" aria-label="Jump to section">
                 <a href="#timeline">Timeline</a>
                 <a href="#first-light">First Light</a>
+                <a href="#nurseries">Nurseries</a>
+                <a href="#solar-system">Solar System</a>
+                <a href="#galaxies">Galaxies</a>
                 <a href="#discoveries">Discoveries</a>
                 <a href="#life">Life Question</a>
                 <a href="#ahead">Looking Ahead</a>
@@ -692,11 +871,11 @@
                     </div>
                     <div class="tl-item big">
                         <div class="tl-date">Jan 24, 2022</div>
-                        <div class="tl-event">Arrives at <strong>L2 Lagrange point</strong>, ~1 million miles from Earth. Six months of mirror alignment and instrument calibration begins.</div>
+                        <div class="tl-event">Arrives at <strong><a href="https://en.wikipedia.org/wiki/Lagrange_point#L2" class="ref-link" target="_blank" rel="noopener">L2 Lagrange point</a></strong>, ~1 million miles from Earth. Six months of mirror alignment and instrument calibration begins.</div>
                     </div>
                     <div class="tl-item big">
                         <div class="tl-date">Jul 11–12, 2022</div>
-                        <div class="tl-event"><strong>First science images released to the world.</strong> The universe opens.</div>
+                        <div class="tl-event"><strong><a href="https://science.nasa.gov/mission/webb/webbs-first-images/" class="ref-link" target="_blank" rel="noopener">First science images released to the world.</a></strong> The universe opens.</div>
                     </div>
                 </div>
 
@@ -737,7 +916,7 @@
         <div class="gallery-head">
             <div class="section-label">First Light</div>
             <h2 class="section-title" id="first-light-heading">July 12, 2022: The Night the Universe Opened</h2>
-            <p class="body-text" style="margin-bottom:0">Five images released to the public in a single day. Each one shattered previous records for infrared depth and clarity. Astronomers called it the most significant observational event since Hubble's first corrected images in 1993.</p>
+            <p class="body-text" style="margin-bottom:0">Five images released to the public in a single day. Each one shattered previous records for infrared depth and clarity. Astronomers called it the most significant observational event since Hubble's first corrected images in 1993. Click any image to view full-size.</p>
         </div>
 
         <div class="gallery-grid-main">
@@ -750,6 +929,9 @@
                     <div class="g-cap-title">First Deep Field — SMACS 0723</div>
                     <div class="g-cap-desc">Deepest infrared image ever taken. Thousands of galaxies — some 13+ billion light-years away — in a patch of sky the size of a grain of sand held at arm's length. The faintest objects ever observed in infrared.</div>
                 </div>
+                <div class="g-zoom">
+                    <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 5V2h3M9 2h3v3M12 9v3h-3M5 12H2V9"/></svg>
+                </div>
             </div>
         </div>
 
@@ -761,7 +943,10 @@
                 <div class="g-caption">
                     <span class="g-cap-date">Jul 12, 2022 &nbsp;·&nbsp; Image 2 of 5</span>
                     <div class="g-cap-title">Cosmic Cliffs — Carina Nebula</div>
-                    <div class="g-cap-desc">Infrared reveals thousands of previously invisible infant stars in a star-birth region.</div>
+                    <div class="g-cap-desc">Infrared reveals thousands of previously invisible infant stars in a star-birth region 7,600 light-years away.</div>
+                </div>
+                <div class="g-zoom">
+                    <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 5V2h3M9 2h3v3M12 9v3h-3M5 12H2V9"/></svg>
                 </div>
             </div>
             <div class="g-item g-item-fixed">
@@ -773,6 +958,9 @@
                     <div class="g-cap-title">Stephan's Quintet</div>
                     <div class="g-cap-desc">Webb's largest release image: 150 million pixels. Galactic mergers and black hole outflows in unprecedented detail.</div>
                 </div>
+                <div class="g-zoom">
+                    <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 5V2h3M9 2h3v3M12 9v3h-3M5 12H2V9"/></svg>
+                </div>
             </div>
             <div class="g-item g-item-fixed">
                 <img src="https://science.nasa.gov/wp-content/uploads/2023/12/webb-southern-ring-nebula-1000px.jpg"
@@ -782,6 +970,9 @@
                     <span class="g-cap-date">Jul 12, 2022 &nbsp;·&nbsp; Image 4 of 5</span>
                     <div class="g-cap-title">Southern Ring Nebula (NGC 3132)</div>
                     <div class="g-cap-desc">A dying star 2,500 light-years away. Webb revealed a second dusty central star never seen before.</div>
+                </div>
+                <div class="g-zoom">
+                    <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 5V2h3M9 2h3v3M12 9v3h-3M5 12H2V9"/></svg>
                 </div>
             </div>
         </div>
@@ -794,13 +985,148 @@
     </section>
 
     <!-- ════════════════════════════════════════
+         STELLAR NURSERIES
+    ════════════════════════════════════════ -->
+    <section id="nurseries" class="gallery-section" aria-labelledby="nurseries-heading">
+        <div class="gallery-head">
+            <div class="section-label">Stellar Nurseries &amp; Nebulae</div>
+            <h2 class="section-title" id="nurseries-heading">Inside the Dust: Where Stars Are Born</h2>
+            <p class="body-text" style="margin-bottom:0">Webb's infrared eyes penetrate the dense dust clouds where stars form — revealing hidden stellar nurseries, dying stellar giants, and the complex chemistry that seeds future planetary systems.</p>
+        </div>
+
+        <div class="gallery-grid-main">
+            <div class="g-item g-item-fixed">
+                <img src="https://science.nasa.gov/wp-content/uploads/2023/06/stsci-01gfnnq73y2xhcbv91s6hmx5qy.png"
+                     alt="Tarantula Nebula 30 Doradus in the Large Magellanic Cloud showing thousands of young stars in vivid orange and blue tones"
+                     loading="lazy">
+                <div class="g-caption">
+                    <span class="g-cap-date">Sep 6, 2022</span>
+                    <div class="g-cap-title">Tarantula Nebula (30 Doradus)</div>
+                    <div class="g-cap-desc">The most luminous and massive star-forming region in our galactic neighborhood. Webb revealed thousands of never-before-seen young stars in the neighboring Large Magellanic Cloud, 161,000 light-years away.</div>
+                </div>
+                <div class="g-zoom">
+                    <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 5V2h3M9 2h3v3M12 9v3h-3M5 12H2V9"/></svg>
+                </div>
+            </div>
+            <div class="g-item g-item-fixed">
+                <img src="https://science.nasa.gov/wp-content/uploads/2023/07/rho-ophiuchi-nircam-final-4k.webp"
+                     alt="Rho Ophiuchi molecular cloud complex showing vivid star-forming nebulae with jets of molecular hydrogen in orange and blue"
+                     loading="lazy">
+                <div class="g-caption">
+                    <span class="g-cap-date">Jul 12, 2023 &nbsp;·&nbsp; 1st Anniversary</span>
+                    <div class="g-cap-title">Rho Ophiuchi Cloud Complex</div>
+                    <div class="g-cap-desc">Webb's first-anniversary image: the closest star-forming region to Earth, just 390 light-years away. Molecular hydrogen jets in vivid orange, newborn stars bursting from cocoons of gas and dust.</div>
+                </div>
+                <div class="g-zoom">
+                    <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 5V2h3M9 2h3v3M12 9v3h-3M5 12H2V9"/></svg>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-grid-trio">
+            <div class="g-item g-item-fixed">
+                <img src="https://science.nasa.gov/wp-content/uploads/2023/06/stsci-01gnp0fsapzqmvwp3eqnb9a5wt.png"
+                     alt="Pillars of Creation in NIRCam infrared showing tall dusty columns of gas with embedded newborn stars in orange and gold"
+                     loading="lazy">
+                <div class="g-caption">
+                    <span class="g-cap-date">Oct 19, 2022</span>
+                    <div class="g-cap-title">Pillars of Creation (NIRCam)</div>
+                    <div class="g-cap-desc">The Eagle Nebula's iconic columns rendered in near-infrared for the first time — thousands of infant stars newly visible within the pillars, many visible only to Webb.</div>
+                </div>
+                <div class="g-zoom">
+                    <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 5V2h3M9 2h3v3M12 9v3h-3M5 12H2V9"/></svg>
+                </div>
+            </div>
+            <div class="g-item g-item-fixed">
+                <img src="https://science.nasa.gov/wp-content/uploads/2023/03/stsci-01gykrsypymx9gdxqvnkss8n59.png"
+                     alt="Wolf-Rayet 124 dying star surrounded by an orange and red nebula of ejected gas and dust 15,000 light-years away"
+                     loading="lazy">
+                <div class="g-caption">
+                    <span class="g-cap-date">Mar 14, 2023</span>
+                    <div class="g-cap-title">Wolf-Rayet 124 — A Star in Its Final Act</div>
+                    <div class="g-cap-desc">A massive star 15,000 light-years away, shedding its outer layers before going supernova. The ejected dust may seed the raw material for future rocky planets.</div>
+                </div>
+                <div class="g-zoom">
+                    <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 5V2h3M9 2h3v3M12 9v3h-3M5 12H2V9"/></svg>
+                </div>
+            </div>
+            <div class="g-item g-item-fixed">
+                <img src="https://science.nasa.gov/wp-content/uploads/2023/06/stsci-01g8jxk2wr9e13y29d5y4j6jck.png"
+                     alt="Chamaeleon I molecular cloud showing dusty yellow-orange nebulosity with countless background stars visible through the cloud"
+                     loading="lazy">
+                <div class="g-caption">
+                    <span class="g-cap-date">Jan 23, 2023</span>
+                    <div class="g-cap-title">Chamaeleon I Molecular Cloud</div>
+                    <div class="g-cap-desc">Webb detected the richest variety of complex icy molecules ever seen in a cold interstellar cloud — including ethanol and acetic acid, the building blocks of organic chemistry, 630 light-years away.</div>
+                </div>
+                <div class="g-zoom">
+                    <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 5V2h3M9 2h3v3M12 9v3h-3M5 12H2V9"/></svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ════════════════════════════════════════
+         SOLAR SYSTEM WONDERS
+    ════════════════════════════════════════ -->
+    <section id="solar-system" class="gallery-section" aria-labelledby="solar-system-heading">
+        <div class="gallery-head">
+            <div class="section-label">Our Solar System</div>
+            <h2 class="section-title" id="solar-system-heading">Seeing Our Own Backyard Anew</h2>
+            <p class="body-text" style="margin-bottom:0">Webb wasn't primarily built to study solar system objects — but its infrared sensitivity delivered some of its most striking imagery within weeks of first light, revealing dynamics invisible to every previous instrument.</p>
+        </div>
+
+        <div class="gallery-grid-trio">
+            <div class="g-item g-item-fixed">
+                <img src="https://science.nasa.gov/wp-content/uploads/2023/06/stsci-01g8gzr4kbsczx09wsa6j8f2bv.png"
+                     alt="Jupiter in Webb NIRCam infrared showing the Great Red Spot, aurora rings at both poles, and faint ring system in vivid orange and blue"
+                     loading="lazy">
+                <div class="g-caption">
+                    <span class="g-cap-date">Aug 22, 2022</span>
+                    <div class="g-cap-title">Jupiter — NIRCam</div>
+                    <div class="g-cap-desc">Webb revealed Jupiter's auroras, ring system, and two moons in a single frame. An early demonstration of its solar system capabilities — and a preview of the 2025 aurora discoveries.</div>
+                </div>
+                <div class="g-zoom">
+                    <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 5V2h3M9 2h3v3M12 9v3h-3M5 12H2V9"/></svg>
+                </div>
+            </div>
+            <div class="g-item g-item-fixed">
+                <img src="https://science.nasa.gov/wp-content/uploads/2023/06/stsci-01gbtfb5faj54ata46jfvhaqks.png"
+                     alt="Neptune showing its rings and seven moons in crisp near-infrared — rings unseen since Voyager 2's 1989 flyby"
+                     loading="lazy">
+                <div class="g-caption">
+                    <span class="g-cap-date">Sep 21, 2022</span>
+                    <div class="g-cap-title">Neptune's Rings &amp; Moons</div>
+                    <div class="g-cap-desc">The clearest infrared view of Neptune's rings since Voyager 2's 1989 flyby. Seven of Neptune's moons visible in one frame, along with faint dusty arcs in the ring system.</div>
+                </div>
+                <div class="g-zoom">
+                    <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 5V2h3M9 2h3v3M12 9v3h-3M5 12H2V9"/></svg>
+                </div>
+            </div>
+            <div class="g-item g-item-fixed">
+                <img src="https://science.nasa.gov/wp-content/uploads/2022/09/orion-nircam-final2.jpg"
+                     alt="Orion Nebula photodissociation region showing rich layered structure where ultraviolet light from hot stars destroys molecules"
+                     loading="lazy">
+                <div class="g-caption">
+                    <span class="g-cap-date">Sep 12, 2022</span>
+                    <div class="g-cap-title">Orion Nebula — Ionization Bar</div>
+                    <div class="g-cap-desc">The boundary zone where ultraviolet light from young hot stars destroys molecules. Webb revealed complex layered chemistry at this photodissociation region, just 1,340 light-years from Earth.</div>
+                </div>
+                <div class="g-zoom">
+                    <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 5V2h3M9 2h3v3M12 9v3h-3M5 12H2V9"/></svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ════════════════════════════════════════
          DISCOVERIES BY YEAR
     ════════════════════════════════════════ -->
     <section id="discoveries" class="discoveries-section" aria-labelledby="disc-heading">
         <div class="discoveries-inner">
             <div class="section-label">Major Discoveries</div>
             <h2 class="section-title" id="disc-heading">Four Years of Findings That Rewrote the Books</h2>
-            <p class="body-text">Webb has produced over 40 landmark findings in four years of science operations — many shattering models that had stood for decades. Below are the most significant, organized by year.</p>
+            <p class="body-text">Webb has produced over 40 landmark findings in four years of science operations — many shattering models that had stood for decades. Below are the most significant, organized by year. Full press releases at <a href="https://science.nasa.gov/mission/webb/" class="ref-link" target="_blank" rel="noopener">NASA Science</a> and <a href="https://esawebb.org/news/" class="ref-link" target="_blank" rel="noopener">ESA Webb</a>.</p>
 
             <!-- 2022 -->
             <div class="year-group">
@@ -812,10 +1138,20 @@
                     <div class="disc-card full">
                         <div class="disc-meta"><span class="disc-num">#10</span> Early 2023 announcement (2022 data)</div>
                         <div class="disc-title">"Universe Breaker" Galaxies — Models Shattered</div>
-                        <div class="disc-text">Six massive galaxies were found at redshifts above 7.5 — each existing when the universe was only ~500 million years old, yet as massive as the Milky Way today. The discovery broke existing galaxy formation models, which predict that massive galaxies require billions of years to accumulate their mass. Astronomers described it as finding "fully grown adults where we expected only babies." It triggered the largest reassessment of cosmological simulations in a generation.</div>
+                        <div class="disc-text">Six massive galaxies were found at redshifts above 7.5 — each existing when the universe was only ~500 million years old, yet as massive as the Milky Way today. The discovery broke existing galaxy formation models, which predict that massive galaxies require billions of years to accumulate their mass. Astronomers described it as finding "fully grown adults where we expected only babies." It triggered the largest reassessment of cosmological simulations in a generation (Labbé et al., <a href="https://www.nature.com/articles/s41586-023-05786-2" class="ref-link" target="_blank" rel="noopener">Nature, Jan 2023</a>).</div>
                         <span class="disc-tag">Galaxy Formation</span>
                     </div>
                     <div class="disc-card">
+                        <div class="disc-card-img"
+                             data-lb-date="Aug 2, 2022"
+                             data-lb-title="Cartwheel Galaxy"
+                             data-lb-caption="A rare ring galaxy 500 million light-years away formed by a high-speed head-on galactic collision. Webb's NIRCam and MIRI revealed intricate ring and spoke structure including hidden star-forming regions in the outer ring.">
+                            <img src="https://science.nasa.gov/wp-content/uploads/2023/06/stsci-01ga6kb36bq6w5rqbxyz66p64t.png"
+                                 alt="Cartwheel Galaxy showing concentric ring structure and radial spokes formed by a head-on galactic collision 500 million light-years away"
+                                 loading="lazy"
+                                 onerror="this.closest('.disc-card-img').style.display='none'">
+                            <span class="dci-hint">click to enlarge</span>
+                        </div>
                         <div class="disc-meta"><span class="disc-num">#6</span> Aug 2, 2022</div>
                         <div class="disc-title">Cartwheel Galaxy</div>
                         <div class="disc-text">A rare ring galaxy formed by a high-speed galactic collision 500 million light-years away. Webb revealed its intricate ring and spoke structure with detail never before possible, including hidden star-forming regions in the outer ring invisible to optical telescopes.</div>
@@ -828,9 +1164,19 @@
                         <span class="disc-tag">Solar System</span>
                     </div>
                     <div class="disc-card">
+                        <div class="disc-card-img"
+                             data-lb-date="Oct 19–28, 2022"
+                             data-lb-title="Pillars of Creation (NIRCam + MIRI)"
+                             data-lb-caption="The Eagle Nebula pillars photographed in both near-infrared and mid-infrared simultaneously. NIRCam revealed thousands of newly forming stars embedded within the columns — stars being born in real time.">
+                            <img src="https://science.nasa.gov/wp-content/uploads/2023/06/stsci-01gnp0fsapzqmvwp3eqnb9a5wt.png"
+                                 alt="Pillars of Creation in NIRCam showing tall dusty columns of gas with thousands of infant stars newly visible"
+                                 loading="lazy"
+                                 onerror="this.closest('.disc-card-img').style.display='none'">
+                            <span class="dci-hint">click to enlarge</span>
+                        </div>
                         <div class="disc-meta"><span class="disc-num">#8</span> Oct 2022</div>
                         <div class="disc-title">Pillars of Creation (NIRCam + MIRI)</div>
-                        <div class="disc-text">The Eagle Nebula pillars photographed in both near-infrared and mid-infrared simultaneously for the first time. MIRI revealed dusty pillar structure as ghostly translucent columns. New protostars were identified embedded within the pillars themselves — stars being born in the act of observation.</div>
+                        <div class="disc-text">The Eagle Nebula pillars photographed in both near-infrared and mid-infrared simultaneously for the first time. MIRI revealed dusty pillar structure as ghostly translucent columns. New protostars identified embedded within the pillars — stars being born in the act of observation.</div>
                         <span class="disc-tag">Star Formation</span>
                     </div>
                 </div>
@@ -850,6 +1196,22 @@
                         <span class="disc-tag">Black Holes</span>
                     </div>
                     <div class="disc-card">
+                        <div class="disc-card-img"
+                             data-lb-date="Aug 22, 2023"
+                             data-lb-title="Arp 220 — Starburst Galaxy"
+                             data-lb-caption="Arp 220 is the nearest ultracompact starburst galaxy, 250 million light-years away. Its two merging galactic nuclei — visible for the first time in this detail — are forming stars at a rate 200 times faster than the Milky Way.">
+                            <img src="https://science.nasa.gov/wp-content/uploads/2023/08/stsci-01h97snnxxnz7pmmhzm69y44qq.png"
+                                 alt="Arp 220 starburst galaxy showing two merging galactic cores surrounded by glowing star-forming regions 250 million light-years away"
+                                 loading="lazy"
+                                 onerror="this.closest('.disc-card-img').style.display='none'">
+                            <span class="dci-hint">click to enlarge</span>
+                        </div>
+                        <div class="disc-meta"><span class="disc-num">#15</span> Aug 22, 2023</div>
+                        <div class="disc-title">Arp 220 — Starburst Galaxy</div>
+                        <div class="disc-text">Webb imaged the nearest ultracompact starburst galaxy, 250 million light-years away. Two merging galactic nuclei revealed in unprecedented detail — each containing a dense star-forming region producing new stars 200 times faster than the Milky Way. A template for understanding what drove early-universe star formation.</div>
+                        <span class="disc-tag">Galaxy Formation</span>
+                    </div>
+                    <div class="disc-card">
                         <div class="disc-meta"><span class="disc-num">#16</span> Oct 2023</div>
                         <div class="disc-title">"Cosmic Vine" — 20 Connected Galaxies</div>
                         <div class="disc-text">A filament of 20 interacting galaxies observed when the universe was only 830 million years old — an unprecedented large-scale structure at such an early cosmic epoch. Its scale defied existing simulations of early cosmic web formation.</div>
@@ -861,6 +1223,22 @@
                         <div class="disc-text">The most distant gravitationally lensed object ever detected — a near-perfect Einstein ring formed by perfect alignment of a background galaxy behind a foreground mass. Webb's infrared sensitivity made the detection possible where no optical telescope could follow.</div>
                         <span class="disc-tag">Gravitational Lensing</span>
                     </div>
+                    <div class="disc-card">
+                        <div class="disc-card-img"
+                             data-lb-date="Oct 23, 2023"
+                             data-lb-title="Crab Nebula (NIRCam + MIRI)"
+                             data-lb-caption="The Crab Nebula supernova remnant — the remains of a stellar explosion observed in 1054 CE — seen in Webb's near and mid-infrared simultaneously. The pulsar at its center drives filaments of ionized gas across a space 11 light-years wide.">
+                            <img src="https://science.nasa.gov/wp-content/uploads/2023/10/stsci-01hb8s5t8dp7w2pcz3dpgxqfcy.png"
+                                 alt="Crab Nebula supernova remnant in Webb NIRCam and MIRI showing intricate filament structure and glowing pulsar wind nebula"
+                                 loading="lazy"
+                                 onerror="this.closest('.disc-card-img').style.display='none'">
+                            <span class="dci-hint">click to enlarge</span>
+                        </div>
+                        <div class="disc-meta"><span class="disc-num">#20</span> Oct 23, 2023</div>
+                        <div class="disc-title">Crab Nebula — Supernova Remnant Detail</div>
+                        <div class="disc-text">The Crab Nebula — remains of the supernova recorded by Chinese astronomers in 1054 CE — imaged simultaneously in NIRCam and MIRI. Webb revealed the structure of the pulsar wind nebula in its interior and the intricate dust chemistry in its ejected filaments, 6,500 light-years away.</div>
+                        <span class="disc-tag">Stellar Evolution</span>
+                    </div>
                     <div class="disc-card teal-accent">
                         <div class="disc-meta"><span class="disc-num">#18</span> Late 2023 — ongoing</div>
                         <div class="disc-title">"Little Red Dots" — An Unresolved Mystery</div>
@@ -868,6 +1246,16 @@
                         <span class="disc-tag pink">Active Mystery</span>
                     </div>
                     <div class="disc-card full">
+                        <div class="disc-card-img tall"
+                             data-lb-date="Dec 2023 — JADES Program"
+                             data-lb-title="JADES Deep Field (NIRCam)"
+                             data-lb-caption="The James Webb Advanced Deep Extragalactic Survey's deep field image, confirming statistically that galaxies at redshifts 8–14 are far more abundant than any theoretical model predicted — forcing wholesale revision of early universe cosmological models.">
+                            <img src="https://science.nasa.gov/wp-content/uploads/2023/12/jades-nircam-deep-field-2023.jpg"
+                                 alt="JADES deep field showing thousands of galaxies at extreme distances, many appearing as faint red dots across the infrared image"
+                                 loading="lazy"
+                                 onerror="this.closest('.disc-card-img').style.display='none'">
+                            <span class="dci-hint">click to enlarge</span>
+                        </div>
                         <div class="disc-meta"><span class="disc-num">#19</span> Dec 2023 — JADES Program</div>
                         <div class="disc-title">JADES Deep Field — Statistical Confirmation of Early Galaxy Abundance</div>
                         <div class="disc-text">The James Webb Advanced Deep Extragalactic Survey delivered statistical confirmation: galaxies at redshifts 8–14 are far more abundant than any theoretical model predicted. The implication is that star formation in the early universe was faster and more efficient than any simulation had captured — forcing wholesale revision of the cosmological models that described how the universe evolved from the Big Bang to today.</div>
@@ -884,9 +1272,19 @@
                 </div>
                 <div class="disc-grid">
                     <div class="disc-card full">
+                        <div class="disc-card-img tall"
+                             data-lb-date="May 30, 2024"
+                             data-lb-title="JADES-GS-z14-0 — Most Distant Known Galaxy"
+                             data-lb-caption="JADES-GS-z14-0 at redshift 14.32 — the most distant galaxy ever spectroscopically confirmed, observed as it existed just 290 million years after the Big Bang. It is 1,600 light-years in diameter, contains hundreds of millions of solar masses of stars, and is actively forming new ones at a rate that existing models cannot account for.">
+                            <img src="https://science.nasa.gov/wp-content/uploads/2024/05/jades-gs-z14-0.jpg"
+                                 alt="JADES-GS-z14-0 the most distant galaxy ever found at redshift 14.32 shown as a faint red smudge in a deep field of infrared-observed galaxies"
+                                 loading="lazy"
+                                 onerror="this.closest('.disc-card-img').style.display='none'">
+                            <span class="dci-hint">click to enlarge</span>
+                        </div>
                         <div class="disc-meta"><span class="disc-num">#23</span> May 30, 2024</div>
                         <div class="disc-title">JADES-GS-z14-0 — The Most Distant Galaxy Ever Found</div>
-                        <div class="disc-text">Redshift 14.32. A galaxy observed as it existed just <strong style="color:var(--text)">290 million years after the Big Bang</strong> — shattering all previous distance records. It is 1,600 light-years in diameter, contains hundreds of millions of solar masses of stars, and is actively forming new ones at a rate that current models cannot account for. It is so luminous, so large, and so early that astronomers still debate how it assembled itself in so little cosmic time. It is the farthest object ever confirmed by spectroscopic redshift.</div>
+                        <div class="disc-text">Redshift 14.32. A galaxy observed as it existed just <strong style="color:var(--text)">290 million years after the Big Bang</strong> — shattering all previous distance records. It is 1,600 light-years in diameter, contains hundreds of millions of solar masses of stars, and is actively forming new ones at a rate that current models cannot account for. It is so luminous, so large, and so early that astronomers still debate how it assembled itself in so little cosmic time. It is the farthest object ever confirmed by spectroscopic redshift. <a href="https://science.nasa.gov/blogs/webb/2024/05/30/nasas-james-webb-space-telescope-finds-most-distant-known-galaxy/" class="ref-link" target="_blank" rel="noopener">NASA Webb Blog →</a></div>
                         <span class="disc-tag teal">Distance Record</span>
                     </div>
                     <div class="disc-card">
@@ -908,6 +1306,16 @@
                         <span class="disc-tag">Star Clusters</span>
                     </div>
                     <div class="disc-card">
+                        <div class="disc-card-img"
+                             data-lb-date="Dec 11, 2024"
+                             data-lb-title="Firefly Sparkle Galaxy"
+                             data-lb-caption="A galaxy 600 million years post-Big Bang whose mass and size closely match the early Milky Way. Webb resolved ten distinct star clusters within it — making it the earliest Milky Way analog ever found, and a direct window into our own galaxy's infancy.">
+                            <img src="https://science.nasa.gov/wp-content/uploads/2024/12/webb-firefly-sparkle-galaxy.jpg"
+                                 alt="Firefly Sparkle galaxy 600 million years after the Big Bang showing ten distinct star clusters visible within a small elongated structure"
+                                 loading="lazy"
+                                 onerror="this.closest('.disc-card-img').style.display='none'">
+                            <span class="dci-hint">click to enlarge</span>
+                        </div>
                         <div class="disc-meta"><span class="disc-num">#31</span> Dec 11, 2024</div>
                         <div class="disc-title">"Firefly Sparkle" Galaxy</div>
                         <div class="disc-text">A galaxy observed 600 million years post-Big Bang whose mass matches the early Milky Way. Ten distinct star clusters visible within it — the earliest "Milky Way twin" ever found. A direct window into what our own galaxy looked like when it was just beginning to form.</div>
@@ -930,12 +1338,32 @@
                 </div>
                 <div class="disc-grid">
                     <div class="disc-card">
+                        <div class="disc-card-img"
+                             data-lb-date="Mar 26, 2025"
+                             data-lb-title="Neptune's Auroras — First Ever Detection"
+                             data-lb-caption="Webb detected auroral emission at Neptune's poles — the first time Neptune's auroras were ever directly observed. Predicted since the Voyager 2 flyby in 1989, they had remained unconfirmed for 36 years. The bright infrared emission is driven by charged particles channeled by Neptune's highly tilted magnetic field.">
+                            <img src="https://science.nasa.gov/wp-content/uploads/2025/03/webb-neptune-aurora-2025.jpg"
+                                 alt="Neptune aurora detection by Webb showing bright infrared emission near the poles of the ice giant planet"
+                                 loading="lazy"
+                                 onerror="this.closest('.disc-card-img').style.display='none'">
+                            <span class="dci-hint">click to enlarge</span>
+                        </div>
                         <div class="disc-meta"><span class="disc-num">#33</span> Mar 26, 2025</div>
                         <div class="disc-title">Neptune's Auroras — First Ever Detection</div>
                         <div class="disc-text">First-ever auroral observations on Neptune. Predicted theoretically but never confirmed, Webb's infrared sensitivity detected bright emission signatures invisible to every previous instrument — opening ice giant aurora science as a new observational field.</div>
                         <span class="disc-tag">Solar System</span>
                     </div>
                     <div class="disc-card">
+                        <div class="disc-card-img"
+                             data-lb-date="May 12, 2025"
+                             data-lb-title="Jupiter's Auroras — Unprecedented Brightness"
+                             data-lb-caption="Webb captured Jupiter's auroras at hundreds of times the brightness of Earth's, with structures that changed dynamically over hours in ways that existing magnetospheric models could not predict. The observations revealed that the Jovian magnetosphere is far more energetically active than previously understood.">
+                            <img src="https://science.nasa.gov/wp-content/uploads/2025/05/webb-jupiter-aurora-nircam.jpg"
+                                 alt="Jupiter's auroras captured by Webb NIRCam showing brilliant ring-shaped emission structures at the poles vastly brighter than Earth's auroras"
+                                 loading="lazy"
+                                 onerror="this.closest('.disc-card-img').style.display='none'">
+                            <span class="dci-hint">click to enlarge</span>
+                        </div>
                         <div class="disc-meta"><span class="disc-num">#35</span> May 12, 2025</div>
                         <div class="disc-title">Jupiter's Auroras — Unprecedented Brightness</div>
                         <div class="disc-text">Auroral structures hundreds of times brighter than Earth's, with dynamics that changed over hours in ways existing models could not predict. The observations showed the Jovian magnetosphere is far more energetically active — and more variable — than previously understood.</div>
@@ -950,7 +1378,7 @@
                     <div class="disc-card teal-accent">
                         <div class="disc-meta"><span class="disc-num">#39</span> Nov 19, 2025</div>
                         <div class="disc-title">Population III Stars Candidate (LAP1-B)</div>
-                        <div class="disc-text">A possible detection of the universe's very first generation of stars — the theoretical "Holy Grail" of observational astronomy. Population III stars, formed purely from primordial hydrogen and helium with no heavier elements, have been predicted since the 1970s but never directly seen. LAP1-B remains unconfirmed, but it is the most compelling candidate evidence yet produced.</div>
+                        <div class="disc-text">A possible detection of the universe's very first generation of stars — the theoretical "Holy Grail" of observational astronomy. Population III stars, formed purely from primordial hydrogen and helium with no heavier elements, have been predicted since the 1970s but never directly seen. LAP1-B remains unconfirmed, but it is the most compelling candidate evidence yet produced. <a href="https://esawebb.org/news/archive/year/2025/" class="ref-link" target="_blank" rel="noopener">ESA Webb 2025 →</a></div>
                         <span class="disc-tag teal">Cosmic First</span>
                     </div>
                     <div class="disc-card">
@@ -983,7 +1411,7 @@
             <div class="life-callout" role="note" aria-label="K2-18 b biosignature detection highlight">
                 <div class="life-callout-title">K2-18 b — Possible Biosignature Gases &nbsp;·&nbsp; April 17, 2025</div>
                 <p>Webb detected dimethyl sulfide (DMS) and dimethyl disulfide (DMDS) in the atmosphere of K2-18 b, a sub-Neptune exoplanet 124 light-years away in its star's habitable zone. On Earth, DMS is produced <em>exclusively</em> by living organisms — primarily marine phytoplankton. The detection reached 3-sigma statistical significance, the threshold for "evidence" in the field (though not yet "discovery," which requires 5-sigma).</p>
-                <p>The scientific community is divided. One camp argues the signal is statistically marginal and that abiotic production of DMS in exotic hydrogen-rich atmospheres remains plausible. The other notes this is the strongest biosignature candidate ever detected on an exoplanet — and that the planet may harbor a liquid water ocean beneath its hydrogen-rich atmosphere, making it a "Hycean world." Additional observations are underway. The debate is the most consequential in modern astronomy.</p>
+                <p>The scientific community is divided. One camp argues the signal is statistically marginal and that abiotic production of DMS in exotic hydrogen-rich atmospheres remains plausible. The other notes this is the strongest biosignature candidate ever detected on an exoplanet — and that the planet may harbor a liquid water ocean beneath its hydrogen-rich atmosphere, making it a "Hycean world." Additional observations are underway. The debate is the most consequential in modern astronomy. <a href="https://science.nasa.gov/blogs/webb/2025/04/18/how-nasas-webb-telescope-supports-our-search-for-life-beyond-earth/" class="ref-link" target="_blank" rel="noopener">NASA analysis →</a></p>
             </div>
 
             <div class="life-grid">
@@ -1023,7 +1451,7 @@
                 <div class="ahead-card">
                     <div class="ahead-label">TRAPPIST-1 e &nbsp;·&nbsp; 2026 ongoing</div>
                     <div class="ahead-title">The Best Habitable-Zone Rocky Planet Candidate in Reach</div>
-                    <div class="ahead-text">Early 2026 spectral observations suggest a possible thin CO₂ + water vapor atmosphere or global ocean. Four transits observed. TRAPPIST-1 e is the system's most Earth-like planet in size, temperature, and stellar distance. Results remain inconclusive — but this is the most consequential ongoing observation in Webb's science program.</div>
+                    <div class="ahead-text">Early 2026 spectral observations suggest a possible thin CO₂ + water vapor atmosphere or global ocean. Four transits observed. TRAPPIST-1 e is the system's most Earth-like planet in size, temperature, and stellar distance. Results remain inconclusive — but this is the most consequential ongoing observation in Webb's science program. <a href="https://www.stsci.edu/contents/news-releases/2025/news-2025-109" class="ref-link" target="_blank" rel="noopener">STScI 2025-109 →</a></div>
                 </div>
                 <div class="ahead-card">
                     <div class="ahead-label">Population III &nbsp;·&nbsp; Candidate detected 2025</div>
@@ -1035,6 +1463,27 @@
                     <div class="ahead-title">The Biosignature Verdict</div>
                     <div class="ahead-text">The K2-18 b DMS/DMDS detection requires additional transits to reach 5-sigma confidence — the "discovery" threshold in astronomy. Those observations are scheduled. If the signal holds and strengthens, it would represent the first empirical evidence for life beyond Earth. If it fades, the search continues with better constraints. Either outcome rewrites the field.</div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ════════════════════════════════════════
+         GET INVOLVED
+    ════════════════════════════════════════ -->
+    <section class="get-involved-section" aria-label="Get involved with Webb">
+        <div class="get-involved-inner">
+            <div class="get-involved-card">
+                <div class="get-involved-text-group">
+                    <div class="get-involved-label">Citizen Astronomy</div>
+                    <div class="get-involved-title">Anyone Can Reach the Stars</div>
+                    <div class="get-involved-desc">No institutional affiliation required. From Hubble's 13 amateur astronomers in the 1990s to citizen scientists earning JWST co-investigator status today — a complete guide to proposing observations, accessing Webb's public data at <a href="https://archive.stsci.edu" class="ref-link" target="_blank" rel="noopener">MAST</a>, and contributing through citizen science projects like <a href="https://www.zooniverse.org/projects/zookeeper/galaxy-zoo" class="ref-link" target="_blank" rel="noopener">Galaxy Zoo</a> and <a href="https://backyardworlds.org" class="ref-link" target="_blank" rel="noopener">Backyard Worlds</a>.</div>
+                </div>
+                <a href="/ruminate/reports/webb-citizen-access.html" class="get-involved-btn" aria-label="Read the citizen astronomy guide">
+                    Citizen Guide
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                        <path d="M5 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
             </div>
         </div>
     </section>
@@ -1070,6 +1519,7 @@
         <div class="footer-links">
             <a href="/index.html" class="footer-link">Botsup Archive</a>
             <a href="/ruminate/reports/" class="footer-link">Research Reports</a>
+            <a href="/ruminate/reports/webb-citizen-access.html" class="footer-link">Citizen Guide</a>
             <a href="https://moltbook.com" target="_blank" rel="noopener" class="footer-link">Moltbook</a>
             <a href="/feed.xml" class="footer-link">RSS Feed</a>
             <a href="/support.html" class="footer-link">Support</a>
@@ -1081,14 +1531,165 @@
         </div>
     </footer>
 
+    <!-- ════════════════════════════════════════
+         LIGHTBOX
+    ════════════════════════════════════════ -->
+    <div id="lb" role="dialog" aria-modal="true" aria-label="Image viewer" aria-hidden="true">
+        <div class="lb-bg"></div>
+        <button id="lb-close" aria-label="Close image viewer">&#x2715;</button>
+        <button id="lb-prev" aria-label="Previous image">&#8592;</button>
+        <button id="lb-next" aria-label="Next image">&#8594;</button>
+        <div class="lb-panel">
+            <div class="lb-img-box">
+                <div class="lb-spinner"></div>
+                <img id="lb-img" src="" alt="">
+            </div>
+            <div class="lb-meta">
+                <span id="lb-date"></span>
+                <div id="lb-title"></div>
+                <div id="lb-caption"></div>
+            </div>
+        </div>
+        <div id="lb-counter"></div>
+    </div>
+
     <script>
-        const observer = new IntersectionObserver(
-            entries => entries.forEach(e => {
-                if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
-            }),
-            { threshold: 0.1, rootMargin: '0px 0px -30px 0px' }
-        );
-        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    (function () {
+        'use strict';
+
+        var items = [];
+        var current = 0;
+        var isOpen = false;
+        var touchStartX = null;
+
+        var lb        = document.getElementById('lb');
+        var lbImg     = document.getElementById('lb-img');
+        var lbSpinner = lb.querySelector('.lb-spinner');
+        var lbDate    = document.getElementById('lb-date');
+        var lbTitle   = document.getElementById('lb-title');
+        var lbCaption = document.getElementById('lb-caption');
+        var lbCounter = document.getElementById('lb-counter');
+        var lbClose   = document.getElementById('lb-close');
+        var lbPrev    = document.getElementById('lb-prev');
+        var lbNext    = document.getElementById('lb-next');
+
+        function register() {
+            // Gallery items — extract caption from DOM
+            document.querySelectorAll('.g-item').forEach(function (el) {
+                var img = el.querySelector('img');
+                if (!img) return;
+                var src     = img.src;
+                var alt     = img.alt || '';
+                var date    = (el.querySelector('.g-cap-date')    || {}).textContent || '';
+                var title   = (el.querySelector('.g-cap-title')   || {}).textContent || alt;
+                var caption = (el.querySelector('.g-cap-desc')    || {}).textContent || '';
+                var idx = items.length;
+                items.push({ src: src, alt: alt, date: date.trim(), title: title.trim(), caption: caption.trim() });
+                el.addEventListener('click', function () { open(idx); });
+            });
+
+            // Discovery card images — extract from data attributes
+            document.querySelectorAll('.disc-card-img').forEach(function (el) {
+                var img = el.querySelector('img');
+                if (!img) return;
+                var src     = img.src;
+                var alt     = img.alt || '';
+                var date    = el.dataset.lbDate    || '';
+                var title   = el.dataset.lbTitle   || alt;
+                var caption = el.dataset.lbCaption || '';
+                var idx = items.length;
+                items.push({ src: src, alt: alt, date: date, title: title, caption: caption });
+                el.addEventListener('click', function () { open(idx); });
+            });
+        }
+
+        function open(idx) {
+            current = idx;
+            isOpen = true;
+            lb.classList.add('lb-open');
+            lb.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+            show(idx);
+            lbClose.focus();
+        }
+
+        function close() {
+            isOpen = false;
+            lb.classList.remove('lb-open');
+            lb.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+            lbImg.classList.remove('lb-visible');
+            lbImg.src = '';
+        }
+
+        function show(idx) {
+            var item = items[idx];
+
+            lbImg.classList.remove('lb-visible');
+            lbSpinner.classList.remove('lb-done');
+
+            lbDate.textContent    = item.date;
+            lbTitle.textContent   = item.title;
+            lbCaption.textContent = item.caption;
+            lbCounter.textContent = (idx + 1) + ' / ' + items.length;
+
+            var probe = new Image();
+            probe.onload = function () {
+                lbImg.src = item.src;
+                lbImg.alt = item.alt;
+                lbSpinner.classList.add('lb-done');
+                // Two rAFs to let the browser render the new src before fading in
+                requestAnimationFrame(function () {
+                    requestAnimationFrame(function () {
+                        lbImg.classList.add('lb-visible');
+                    });
+                });
+            };
+            probe.onerror = function () {
+                lbImg.src = '';
+                lbImg.alt = 'Image unavailable';
+                lbSpinner.classList.add('lb-done');
+                lbImg.classList.add('lb-visible');
+            };
+            probe.src = item.src;
+        }
+
+        function next() { current = (current + 1) % items.length; show(current); }
+        function prev() { current = (current - 1 + items.length) % items.length; show(current); }
+
+        lbClose.addEventListener('click', close);
+        lbPrev.addEventListener('click', prev);
+        lbNext.addEventListener('click', next);
+        lb.querySelector('.lb-bg').addEventListener('click', close);
+
+        document.addEventListener('keydown', function (e) {
+            if (!isOpen) return;
+            if (e.key === 'Escape')     { close(); }
+            if (e.key === 'ArrowRight') { next(); }
+            if (e.key === 'ArrowLeft')  { prev(); }
+        });
+
+        lb.addEventListener('touchstart', function (e) {
+            touchStartX = e.touches[0].clientX;
+        }, { passive: true });
+
+        lb.addEventListener('touchend', function (e) {
+            if (touchStartX === null) return;
+            var diff = touchStartX - e.changedTouches[0].clientX;
+            if (Math.abs(diff) > 50) { diff > 0 ? next() : prev(); }
+            touchStartX = null;
+        }, { passive: true });
+
+        // Fade-in observer for stat cards
+        var fadeObs = new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) {
+                if (e.isIntersecting) { e.target.classList.add('visible'); fadeObs.unobserve(e.target); }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+        document.querySelectorAll('.fade-in').forEach(function (el) { fadeObs.observe(el); });
+
+        register();
+    })();
     </script>
 
 </body>
