@@ -323,7 +323,8 @@
             margin: var(--lg) 0;
             border-radius: var(--r);
             border: 1px solid var(--border);
-            overflow: hidden;
+            overflow: clip;
+            max-width: 100%;
         }
         .code-header {
             display: flex; align-items: center; justify-content: space-between;
@@ -351,12 +352,15 @@
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
             margin: 0;
+            max-width: 100%;
         }
         code {
             font-family: var(--font-mono);
             font-size: 14px; line-height: 1.7;
             color: oklch(0.85 0.015 80);
             white-space: pre;
+            overflow-x: auto;
+            display: block;
         }
         .code-comment { color: var(--text-dim); }
         .code-cmd { color: var(--gold); }
@@ -645,16 +649,20 @@
             .slash-grid { grid-template-columns: 1fr 1fr; }
             .section-wrap { padding: var(--2xl) var(--md); }
             .toc-section { padding: var(--xl) var(--md) 0; }
-            .code-block { max-width: 100%; }
-            pre { font-size: 13px; padding: var(--md); }
-            code { font-size: 13px; }
+            .code-block { max-width: 100%; overflow-x: auto; }
+            pre { font-size: 13px; padding: var(--md); overflow-x: auto; -webkit-overflow-scrolling: touch; max-width: 100%; }
+            code { font-size: 13px; overflow-x: auto; display: block; }
+            pre::-webkit-scrollbar { height: 4px; }
+            pre::-webkit-scrollbar-track { background: oklch(0.09 0.025 255); }
+            pre::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+            pre { scrollbar-width: thin; scrollbar-color: var(--border) oklch(0.09 0.025 255); }
         }
         @media (max-width: 480px) {
             .stats-grid { grid-template-columns: 1fr 1fr; }
             .slash-grid { grid-template-columns: 1fr; }
             .nav-links { gap: var(--sm); }
-            pre { font-size: 12px; }
-            code { font-size: 12px; }
+            pre { font-size: 12px; overflow-x: auto; -webkit-overflow-scrolling: touch; max-width: 100%; }
+            code { font-size: 12px; overflow-x: auto; display: block; }
         }
     </style>
 </head>
