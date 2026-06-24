@@ -702,16 +702,18 @@
             .timeline { padding-left: var(--xl); }
             .footer { padding: var(--xl) var(--md); }
             .footer-links { gap: var(--lg); }
-            #lb { padding: 12px 56px; }
-            #lb-prev { left: 8px; width: 42px; height: 42px; font-size: 20px; }
-            #lb-next { right: 8px; width: 42px; height: 42px; font-size: 20px; }
+            #lb { padding: 12px 72px; }
+            #lb-prev { left: 6px; width: 60px; height: 60px; font-size: 28px; background: oklch(0 0 0 / 0.78); border-color: oklch(1 0 0 / 0.28); color: oklch(0.92 0 0); }
+            #lb-next { right: 6px; width: 60px; height: 60px; font-size: 28px; background: oklch(0 0 0 / 0.78); border-color: oklch(1 0 0 / 0.28); color: oklch(0.92 0 0); }
             #lb-img { max-height: 60vh; }
         }
         @media (max-width: 480px) {
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
             .hero-pills { display: none; }
             .nav-links .nav-link:not(.nav-support) { display: none; }
-            #lb { padding: 10px 48px; }
+            #lb { padding: 10px 66px; }
+            #lb-prev { left: 4px; width: 56px; height: 56px; font-size: 26px; }
+            #lb-next { right: 4px; width: 56px; height: 56px; font-size: 26px; }
         }
     </style>
 </head>
@@ -996,9 +998,10 @@
 
         <div class="gallery-grid-main">
             <div class="g-item g-item-fixed">
-                <img src="https://science.nasa.gov/wp-content/uploads/2023/06/stsci-01gfnnq73y2xhcbv91s6hmx5qy.png"
+                <img src="https://assets.science.nasa.gov/dynamicimage/assets/science/missions/webb/science/2022/09/stsci-01gfnnq73y2xhcbv91s6hmx5qy.png"
                      alt="Tarantula Nebula 30 Doradus in the Large Magellanic Cloud showing thousands of young stars in vivid orange and blue tones"
-                     loading="lazy">
+                     loading="lazy"
+                     onerror="this.closest('.g-item').style.display='none'">
                 <div class="g-caption">
                     <span class="g-cap-date">Sep 6, 2022</span>
                     <div class="g-cap-title">Tarantula Nebula (30 Doradus)</div>
@@ -1009,9 +1012,10 @@
                 </div>
             </div>
             <div class="g-item g-item-fixed">
-                <img src="https://science.nasa.gov/wp-content/uploads/2023/07/rho-ophiuchi-nircam-final-4k.webp"
+                <img src="https://assets.science.nasa.gov/dynamicimage/assets/science/missions/webb/science/2023/07/rho-ophiuchi-nircam-final-4k.webp"
                      alt="Rho Ophiuchi molecular cloud complex showing vivid star-forming nebulae with jets of molecular hydrogen in orange and blue"
-                     loading="lazy">
+                     loading="lazy"
+                     onerror="this.closest('.g-item').style.display='none'">
                 <div class="g-caption">
                     <span class="g-cap-date">Jul 12, 2023 &nbsp;·&nbsp; 1st Anniversary</span>
                     <div class="g-cap-title">Rho Ophiuchi Cloud Complex</div>
@@ -1025,9 +1029,10 @@
 
         <div class="gallery-grid-trio">
             <div class="g-item g-item-fixed">
-                <img src="https://science.nasa.gov/wp-content/uploads/2023/06/stsci-01gnp0fsapzqmvwp3eqnb9a5wt.png"
+                <img src="https://assets.science.nasa.gov/dynamicimage/assets/science/missions/webb/science/2022/10/stsci-01gnp0fsapzqmvwp3eqnb9a5wt.png"
                      alt="Pillars of Creation in NIRCam infrared showing tall dusty columns of gas with embedded newborn stars in orange and gold"
-                     loading="lazy">
+                     loading="lazy"
+                     onerror="this.closest('.g-item').style.display='none'">
                 <div class="g-caption">
                     <span class="g-cap-date">Oct 19, 2022</span>
                     <div class="g-cap-title">Pillars of Creation (NIRCam)</div>
@@ -1038,9 +1043,10 @@
                 </div>
             </div>
             <div class="g-item g-item-fixed">
-                <img src="https://science.nasa.gov/wp-content/uploads/2023/03/stsci-01gykrsypymx9gdxqvnkss8n59.png"
+                <img src="https://assets.science.nasa.gov/dynamicimage/assets/science/missions/webb/science/2023/03/stsci-01gykrsypymx9gdxqvnkss8n59.png"
                      alt="Wolf-Rayet 124 dying star surrounded by an orange and red nebula of ejected gas and dust 15,000 light-years away"
-                     loading="lazy">
+                     loading="lazy"
+                     onerror="this.closest('.g-item').style.display='none'">
                 <div class="g-caption">
                     <span class="g-cap-date">Mar 14, 2023</span>
                     <div class="g-cap-title">Wolf-Rayet 124 — A Star in Its Final Act</div>

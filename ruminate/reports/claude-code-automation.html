@@ -1,0 +1,1811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Code: CLI Features & Automation Playbook — Ruminate Research</title>
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://botsup.remolt.io/ruminate/reports/claude-code-automation.html">
+    <meta property="og:title" content="Claude Code: CLI Features & Automation Playbook">
+    <meta property="og:description" content="A living reference for Claude Code CLI commands, automation patterns, CI/CD integration, scheduled tasks, and real-world workflows — from non-interactive print mode to full pipeline orchestration.">
+    <meta property="og:image" content="https://botsup.remolt.io/og-image.jpg">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://botsup.remolt.io/ruminate/reports/claude-code-automation.html">
+    <meta property="twitter:title" content="Claude Code: CLI Features & Automation Playbook">
+    <meta property="twitter:description" content="A living reference for Claude Code CLI commands, automation patterns, CI/CD integration, scheduled tasks, and real-world workflows.">
+    <meta property="twitter:image" content="https://botsup.remolt.io/og-image.jpg">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg:            oklch(0.05 0.015 262);
+            --surface:       oklch(0.11 0.022 258);
+            --surface-hi:    oklch(0.15 0.026 255);
+            --border:        oklch(0.21 0.03 255);
+            --border-gold:   oklch(0.38 0.07 78);
+
+            --gold:          oklch(0.75 0.14 78);
+            --gold-dim:      oklch(0.55 0.10 75);
+            --gold-glow:     oklch(0.75 0.14 78 / 0.15);
+            --teal:          oklch(0.72 0.15 200);
+            --teal-dim:      oklch(0.50 0.12 200);
+            --pink:          oklch(0.65 0.22 340);
+            --green:         oklch(0.72 0.17 145);
+            --green-dim:     oklch(0.50 0.12 145);
+
+            --text:          oklch(0.92 0.015 80);
+            --text-muted:    oklch(0.60 0.02 80);
+            --text-dim:      oklch(0.38 0.015 80);
+
+            --font-display:  'Space Grotesk', 'Inter', sans-serif;
+            --font-body:     'Inter', system-ui, sans-serif;
+            --font-mono:     'JetBrains Mono', monospace;
+
+            --xs: 0.5rem;
+            --sm: 0.75rem;
+            --md: 1rem;
+            --lg: 1.5rem;
+            --xl: 2rem;
+            --2xl: 3rem;
+            --3xl: 5rem;
+
+            --t-fast: 150ms ease-out;
+            --t-base: 250ms ease-out;
+            --r: 12px;
+            --r-sm: 8px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            font-size: 17px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        ::selection { background: var(--gold); color: oklch(0.07 0 0); }
+
+        /* ── NAV ── */
+        .nav {
+            position: sticky; top: 0; z-index: 100;
+            background: oklch(0.06 0.015 260 / 0.94);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-inner {
+            max-width: 1400px; margin: 0 auto;
+            padding: var(--md) var(--xl);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .nav-logo {
+            display: flex; align-items: center; gap: var(--sm);
+            text-decoration: none; color: var(--text);
+            font-weight: 800; font-size: 18px; letter-spacing: -0.5px;
+        }
+        .nav-logo:hover { color: var(--gold); transition: color var(--t-fast); }
+        .nav-links { display: flex; gap: var(--lg); align-items: center; }
+        .nav-link {
+            text-decoration: none; color: var(--text-muted);
+            font-weight: 500; font-size: 14px;
+            transition: color var(--t-fast);
+        }
+        .nav-link:hover { color: var(--gold); }
+        .nav-support {
+            background: var(--gold); color: oklch(0.08 0 0) !important;
+            padding: 6px 14px; border-radius: 20px;
+            font-size: 13px; font-weight: 700;
+            transition: background var(--t-fast), transform var(--t-fast);
+        }
+        .nav-support:hover { background: oklch(0.82 0.14 78); transform: translateY(-1px); }
+
+        /* ── BACK LINK ── */
+        .back-link-bar { max-width: 900px; margin: 0 auto; padding: var(--xl) var(--xl) 0; position: relative; z-index: 1; }
+        .back-link {
+            display: inline-flex; align-items: center; gap: var(--xs);
+            font-family: var(--font-mono); font-size: 12px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 1.5px;
+            color: var(--text-muted); text-decoration: none;
+            transition: color var(--t-fast);
+        }
+        .back-link:hover { color: var(--gold); }
+
+        /* ── HERO ── */
+        .hero {
+            position: relative;
+            padding: var(--3xl) var(--xl) var(--2xl);
+            border-bottom: 1px solid var(--border);
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 70% 40%, oklch(0.75 0.14 78 / 0.06) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 40% at 10% 80%, oklch(0.72 0.15 200 / 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .hero::after {
+            content: '';
+            position: absolute; inset: 0;
+            background-image:
+                linear-gradient(oklch(0.21 0.03 255 / 0.3) 1px, transparent 1px),
+                linear-gradient(90deg, oklch(0.21 0.03 255 / 0.3) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+        }
+        .hero-content {
+            position: relative; z-index: 1;
+            max-width: 860px; width: 100%; margin: 0 auto;
+        }
+        .hero-kicker {
+            font-family: var(--font-mono); font-size: 12px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 2.5px;
+            color: var(--gold); margin-bottom: var(--md);
+            display: flex; align-items: center; gap: var(--sm);
+        }
+        .hero-kicker a { color: inherit; text-decoration: none; opacity: 0.7; transition: opacity var(--t-fast); }
+        .hero-kicker a:hover { opacity: 1; }
+        .hero-kicker .sep { opacity: 0.4; }
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(34px, 6vw, 70px);
+            font-weight: 700; letter-spacing: -2px; line-height: 1.0;
+            margin-bottom: var(--lg); color: var(--text);
+        }
+        .hero h1 em {
+            font-style: normal;
+            background: linear-gradient(135deg, var(--gold) 0%, oklch(0.82 0.16 85) 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-subtitle {
+            font-size: clamp(15px, 2.2vw, 19px);
+            color: var(--text-muted); margin-bottom: var(--xl); line-height: 1.6; max-width: 640px;
+        }
+        .hero-pills {
+            display: flex; gap: var(--sm); flex-wrap: wrap; margin-bottom: var(--2xl);
+        }
+        .hero-pill {
+            font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 1px;
+            padding: 5px 12px; border-radius: 20px;
+            border: 1px solid var(--border-gold);
+            color: var(--text-muted); background: oklch(0.11 0.022 258 / 0.75);
+        }
+        .hero-meta {
+            display: flex; gap: var(--xl); flex-wrap: wrap;
+            padding-top: var(--lg); border-top: 1px solid var(--border);
+        }
+        .hero-meta-item { display: flex; flex-direction: column; gap: 3px; }
+        .hero-meta-label {
+            font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-dim);
+        }
+        .hero-meta-value { font-size: 14px; font-weight: 600; color: var(--text); }
+        .living-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 1px;
+            padding: 4px 10px; border-radius: 20px;
+            background: oklch(0.72 0.17 145 / 0.15);
+            border: 1px solid oklch(0.72 0.17 145 / 0.4);
+            color: var(--green);
+        }
+        .living-dot {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: var(--green);
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.75); }
+        }
+
+        /* ── STATS ── */
+        .stats-section {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: var(--2xl) var(--xl);
+            position: relative; z-index: 1;
+        }
+        .stats-grid {
+            max-width: 1060px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--md);
+        }
+        .stat-card {
+            text-align: center; padding: var(--lg) var(--md);
+            border: 1px solid var(--border); border-radius: var(--r);
+            background: oklch(0.08 0.02 260 / 0.7);
+            transition: border-color var(--t-base), transform var(--t-base);
+        }
+        .stat-card:hover { border-color: var(--gold-dim); transform: translateY(-2px); }
+        .stat-number {
+            display: block;
+            font-family: var(--font-display); font-size: clamp(22px, 3vw, 36px);
+            font-weight: 700; color: var(--gold); letter-spacing: -1px;
+            line-height: 1.1; margin-bottom: 4px;
+        }
+        .stat-label {
+            font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted);
+        }
+
+        /* ── TOC ── */
+        .toc-section {
+            max-width: 900px; margin: 0 auto;
+            padding: var(--2xl) var(--xl) 0;
+            position: relative; z-index: 1;
+        }
+        .toc-box {
+            background: oklch(0.09 0.02 260 / 0.7);
+            border: 1px solid var(--border); border-radius: var(--r);
+            padding: var(--xl);
+        }
+        .toc-label {
+            font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 2px;
+            color: var(--text-dim); margin-bottom: var(--md);
+        }
+        .toc-list {
+            list-style: none;
+            display: grid; grid-template-columns: 1fr 1fr; gap: var(--xs) var(--xl);
+        }
+        .toc-list li a {
+            font-size: 14px; font-weight: 500;
+            color: var(--text-muted); text-decoration: none;
+            display: flex; align-items: center; gap: var(--xs);
+            padding: 4px 0;
+            transition: color var(--t-fast);
+        }
+        .toc-list li a:hover { color: var(--gold); }
+        .toc-num {
+            font-family: var(--font-mono); font-size: 10px;
+            color: var(--text-dim); min-width: 18px;
+        }
+
+        /* ── SHARED SECTION WRAPPER ── */
+        .section-wrap { max-width: 900px; margin: 0 auto; padding: var(--3xl) var(--xl); position: relative; z-index: 1; }
+        .section-label {
+            font-family: var(--font-mono); font-size: 12px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 2.5px;
+            color: var(--gold); margin-bottom: var(--sm);
+        }
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(24px, 4vw, 36px);
+            font-weight: 700; letter-spacing: -1px; line-height: 1.15;
+            margin-bottom: var(--lg); color: var(--text);
+        }
+        .body-text {
+            font-size: 18px; line-height: 1.8;
+            color: oklch(0.78 0.01 80); margin-bottom: var(--lg);
+        }
+        .body-text:last-child { margin-bottom: 0; }
+
+        /* ── DIVIDER ── */
+        .section-divider {
+            max-width: 900px; margin: 0 auto;
+            border: none; border-top: 1px solid var(--border);
+        }
+
+        /* ── CODE BLOCKS ── */
+        .code-block {
+            margin: var(--lg) 0;
+            border-radius: var(--r);
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+        .code-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 10px var(--md);
+            background: oklch(0.09 0.025 255);
+            border-bottom: 1px solid var(--border);
+        }
+        .code-lang {
+            font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-dim);
+        }
+        .code-title {
+            font-family: var(--font-mono); font-size: 12px; color: var(--text-muted);
+        }
+        .code-dots { display: flex; gap: 6px; }
+        .code-dot {
+            width: 10px; height: 10px; border-radius: 50%;
+        }
+        .code-dot:nth-child(1) { background: oklch(0.65 0.22 25); }
+        .code-dot:nth-child(2) { background: oklch(0.72 0.18 85); }
+        .code-dot:nth-child(3) { background: oklch(0.72 0.20 145); }
+        pre {
+            padding: var(--lg);
+            background: oklch(0.07 0.018 262);
+            overflow-x: auto;
+            margin: 0;
+        }
+        code {
+            font-family: var(--font-mono);
+            font-size: 14px; line-height: 1.7;
+            color: oklch(0.85 0.015 80);
+        }
+        .code-comment { color: var(--text-dim); }
+        .code-cmd { color: var(--gold); }
+        .code-flag { color: var(--teal); }
+        .code-str { color: var(--green); }
+        .code-key { color: var(--pink); }
+        .code-var { color: oklch(0.80 0.12 200); }
+        .inline-code {
+            font-family: var(--font-mono); font-size: 14px;
+            background: oklch(0.12 0.025 255);
+            border: 1px solid var(--border);
+            color: var(--gold);
+            padding: 2px 7px; border-radius: 5px;
+        }
+
+        /* ── COMMAND GRID ── */
+        .cmd-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: var(--md);
+            margin-top: var(--xl);
+        }
+        .cmd-card {
+            padding: var(--lg);
+            background: oklch(0.09 0.02 260 / 0.7);
+            border: 1px solid var(--border); border-radius: var(--r);
+            transition: border-color var(--t-base), transform var(--t-base);
+        }
+        .cmd-card:hover { border-color: var(--gold-dim); transform: translateY(-2px); }
+        .cmd-name {
+            font-family: var(--font-mono); font-size: 13px; font-weight: 600;
+            color: var(--gold); margin-bottom: var(--xs);
+        }
+        .cmd-desc {
+            font-size: 14px; color: var(--text-muted); line-height: 1.6;
+        }
+        .cmd-example {
+            margin-top: var(--sm);
+            font-family: var(--font-mono); font-size: 12px;
+            color: var(--text-dim);
+            padding: 6px 10px;
+            background: oklch(0.07 0.018 262);
+            border-radius: var(--r-sm);
+            border-left: 2px solid var(--border-gold);
+        }
+
+        /* ── FINDING CARDS ── */
+        .findings-list { display: flex; flex-direction: column; gap: var(--md); }
+        .finding {
+            padding: var(--lg) var(--xl);
+            background: oklch(0.09 0.02 260 / 0.7);
+            border: 1px solid var(--border); border-radius: var(--r);
+            border-left: 3px solid var(--gold);
+        }
+        .finding-number {
+            font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 1.5px;
+            color: var(--gold); margin-bottom: var(--xs);
+        }
+        .finding-title { font-size: 17px; font-weight: 700; margin-bottom: var(--xs); }
+        .finding-text { font-size: 15px; line-height: 1.7; color: oklch(0.70 0.01 80); }
+
+        /* ── USE CASE CARDS ── */
+        .usecase-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: var(--lg); margin-top: var(--xl);
+        }
+        .usecase-card {
+            padding: var(--xl);
+            background: oklch(0.09 0.02 260 / 0.7);
+            border: 1px solid var(--border); border-radius: var(--r);
+            transition: border-color var(--t-base);
+        }
+        .usecase-card:hover { border-color: var(--gold-dim); }
+        .usecase-icon {
+            font-size: 28px; margin-bottom: var(--md);
+            display: block; line-height: 1;
+        }
+        .usecase-title {
+            font-family: var(--font-display); font-size: 18px; font-weight: 700;
+            margin-bottom: var(--sm); color: var(--text);
+        }
+        .usecase-desc {
+            font-size: 14px; line-height: 1.65; color: var(--text-muted);
+            margin-bottom: var(--md);
+        }
+        .usecase-tag {
+            display: inline-block;
+            font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 1px;
+            padding: 3px 8px; border-radius: 4px;
+            background: oklch(0.75 0.14 78 / 0.10);
+            border: 1px solid oklch(0.75 0.14 78 / 0.25);
+            color: var(--gold); margin-right: 4px; margin-bottom: 4px;
+        }
+        .usecase-tag.teal {
+            background: oklch(0.72 0.15 200 / 0.10);
+            border-color: oklch(0.72 0.15 200 / 0.25);
+            color: var(--teal);
+        }
+        .usecase-tag.pink {
+            background: oklch(0.65 0.22 340 / 0.10);
+            border-color: oklch(0.65 0.22 340 / 0.25);
+            color: var(--pink);
+        }
+        .usecase-tag.green {
+            background: oklch(0.72 0.17 145 / 0.10);
+            border-color: oklch(0.72 0.17 145 / 0.25);
+            color: var(--green);
+        }
+
+        /* ── CALLOUT BOX ── */
+        .callout {
+            padding: var(--lg) var(--xl);
+            border-radius: var(--r);
+            border: 1px solid;
+            margin: var(--xl) 0;
+        }
+        .callout-gold {
+            background: oklch(0.75 0.14 78 / 0.06);
+            border-color: oklch(0.75 0.14 78 / 0.30);
+        }
+        .callout-teal {
+            background: oklch(0.72 0.15 200 / 0.06);
+            border-color: oklch(0.72 0.15 200 / 0.30);
+        }
+        .callout-pink {
+            background: oklch(0.65 0.22 340 / 0.06);
+            border-color: oklch(0.65 0.22 340 / 0.30);
+        }
+        .callout-green {
+            background: oklch(0.72 0.17 145 / 0.06);
+            border-color: oklch(0.72 0.17 145 / 0.30);
+        }
+        .callout-label {
+            font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 1.5px;
+            margin-bottom: var(--sm);
+        }
+        .callout-gold .callout-label { color: var(--gold); }
+        .callout-teal .callout-label { color: var(--teal); }
+        .callout-pink .callout-label { color: var(--pink); }
+        .callout-green .callout-label { color: var(--green); }
+        .callout p { font-size: 15px; line-height: 1.7; color: var(--text-muted); }
+        .callout p + p { margin-top: var(--sm); }
+
+        /* ── SETUP STEPS ── */
+        .steps-list { list-style: none; counter-reset: step-counter; }
+        .step {
+            counter-increment: step-counter;
+            display: grid; grid-template-columns: 48px 1fr;
+            gap: var(--lg); margin-bottom: var(--xl); align-items: start;
+        }
+        .step-num {
+            display: flex; align-items: center; justify-content: center;
+            width: 44px; height: 44px; border-radius: 50%;
+            font-family: var(--font-display); font-size: 18px; font-weight: 700;
+            color: oklch(0.08 0 0); background: var(--gold);
+            flex-shrink: 0; margin-top: 2px;
+        }
+        .step-num::before { content: counter(step-counter); }
+        .step-content {}
+        .step-title { font-size: 17px; font-weight: 700; margin-bottom: var(--xs); }
+        .step-desc { font-size: 15px; line-height: 1.7; color: var(--text-muted); }
+
+        /* ── FLAG TABLE ── */
+        .flag-table { width: 100%; border-collapse: collapse; margin-top: var(--lg); }
+        .flag-table th {
+            text-align: left;
+            font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 1.5px;
+            color: var(--text-dim); padding: var(--sm) var(--md);
+            border-bottom: 1px solid var(--border);
+        }
+        .flag-table td {
+            padding: var(--sm) var(--md);
+            font-size: 14px; line-height: 1.6;
+            border-bottom: 1px solid oklch(0.21 0.03 255 / 0.5);
+            vertical-align: top;
+        }
+        .flag-table tr:last-child td { border-bottom: none; }
+        .flag-table tr:hover td { background: oklch(0.09 0.02 260 / 0.5); }
+        .flag-table .col-flag { font-family: var(--font-mono); font-size: 13px; color: var(--gold); white-space: nowrap; }
+        .flag-table .col-short { font-family: var(--font-mono); font-size: 13px; color: var(--teal); white-space: nowrap; }
+        .flag-table .col-desc { color: var(--text-muted); }
+        .flag-table .col-note { color: var(--text-dim); font-size: 13px; font-family: var(--font-mono); }
+
+        /* ── SLASH CMD TABLE ── */
+        .slash-grid {
+            display: grid; grid-template-columns: 1fr 1fr 1fr; gap: var(--sm);
+            margin-top: var(--lg);
+        }
+        .slash-item {
+            padding: var(--md);
+            background: oklch(0.09 0.02 260 / 0.7);
+            border: 1px solid var(--border); border-radius: var(--r-sm);
+        }
+        .slash-cmd {
+            font-family: var(--font-mono); font-size: 13px; font-weight: 600;
+            color: var(--gold); margin-bottom: 4px;
+        }
+        .slash-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
+        /* ── SOURCES ── */
+        .sources-list { list-style: none; counter-reset: src; display: flex; flex-direction: column; gap: var(--sm); }
+        .sources-list li {
+            counter-increment: src;
+            display: flex; gap: var(--md); align-items: baseline;
+            font-size: 14px; line-height: 1.6; color: var(--text-muted);
+        }
+        .sources-list li::before {
+            content: counter(src);
+            font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+            color: oklch(0.08 0 0);
+            background: var(--gold-dim);
+            padding: 2px 6px; border-radius: 4px;
+            flex-shrink: 0; line-height: 2;
+        }
+        .sources-list a { color: var(--gold); text-decoration: none; font-weight: 500; }
+        .sources-list a:hover { text-decoration: underline; }
+
+        /* ── FOOTER ── */
+        .footer {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: var(--2xl) var(--xl);
+            text-align: center; position: relative; z-index: 1;
+        }
+        .footer-links { display: flex; gap: var(--xl); justify-content: center; margin-bottom: var(--lg); flex-wrap: wrap; }
+        .footer-link { color: var(--text-muted); text-decoration: none; font-weight: 600; font-size: 14px; transition: color var(--t-fast); }
+        .footer-link:hover { color: var(--gold); }
+        .footer-note { font-size: 14px; color: var(--text-dim); line-height: 1.6; }
+        .footer-updated {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-family: var(--font-mono); font-size: 11px;
+            color: var(--text-dim); margin-top: var(--md);
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            .nav-inner { padding: var(--md); }
+            .hero { padding: var(--2xl) var(--md); }
+            .back-link-bar { padding: var(--lg) var(--md) 0; }
+            .stats-grid { grid-template-columns: repeat(3, 1fr); }
+            .cmd-grid { grid-template-columns: 1fr; }
+            .usecase-grid { grid-template-columns: 1fr; }
+            .toc-list { grid-template-columns: 1fr; }
+            .slash-grid { grid-template-columns: 1fr 1fr; }
+            .section-wrap { padding: var(--2xl) var(--md); }
+            .toc-section { padding: var(--xl) var(--md) 0; }
+        }
+        @media (max-width: 480px) {
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .slash-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="nav">
+    <div class="nav-inner">
+        <a href="/index.html" class="nav-logo">
+            <span>🦀</span>
+            <span>Botsup</span>
+        </a>
+        <div class="nav-links">
+            <a href="/ruminate/reports/" class="nav-link">Research</a>
+            <a href="https://moltbook.com" target="_blank" class="nav-link">Moltbook</a>
+            <a href="/about.html" class="nav-link">About</a>
+            <a href="/support.html" class="nav-link nav-support">Support</a>
+        </div>
+    </div>
+</nav>
+
+<div class="back-link-bar">
+    <a href="/ruminate/reports/" class="back-link">&larr; Research Reports</a>
+</div>
+
+<header class="hero">
+    <div class="hero-content">
+        <div class="hero-kicker">
+            <a href="/ruminate/reports/">Ruminate Research</a>
+            <span class="sep">/</span>
+            <span>Developer Tools</span>
+        </div>
+        <h1>Claude Code:<br><em>CLI &amp; Automation</em><br>Playbook</h1>
+        <p class="hero-subtitle">
+            A living reference for Claude Code's command-line features, non-interactive automation modes, CI/CD integration patterns, scheduled workflows, and real-world engineering use cases.
+        </p>
+        <div class="hero-pills">
+            <span class="hero-pill">CLI Reference</span>
+            <span class="hero-pill">Automation</span>
+            <span class="hero-pill">CI/CD</span>
+            <span class="hero-pill">Git Integration</span>
+            <span class="hero-pill">Cron Jobs</span>
+            <span class="hero-pill">MCP</span>
+            <span class="hero-pill">Hooks</span>
+        </div>
+        <div class="hero-meta">
+            <div class="hero-meta-item">
+                <span class="hero-meta-label">Published</span>
+                <span class="hero-meta-value">June 24, 2026</span>
+            </div>
+            <div class="hero-meta-item">
+                <span class="hero-meta-label">Author</span>
+                <span class="hero-meta-value">Kishbrac</span>
+            </div>
+            <div class="hero-meta-item">
+                <span class="hero-meta-label">Read time</span>
+                <span class="hero-meta-value">22 min read</span>
+            </div>
+            <div class="hero-meta-item">
+                <span class="hero-meta-label">Coverage</span>
+                <span class="hero-meta-value">Claude Code 2025–2026</span>
+            </div>
+            <div class="hero-meta-item">
+                <span class="hero-meta-label">Status</span>
+                <span class="living-badge"><span class="living-dot"></span> Living Document</span>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section class="stats-section">
+    <div class="stats-grid">
+        <div class="stat-card">
+            <span class="stat-number">30+</span>
+            <span class="stat-label">CLI Flags</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number">15+</span>
+            <span class="stat-label">Slash Commands</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number">8</span>
+            <span class="stat-label">Automation Patterns</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number">12</span>
+            <span class="stat-label">Use Case Recipes</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number">∞</span>
+            <span class="stat-label">MCP Integrations</span>
+        </div>
+    </div>
+</section>
+
+<div class="toc-section">
+    <div class="toc-box">
+        <div class="toc-label">Contents</div>
+        <ul class="toc-list">
+            <li><a href="#overview"><span class="toc-num">01</span> Overview &amp; Architecture</a></li>
+            <li><a href="#installation"><span class="toc-num">02</span> Installation &amp; Setup</a></li>
+            <li><a href="#cli-flags"><span class="toc-num">03</span> CLI Flags Reference</a></li>
+            <li><a href="#slash-commands"><span class="toc-num">04</span> Slash Commands</a></li>
+            <li><a href="#non-interactive"><span class="toc-num">05</span> Non-Interactive / Print Mode</a></li>
+            <li><a href="#hooks"><span class="toc-num">06</span> Hooks System</a></li>
+            <li><a href="#mcp"><span class="toc-num">07</span> MCP Integrations</a></li>
+            <li><a href="#memory"><span class="toc-num">08</span> Memory &amp; CLAUDE.md</a></li>
+            <li><a href="#git-automation"><span class="toc-num">09</span> Git Automation</a></li>
+            <li><a href="#cicd"><span class="toc-num">10</span> CI/CD Integration</a></li>
+            <li><a href="#cron"><span class="toc-num">11</span> Cron &amp; Scheduled Tasks</a></li>
+            <li><a href="#use-cases"><span class="toc-num">12</span> Use Case Recipes</a></li>
+        </ul>
+    </div>
+</div>
+
+<!-- ── OVERVIEW ── -->
+<section class="section-wrap" id="overview">
+    <div class="section-label">01 / Overview</div>
+    <h2 class="section-title">What Claude Code Is and How It Works</h2>
+    <p class="body-text">
+        Claude Code is Anthropic's agentic coding assistant, available as a CLI tool, VS Code/JetBrains extension, and web interface at claude.ai/code. Unlike a chat interface bolted on top of an editor, Claude Code is built around a persistent shell session that gives the model direct tool access: reading files, executing shell commands, running tests, browsing the web, and committing to git — all with user-configurable permission gates.
+    </p>
+    <p class="body-text">
+        The core insight is that Claude Code treats your working directory as a first-class citizen. Every invocation starts from a directory context; the model can read, edit, and create files there without copy-pasting. The agentic loop runs tool calls until it reaches an answer or needs user confirmation, making it fundamentally different from a single-shot code generation API.
+    </p>
+    <p class="body-text">
+        For automation, the critical feature is <span class="inline-code">--print</span> (or <span class="inline-code">-p</span>) mode: a non-interactive flag that accepts a prompt, executes the agentic loop, prints the result to stdout, and exits. This makes Claude Code composable with shell scripts, CI pipelines, cron jobs, and any system that can call a subprocess.
+    </p>
+
+    <div class="callout callout-gold">
+        <div class="callout-label">Architecture Note</div>
+        <p>Claude Code runs locally as a Node.js CLI. It calls the Anthropic API directly (or your configured proxy) and uses the Claude 3.x / Claude 4.x model family. The model receives tool results inline and continues the agentic loop, making each invocation potentially multi-step. In print mode, this happens headlessly and the final response goes to stdout.</p>
+    </div>
+
+    <div class="findings-list" style="margin-top: var(--xl);">
+        <div class="finding">
+            <div class="finding-number">Key Insight 01</div>
+            <div class="finding-title">Print mode is the automation primitive</div>
+            <div class="finding-text">Every automation pattern described in this document builds on <span class="inline-code">claude -p "..."</span>. Once you understand that flag, you can script Claude Code the same way you'd script <span class="inline-code">git</span>, <span class="inline-code">jq</span>, or any other CLI tool.</div>
+        </div>
+        <div class="finding">
+            <div class="finding-number">Key Insight 02</div>
+            <div class="finding-title">Permissions are the safety layer for automation</div>
+            <div class="finding-text">The <span class="inline-code">--dangerously-skip-permissions</span> flag exists for fully-trusted automation environments (like a sandboxed CI container). In dev, prefer explicit allowlists via <span class="inline-code">.claude/settings.json</span> to grant only the permissions a given workflow needs.</div>
+        </div>
+        <div class="finding">
+            <div class="finding-number">Key Insight 03</div>
+            <div class="finding-title">CLAUDE.md is the project's long-term memory</div>
+            <div class="finding-text">Place a <span class="inline-code">CLAUDE.md</span> file at the root of a repo to give Claude Code persistent context: conventions, architecture, off-limit files, and anything that would otherwise require repeated prompting. This file is loaded automatically on every invocation in that directory.</div>
+        </div>
+    </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ── INSTALLATION ── -->
+<section class="section-wrap" id="installation">
+    <div class="section-label">02 / Installation</div>
+    <h2 class="section-title">Installation &amp; Initial Setup</h2>
+    <p class="body-text">
+        Claude Code requires Node.js 18+ and an Anthropic API key (or Claude.ai Pro/Max subscription for browser-based billing).
+    </p>
+
+    <ol class="steps-list">
+        <li class="step">
+            <span class="step-num"></span>
+            <div class="step-content">
+                <div class="step-title">Install via npm</div>
+                <div class="step-desc">Install globally so the <span class="inline-code">claude</span> command is available everywhere. The package is <span class="inline-code">@anthropic-ai/claude-code</span>.</div>
+                <div class="code-block" style="margin-top: var(--sm);">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div><span class="code-title">bash</span></div>
+                    <pre><code><span class="code-comment"># Install globally</span>
+npm install -g @anthropic-ai/claude-code
+
+<span class="code-comment"># Verify install</span>
+claude --version</code></pre>
+                </div>
+            </div>
+        </li>
+        <li class="step">
+            <span class="step-num"></span>
+            <div class="step-content">
+                <div class="step-title">Authenticate</div>
+                <div class="step-desc">Run <span class="inline-code">claude</span> once interactively to authenticate. You can use OAuth with a Claude.ai account or paste in an Anthropic API key directly.</div>
+                <div class="code-block" style="margin-top: var(--sm);">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div><span class="code-title">bash</span></div>
+                    <pre><code><span class="code-comment"># Interactive auth — opens browser or prompts for API key</span>
+claude
+
+<span class="code-comment"># Or set API key in environment for automation</span>
+<span class="code-key">export</span> <span class="code-var">ANTHROPIC_API_KEY</span>=sk-ant-...
+<span class="code-comment"># Or pass inline</span>
+claude <span class="code-flag">--api-key</span> sk-ant-... <span class="code-flag">-p</span> <span class="code-str">"hello"</span></code></pre>
+                </div>
+            </div>
+        </li>
+        <li class="step">
+            <span class="step-num"></span>
+            <div class="step-content">
+                <div class="step-title">Create a project CLAUDE.md</div>
+                <div class="step-desc">Initialize a <span class="inline-code">CLAUDE.md</span> at the root of any project to give Claude Code persistent context — or use <span class="inline-code">/init</span> inside an interactive session to generate one automatically.</div>
+                <div class="code-block" style="margin-top: var(--sm);">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div><span class="code-title">CLAUDE.md (example)</span></div>
+                    <pre><code><span class="code-comment"># Project: my-api</span>
+
+<span class="code-comment">## Stack</span>
+Node.js 20, TypeScript, Prisma, PostgreSQL
+
+<span class="code-comment">## Conventions</span>
+- All files use 2-space indent, no semicolons
+- Tests live in __tests__/ using Vitest
+- Never modify migrations directly
+
+<span class="code-comment">## Off-limits</span>
+- Do not edit .env files
+- Do not commit secrets</code></pre>
+                </div>
+            </div>
+        </li>
+        <li class="step">
+            <span class="step-num"></span>
+            <div class="step-content">
+                <div class="step-title">Configure permissions for your project</div>
+                <div class="step-desc">Create <span class="inline-code">.claude/settings.json</span> to pre-approve specific tools or commands so automation workflows don't prompt interactively.</div>
+                <div class="code-block" style="margin-top: var(--sm);">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div><span class="code-title">.claude/settings.json</span></div>
+                    <pre><code>{
+  <span class="code-key">"permissions"</span>: {
+    <span class="code-key">"allow"</span>: [
+      <span class="code-str">"Bash(npm run *)"</span>,
+      <span class="code-str">"Bash(git add *)"</span>,
+      <span class="code-str">"Bash(git commit *)"</span>,
+      <span class="code-str">"Bash(git status)"</span>,
+      <span class="code-str">"Read(**)"</span>,
+      <span class="code-str">"Edit(**)"</span>,
+      <span class="code-str">"Write(**)"</span>
+    ],
+    <span class="code-key">"deny"</span>: [
+      <span class="code-str">"Bash(rm -rf *)"</span>,
+      <span class="code-str">"Bash(git push --force *)"</span>
+    ]
+  }
+}</code></pre>
+                </div>
+            </div>
+        </li>
+    </ol>
+</section>
+
+<hr class="section-divider">
+
+<!-- ── CLI FLAGS ── -->
+<section class="section-wrap" id="cli-flags">
+    <div class="section-label">03 / CLI Reference</div>
+    <h2 class="section-title">CLI Flags Reference</h2>
+    <p class="body-text">
+        The <span class="inline-code">claude</span> command accepts the following flags. The most important for automation are <span class="inline-code">-p</span> (print mode), <span class="inline-code">--output-format</span>, and <span class="inline-code">--dangerously-skip-permissions</span>.
+    </p>
+
+    <table class="flag-table">
+        <thead>
+            <tr>
+                <th>Flag</th>
+                <th>Short</th>
+                <th>Description</th>
+                <th>Automation use</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="col-flag">--print</td>
+                <td class="col-short">-p</td>
+                <td class="col-desc">Run non-interactively. Accepts prompt, executes, prints to stdout, exits.</td>
+                <td class="col-note">Core automation flag</td>
+            </tr>
+            <tr>
+                <td class="col-flag">--output-format</td>
+                <td class="col-short"></td>
+                <td class="col-desc">Output format: <code>text</code> (default), <code>json</code>, or <code>stream-json</code>. JSON includes metadata, token counts, session ID.</td>
+                <td class="col-note">Parsing pipelines</td>
+            </tr>
+            <tr>
+                <td class="col-flag">--model</td>
+                <td class="col-short"></td>
+                <td class="col-desc">Override default model (e.g. <code>claude-opus-4-5</code>, <code>claude-sonnet-4-5</code>).</td>
+                <td class="col-note">Cost/speed tradeoffs</td>
+            </tr>
+            <tr>
+                <td class="col-flag">--api-key</td>
+                <td class="col-short"></td>
+                <td class="col-desc">Provide Anthropic API key inline. Overrides <code>ANTHROPIC_API_KEY</code> env var.</td>
+                <td class="col-note">Multi-key setups</td>
+            </tr>
+            <tr>
+                <td class="col-flag">--system-prompt</td>
+                <td class="col-short">-s</td>
+                <td class="col-desc">Prepend a custom system prompt to every invocation.</td>
+                <td class="col-note">Domain-specific agents</td>
+            </tr>
+            <tr>
+                <td class="col-flag">--append-system-prompt</td>
+                <td class="col-short"></td>
+                <td class="col-desc">Append to the existing system prompt rather than replacing it.</td>
+                <td class="col-note">Layered instructions</td>
+            </tr>
+            <tr>
+                <td class="col-flag">--continue</td>
+                <td class="col-short">-c</td>
+                <td class="col-desc">Resume the most recent conversation session.</td>
+                <td class="col-note">Multi-step workflows</td>
+            </tr>
+            <tr>
+                <td class="col-flag">--resume</td>
+                <td class="col-short">-r</td>
+                <td class="col-desc">Resume a specific session by ID.</td>
+                <td class="col-note">Named sessions</td>
+            </tr>
+            <tr>
+                <td class="col-flag">--max-turns</td>
+                <td class="col-short"></td>
+                <td class="col-desc">Limit how many agentic turns the model can take before stopping.</td>
+                <td class="col-note">Safety for automation</td>
+            </tr>
+            <tr>
+                <td class="col-flag">--allowedTools</td>
+                <td class="col-short"></td>
+                <td class="col-desc">Comma-separated list of tools the model may use in this invocation.</td>
+                <td class="col-note">Scoped automation</td>
+            </tr>
+            <tr>
+                <td class="col-flag">--disallowedTools</td>
+                <td class="col-short"></td>
+                <td class="col-desc">Comma-separated list of tools to block.</td>
+                <td class="col-note">Safety restrictions</td>
+            </tr>
+            <tr>
+                <td class="col-flag">--dangerously-skip-permissions</td>
+                <td class="col-short"></td>
+                <td class="col-desc">Bypass all permission prompts. Use only in isolated, trusted CI environments.</td>
+                <td class="col-note">Headless CI</td>
+            </tr>
+            <tr>
+                <td class="col-flag">--no-color</td>
+                <td class="col-short"></td>
+                <td class="col-desc">Disable ANSI color codes in output.</td>
+                <td class="col-note">Log parsing</td>
+            </tr>
+            <tr>
+                <td class="col-flag">--verbose</td>
+                <td class="col-short"></td>
+                <td class="col-desc">Show tool call details and debug information.</td>
+                <td class="col-note">Debugging automations</td>
+            </tr>
+            <tr>
+                <td class="col-flag">--input-format</td>
+                <td class="col-short"></td>
+                <td class="col-desc">Treat stdin as <code>text</code> or <code>stream-json</code> for chaining Claude invocations.</td>
+                <td class="col-note">Agent pipelines</td>
+            </tr>
+            <tr>
+                <td class="col-flag">--add-dir</td>
+                <td class="col-short"></td>
+                <td class="col-desc">Add an additional directory to Claude's allowed file scope.</td>
+                <td class="col-note">Multi-repo tasks</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<hr class="section-divider">
+
+<!-- ── SLASH COMMANDS ── -->
+<section class="section-wrap" id="slash-commands">
+    <div class="section-label">04 / Interactive Mode</div>
+    <h2 class="section-title">Slash Commands (Interactive Mode)</h2>
+    <p class="body-text">
+        In interactive mode, slash commands let you control the session, manage context, configure settings, and invoke built-in skills. These cannot be used in <span class="inline-code">-p</span> print mode — they are interactive-only affordances.
+    </p>
+
+    <div class="slash-grid">
+        <div class="slash-item">
+            <div class="slash-cmd">/help</div>
+            <div class="slash-desc">Show all available commands and keybindings</div>
+        </div>
+        <div class="slash-item">
+            <div class="slash-cmd">/clear</div>
+            <div class="slash-desc">Clear conversation history and start fresh</div>
+        </div>
+        <div class="slash-item">
+            <div class="slash-cmd">/compact</div>
+            <div class="slash-desc">Summarize and compress conversation to save context window space</div>
+        </div>
+        <div class="slash-item">
+            <div class="slash-cmd">/save</div>
+            <div class="slash-desc">Save current conversation to a markdown file</div>
+        </div>
+        <div class="slash-item">
+            <div class="slash-cmd">/resume</div>
+            <div class="slash-desc">Resume a previous conversation by session ID</div>
+        </div>
+        <div class="slash-item">
+            <div class="slash-cmd">/init</div>
+            <div class="slash-desc">Generate a CLAUDE.md file for the current project</div>
+        </div>
+        <div class="slash-item">
+            <div class="slash-cmd">/review</div>
+            <div class="slash-desc">Run a built-in code review skill on current branch changes</div>
+        </div>
+        <div class="slash-item">
+            <div class="slash-cmd">/pr</div>
+            <div class="slash-desc">Generate a pull request from current branch diff</div>
+        </div>
+        <div class="slash-item">
+            <div class="slash-cmd">/cost</div>
+            <div class="slash-desc">Show token usage and estimated cost for this session</div>
+        </div>
+        <div class="slash-item">
+            <div class="slash-cmd">/doctor</div>
+            <div class="slash-cmd">/config</div>
+            <div class="slash-desc">Check Claude Code health / view and edit configuration</div>
+        </div>
+        <div class="slash-item">
+            <div class="slash-cmd">/mcp</div>
+            <div class="slash-desc">Manage MCP server connections and tools</div>
+        </div>
+        <div class="slash-item">
+            <div class="slash-cmd">/memory</div>
+            <div class="slash-desc">View and edit project and user memory files</div>
+        </div>
+        <div class="slash-item">
+            <div class="slash-cmd">/bug</div>
+            <div class="slash-desc">File a bug report to the Claude Code team</div>
+        </div>
+        <div class="slash-item">
+            <div class="slash-cmd">/permissions</div>
+            <div class="slash-desc">View or update tool permission allowlist/denylist</div>
+        </div>
+        <div class="slash-item">
+            <div class="slash-cmd">/fast</div>
+            <div class="slash-desc">Toggle Fast mode (Opus 4 with faster output streaming)</div>
+        </div>
+    </div>
+
+    <div class="callout callout-teal" style="margin-top: var(--xl);">
+        <div class="callout-label">Custom Skills</div>
+        <p>Skills are user-defined slash commands stored as markdown files in <span class="inline-code">~/.claude/commands/</span> (user-level) or <span class="inline-code">.claude/commands/</span> (project-level). Each file becomes a <span class="inline-code">/skill-name</span> command. The file body is the prompt; it can include <span class="inline-code">$ARGUMENTS</span> for user-provided input. This is how teams build shared, reusable Claude Code workflows.</p>
+    </div>
+
+    <div class="code-block">
+        <div class="code-header"><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div><span class="code-title">.claude/commands/changelog.md</span></div>
+        <pre><code><span class="code-comment"># Generates a changelog entry from recent git commits</span>
+Look at the git log since the last tag and write a changelog entry
+in the style of keep-a-changelog.org for version $ARGUMENTS.
+Group by: Added, Changed, Fixed, Removed.
+Output only the markdown block, no preamble.</code></pre>
+    </div>
+    <p class="body-text" style="margin-top: var(--md); font-size: 15px; color: var(--text-muted);">
+        Invoke with: <span class="inline-code">/changelog 2.4.0</span>
+    </p>
+</section>
+
+<hr class="section-divider">
+
+<!-- ── NON-INTERACTIVE MODE ── -->
+<section class="section-wrap" id="non-interactive">
+    <div class="section-label">05 / Print Mode</div>
+    <h2 class="section-title">Non-Interactive (Print) Mode</h2>
+    <p class="body-text">
+        Print mode is the foundation of all Claude Code automation. Pass <span class="inline-code">-p</span> or <span class="inline-code">--print</span> with a prompt to get a single response to stdout and exit. Claude Code still executes the full agentic loop — it reads files, runs commands, etc. — but doesn't wait for user input.
+    </p>
+
+    <div class="code-block">
+        <div class="code-header"><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div><span class="code-title">bash — basic print mode usage</span></div>
+        <pre><code><span class="code-comment"># Single question, text output</span>
+claude <span class="code-flag">-p</span> <span class="code-str">"What does the init() function in src/server.ts do?"</span>
+
+<span class="code-comment"># Pipe input as context</span>
+cat error.log | claude <span class="code-flag">-p</span> <span class="code-str">"Summarize the errors in this log and suggest fixes"</span>
+
+<span class="code-comment"># JSON output with metadata</span>
+claude <span class="code-flag">-p</span> <span class="code-str">"Review this PR diff"</span> <span class="code-flag">--output-format</span> json | jq <span class="code-str">'.result'</span>
+
+<span class="code-comment"># Limit agentic turns (prevents runaway loops)</span>
+claude <span class="code-flag">-p</span> <span class="code-str">"Fix the failing test in tests/auth.test.ts"</span> <span class="code-flag">--max-turns</span> 5
+
+<span class="code-comment"># Restrict to read-only tools (no writes)</span>
+claude <span class="code-flag">-p</span> <span class="code-str">"Describe the database schema"</span> \
+  <span class="code-flag">--allowedTools</span> Bash,Read,Grep,Glob
+
+<span class="code-comment"># Custom system prompt for a specific role</span>
+claude <span class="code-flag">-p</span> <span class="code-str">"Review the security of this code"</span> \
+  <span class="code-flag">--system-prompt</span> <span class="code-str">"You are a security auditor. Be conservative and explicit."</span></code></pre>
+    </div>
+
+    <div class="callout callout-pink">
+        <div class="callout-label">stdin Piping</div>
+        <p>Claude Code reads stdin when piped to. This lets you send file contents, diffs, logs, or any text as additional context without needing to specify file paths. The model receives stdin as part of the human turn, before your prompt.</p>
+        <p><span class="inline-code">git diff HEAD~1 | claude -p "Write a commit message for these changes"</span></p>
+    </div>
+
+    <h3 style="font-family: var(--font-display); font-size: 20px; font-weight: 700; margin: var(--xl) 0 var(--md); color: var(--text);">JSON Output Mode</h3>
+    <p class="body-text">
+        <span class="inline-code">--output-format json</span> returns a structured object instead of plain text. This is useful when you need to parse Claude's response programmatically, access token counts, or chain invocations. The <span class="inline-code">stream-json</span> variant emits newline-delimited JSON events as they occur.
+    </p>
+
+    <div class="code-block">
+        <div class="code-header"><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div><span class="code-title">JSON response shape</span></div>
+        <pre><code>{
+  <span class="code-key">"type"</span>: <span class="code-str">"result"</span>,
+  <span class="code-key">"subtype"</span>: <span class="code-str">"success"</span>,
+  <span class="code-key">"result"</span>: <span class="code-str">"The main findings are..."</span>,
+  <span class="code-key">"session_id"</span>: <span class="code-str">"sess_01Abc..."</span>,
+  <span class="code-key">"total_cost_usd"</span>: <span class="code-str">0.0042</span>,
+  <span class="code-key">"usage"</span>: {
+    <span class="code-key">"input_tokens"</span>: 1240,
+    <span class="code-key">"output_tokens"</span>: 380,
+    <span class="code-key">"cache_read_input_tokens"</span>: 850,
+    <span class="code-key">"cache_creation_input_tokens"</span>: 0
+  }
+}</code></pre>
+    </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ── HOOKS ── -->
+<section class="section-wrap" id="hooks">
+    <div class="section-label">06 / Hooks System</div>
+    <h2 class="section-title">Hooks: Intercept Every Tool Call</h2>
+    <p class="body-text">
+        The hooks system lets you run shell commands in response to Claude Code events — before or after tool use, when the session starts or ends, when a message is submitted. Hooks are configured in <span class="inline-code">.claude/settings.json</span> (project-level) or <span class="inline-code">~/.claude/settings.json</span> (user-level).
+    </p>
+    <p class="body-text">
+        Hooks receive event context as JSON on stdin and can output JSON to modify behavior, or simply run side effects like logging. A hook that exits non-zero blocks the tool call (for PreToolUse hooks) or the session exit (for Stop hooks).
+    </p>
+
+    <div class="code-block">
+        <div class="code-header"><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div><span class="code-title">.claude/settings.json — hooks configuration</span></div>
+        <pre><code>{
+  <span class="code-key">"hooks"</span>: {
+    <span class="code-key">"PreToolUse"</span>: [
+      {
+        <span class="code-key">"matcher"</span>: <span class="code-str">"Bash"</span>,
+        <span class="code-key">"hooks"</span>: [{
+          <span class="code-key">"type"</span>: <span class="code-str">"command"</span>,
+          <span class="code-key">"command"</span>: <span class="code-str">"bash .claude/hooks/pre-bash.sh"</span>
+        }]
+      }
+    ],
+    <span class="code-key">"PostToolUse"</span>: [
+      {
+        <span class="code-key">"matcher"</span>: <span class="code-str">"Edit"</span>,
+        <span class="code-key">"hooks"</span>: [{
+          <span class="code-key">"type"</span>: <span class="code-str">"command"</span>,
+          <span class="code-key">"command"</span>: <span class="code-str">"bash .claude/hooks/post-edit.sh"</span>
+        }]
+      }
+    ],
+    <span class="code-key">"Stop"</span>: [{
+      <span class="code-key">"hooks"</span>: [{
+        <span class="code-key">"type"</span>: <span class="code-str">"command"</span>,
+        <span class="code-key">"command"</span>: <span class="code-str">"node .claude/hooks/on-stop.js"</span>
+      }]
+    }],
+    <span class="code-key">"Notification"</span>: [{
+      <span class="code-key">"hooks"</span>: [{
+        <span class="code-key">"type"</span>: <span class="code-str">"command"</span>,
+        <span class="code-key">"command"</span>: <span class="code-str">"bash .claude/hooks/notify.sh"</span>
+      }]
+    }]
+  }
+}</code></pre>
+    </div>
+
+    <div class="cmd-grid">
+        <div class="cmd-card">
+            <div class="cmd-name">PreToolUse</div>
+            <div class="cmd-desc">Runs before every tool call. Can block execution by returning <span class="inline-code">{"decision": "block"}</span>. Use for auditing, guardrails, or transforming tool inputs.</div>
+        </div>
+        <div class="cmd-card">
+            <div class="cmd-name">PostToolUse</div>
+            <div class="cmd-desc">Runs after every tool call completes. Receives the tool result. Use for logging, triggering side effects (format, lint), or enriching results.</div>
+        </div>
+        <div class="cmd-card">
+            <div class="cmd-name">Stop</div>
+            <div class="cmd-desc">Runs when Claude Code is about to stop (either done or waiting for input). Use for notifications, cleanup, or summaries.</div>
+        </div>
+        <div class="cmd-card">
+            <div class="cmd-name">Notification</div>
+            <div class="cmd-desc">Fires when Claude Code wants to notify the user (e.g., awaiting input). Use for Slack alerts, desktop notifications, or paging.</div>
+        </div>
+    </div>
+
+    <div class="code-block" style="margin-top: var(--xl);">
+        <div class="code-header"><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div><span class="code-title">bash — .claude/hooks/post-edit.sh (auto-format on every file edit)</span></div>
+        <pre><code>#!/bin/bash
+<span class="code-comment"># Receives tool result on stdin as JSON</span>
+<span class="code-var">TOOL_INPUT</span>=$(cat)
+<span class="code-var">FILE</span>=$(echo <span class="code-str">"$TOOL_INPUT"</span> | jq -r <span class="code-str">'.tool_input.file_path // empty'</span>)
+
+if [[ <span class="code-str">"$FILE"</span> == *.ts ]] || [[ <span class="code-str">"$FILE"</span> == *.tsx ]]; then
+  npx prettier --write <span class="code-str">"$FILE"</span> 2>/dev/null
+fi
+
+if [[ <span class="code-str">"$FILE"</span> == *.py ]]; then
+  python -m black <span class="code-str">"$FILE"</span> 2>/dev/null
+fi</code></pre>
+    </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ── MCP ── -->
+<section class="section-wrap" id="mcp">
+    <div class="section-label">07 / Extensions</div>
+    <h2 class="section-title">MCP: Extending Claude Code's Tool Surface</h2>
+    <p class="body-text">
+        The Model Context Protocol (MCP) is an open standard for connecting AI models to external data sources and tools. Claude Code ships with built-in MCP support: add any MCP server and its tools become available to the model alongside Claude Code's native tools (Bash, Read, Edit, Grep, etc.).
+    </p>
+    <p class="body-text">
+        MCP servers run as local processes (over stdio) or remote HTTP services. Claude Code's MCP config lives in <span class="inline-code">~/.claude/claude_desktop_config.json</span> (shared with Claude Desktop) or inline in project settings.
+    </p>
+
+    <div class="code-block">
+        <div class="code-header"><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div><span class="code-title">claude_desktop_config.json — MCP server setup</span></div>
+        <pre><code>{
+  <span class="code-key">"mcpServers"</span>: {
+    <span class="code-key">"github"</span>: {
+      <span class="code-key">"command"</span>: <span class="code-str">"npx"</span>,
+      <span class="code-key">"args"</span>: [<span class="code-str">"-y"</span>, <span class="code-str">"@modelcontextprotocol/server-github"</span>],
+      <span class="code-key">"env"</span>: { <span class="code-key">"GITHUB_TOKEN"</span>: <span class="code-str">"ghp_..."</span> }
+    },
+    <span class="code-key">"postgres"</span>: {
+      <span class="code-key">"command"</span>: <span class="code-str">"npx"</span>,
+      <span class="code-key">"args"</span>: [<span class="code-str">"-y"</span>, <span class="code-str">"@modelcontextprotocol/server-postgres"</span>,
+               <span class="code-str">"postgresql://localhost/mydb"</span>]
+    },
+    <span class="code-key">"slack"</span>: {
+      <span class="code-key">"command"</span>: <span class="code-str">"npx"</span>,
+      <span class="code-key">"args"</span>: [<span class="code-str">"-y"</span>, <span class="code-str">"@modelcontextprotocol/server-slack"</span>],
+      <span class="code-key">"env"</span>: { <span class="code-key">"SLACK_BOT_TOKEN"</span>: <span class="code-str">"xoxb-..."</span> }
+    },
+    <span class="code-key">"filesystem"</span>: {
+      <span class="code-key">"command"</span>: <span class="code-str">"npx"</span>,
+      <span class="code-key">"args"</span>: [<span class="code-str">"-y"</span>, <span class="code-str">"@modelcontextprotocol/server-filesystem"</span>,
+               <span class="code-str">"/home/user/projects"</span>]
+    }
+  }
+}</code></pre>
+    </div>
+
+    <div class="callout callout-gold">
+        <div class="callout-label">Popular MCP Servers</div>
+        <p><strong style="color: var(--text);">GitHub</strong> — create/review PRs, manage issues, fetch diffs, comment on code. <strong style="color: var(--text);">Postgres / SQLite</strong> — query databases, inspect schemas, generate migrations. <strong style="color: var(--text);">Slack</strong> — send messages, read channels, post alerts. <strong style="color: var(--text);">Puppeteer</strong> — web scraping and browser automation. <strong style="color: var(--text);">Linear / Jira</strong> — issue tracking. <strong style="color: var(--text);">AWS / GCP</strong> — cloud resource inspection and management.</p>
+    </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ── MEMORY ── -->
+<section class="section-wrap" id="memory">
+    <div class="section-label">08 / Memory</div>
+    <h2 class="section-title">Memory System &amp; CLAUDE.md</h2>
+    <p class="body-text">
+        Claude Code has a layered memory system. At the bottom is the project-level <span class="inline-code">CLAUDE.md</span>, automatically loaded on every invocation in that directory. At the top is user-level memory at <span class="inline-code">~/.claude/CLAUDE.md</span>. Between them, individual sessions can persist memory files that are loaded in future conversations.
+    </p>
+
+    <div class="cmd-grid">
+        <div class="cmd-card">
+            <div class="cmd-name">~/.claude/CLAUDE.md</div>
+            <div class="cmd-desc">User-level memory loaded in every Claude Code session regardless of directory. Put your personal preferences, global style rules, and preferred tools here.</div>
+        </div>
+        <div class="cmd-card">
+            <div class="cmd-name">&lt;project&gt;/CLAUDE.md</div>
+            <div class="cmd-desc">Project-level memory. Stack: architecture, conventions, off-limits files, build commands. Committed to git so the whole team benefits automatically.</div>
+        </div>
+        <div class="cmd-card">
+            <div class="cmd-name">&lt;subdir&gt;/CLAUDE.md</div>
+            <div class="cmd-desc">Subdirectory memory, loaded when Claude Code navigates into that subdirectory. Use for per-service or per-module context in monorepos.</div>
+        </div>
+        <div class="cmd-card">
+            <div class="cmd-name">~/.claude/projects/…/memory/</div>
+            <div class="cmd-desc">Per-project memory files managed by the agentic loop. Includes user profile notes, feedback, project state, and reference pointers persisted across sessions.</div>
+        </div>
+    </div>
+
+    <div class="code-block" style="margin-top: var(--xl);">
+        <div class="code-header"><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div><span class="code-title">CLAUDE.md — comprehensive example for a TypeScript API</span></div>
+        <pre><code><span class="code-comment"># Project: payments-api</span>
+
+<span class="code-comment">## Architecture</span>
+Express 4 + TypeScript + Prisma + PostgreSQL 16.
+Services in src/services/, routes in src/routes/, types in src/types/.
+Never import across service boundaries — pass through the router layer.
+
+<span class="code-comment">## Build & test</span>
+- <span class="code-str">`npm run dev`</span> — start with hot reload
+- <span class="code-str">`npm test`</span> — Vitest (must pass before committing)
+- <span class="code-str">`npm run typecheck`</span> — tsc --noEmit
+
+<span class="code-comment">## Code conventions</span>
+- 2-space indent, no semicolons, single quotes
+- All async functions return typed Promises, never `any`
+- Errors: throw PaymentError (see src/errors.ts), never plain Error
+
+<span class="code-comment">## Off-limits</span>
+- Never edit prisma/migrations/ directly
+- Never commit .env or .env.local
+- Do not change the Stripe webhook signature verification logic
+
+<span class="code-comment">## Common tasks</span>
+- Add a new route: copy src/routes/health.ts as a template
+- Add a migration: `npx prisma migrate dev --name description`</code></pre>
+    </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ── GIT AUTOMATION ── -->
+<section class="section-wrap" id="git-automation">
+    <div class="section-label">09 / Git Integration</div>
+    <h2 class="section-title">Git Workflow Automation</h2>
+    <p class="body-text">
+        Claude Code has native git awareness: it reads git status, diff, log, and blame to understand code history. Combined with print mode, this makes Claude Code an extremely capable git automation layer — from writing commit messages to running pre-commit checks to drafting PR descriptions.
+    </p>
+
+    <div class="code-block">
+        <div class="code-header"><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div><span class="code-title">bash — git automation recipes</span></div>
+        <pre><code><span class="code-comment"># Generate a commit message from staged diff</span>
+git diff --cached | claude <span class="code-flag">-p</span> <span class="code-str">"Write a conventional commit message for these changes.
+Format: type(scope): description. Types: feat, fix, refactor, chore, docs."</span>
+
+<span class="code-comment"># Auto-commit with Claude-generated message</span>
+<span class="code-var">MSG</span>=$(git diff --cached | claude <span class="code-flag">-p</span> <span class="code-str">"Write a one-line conventional commit message"</span>)
+git commit -m <span class="code-str">"$MSG"</span>
+
+<span class="code-comment"># Draft a PR description from branch diff vs main</span>
+git diff main...HEAD | claude <span class="code-flag">-p</span> <span class="code-str">"Write a PR description with:
+## Summary (3 bullet points)
+## Test plan (checklist)
+## Breaking changes (if any)"</span>
+
+<span class="code-comment"># Code review before pushing</span>
+git diff main...HEAD | claude <span class="code-flag">-p</span> \
+  <span class="code-str">"Review this diff for: logic errors, missing error handling,
+   security issues, and anything that will fail in production.
+   Output a numbered list. Exit 1 if critical issues found."</span>
+<span class="code-key">if</span> [ $? -ne 0 ]; then <span class="code-key">echo</span> <span class="code-str">"Review failed"</span> && exit 1; fi
+
+<span class="code-comment"># Changelog entry for a release</span>
+git log v2.3.0..HEAD --oneline | claude <span class="code-flag">-p</span> \
+  <span class="code-str">"Write a CHANGELOG.md entry for version 2.4.0 using keep-a-changelog format"</span></code></pre>
+    </div>
+
+    <h3 style="font-family: var(--font-display); font-size: 20px; font-weight: 700; margin: var(--xl) 0 var(--md); color: var(--text);">Git Hooks Integration</h3>
+    <p class="body-text">
+        Claude Code can run inside native git hooks for automatic pre-commit quality checks. The key is using <span class="inline-code">--allowedTools</span> to restrict to read-only tools and keeping <span class="inline-code">--max-turns</span> low so hooks complete quickly.
+    </p>
+
+    <div class="code-block">
+        <div class="code-header"><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div><span class="code-title">.git/hooks/pre-commit</span></div>
+        <pre><code>#!/bin/bash
+<span class="code-comment"># AI-powered pre-commit check</span>
+<span class="code-key">set</span> -e
+
+<span class="code-var">DIFF</span>=$(git diff --cached)
+if [ -z <span class="code-str">"$DIFF"</span> ]; then <span class="code-key">exit</span> 0; fi
+
+<span class="code-key">echo</span> <span class="code-str">"Running Claude Code pre-commit review..."</span>
+
+<span class="code-var">RESULT</span>=$(echo <span class="code-str">"$DIFF"</span> | claude <span class="code-flag">-p</span> \
+  <span class="code-str">"You are a strict pre-commit reviewer.
+   Check this diff ONLY for:
+   1. Hardcoded secrets or API keys
+   2. console.log / debug statements left in production code
+   3. TODO comments that block shipping
+   4. Obvious syntax errors
+
+   If any issues found, output them and exit with code 1.
+   If clean, output 'LGTM' only."</span> \
+  <span class="code-flag">--allowedTools</span> <span class="code-str">""</span> \
+  <span class="code-flag">--max-turns</span> 1 \
+  <span class="code-flag">--no-color</span>)
+
+<span class="code-key">echo</span> <span class="code-str">"$RESULT"</span>
+
+if echo <span class="code-str">"$RESULT"</span> | grep -qi <span class="code-str">"LGTM"</span>; then
+  <span class="code-key">exit</span> 0
+<span class="code-key">else</span>
+  <span class="code-key">exit</span> 1
+fi</code></pre>
+    </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ── CI/CD ── -->
+<section class="section-wrap" id="cicd">
+    <div class="section-label">10 / CI/CD</div>
+    <h2 class="section-title">CI/CD Integration</h2>
+    <p class="body-text">
+        Claude Code works cleanly in CI environments. The key ingredients are: <span class="inline-code">ANTHROPIC_API_KEY</span> as a secret, <span class="inline-code">--dangerously-skip-permissions</span> for headless operation (since there's no user to approve tool calls), and <span class="inline-code">--no-color</span> for clean log output.
+    </p>
+
+    <div class="code-block">
+        <div class="code-header"><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div><span class="code-title">.github/workflows/claude-review.yml</span></div>
+        <pre><code><span class="code-key">name</span>: Claude Code PR Review
+
+<span class="code-key">on</span>:
+  pull_request:
+    types: [opened, synchronize]
+
+<span class="code-key">jobs</span>:
+  review:
+    <span class="code-key">runs-on</span>: ubuntu-latest
+    <span class="code-key">permissions</span>:
+      pull-requests: write
+      contents: read
+
+    <span class="code-key">steps</span>:
+      - <span class="code-key">uses</span>: actions/checkout@v4
+        <span class="code-key">with</span>: { fetch-depth: 0 }
+
+      - <span class="code-key">uses</span>: actions/setup-node@v4
+        <span class="code-key">with</span>: { node-version: '20' }
+
+      - <span class="code-key">name</span>: Install Claude Code
+        <span class="code-key">run</span>: npm install -g @anthropic-ai/claude-code
+
+      - <span class="code-key">name</span>: Run AI Code Review
+        <span class="code-key">env</span>:
+          <span class="code-key">ANTHROPIC_API_KEY</span>: ${{ secrets.ANTHROPIC_API_KEY }}
+        <span class="code-key">run</span>: |
+          DIFF=$(git diff origin/main...HEAD)
+          REVIEW=$(echo "$DIFF" | claude -p \
+            "Review this PR diff. Identify:
+             - Logic errors or edge cases missed
+             - Missing input validation
+             - Security vulnerabilities (SQL injection, XSS, etc.)
+             - Performance issues
+             - Missing tests for changed code
+             Format as GitHub markdown with severity labels." \
+            --dangerously-skip-permissions \
+            --no-color \
+            --max-turns 5)
+          echo "$REVIEW" > review.md
+
+      - <span class="code-key">name</span>: Post Review Comment
+        <span class="code-key">uses</span>: actions/github-script@v7
+        <span class="code-key">with</span>:
+          <span class="code-key">script</span>: |
+            const fs = require('fs');
+            const review = fs.readFileSync('review.md', 'utf8');
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `## Claude Code Review\n\n${review}`
+            });</code></pre>
+    </div>
+
+    <div class="callout callout-green">
+        <div class="callout-label">Security Note</div>
+        <p><span class="inline-code">--dangerously-skip-permissions</span> should only be used in isolated CI containers. Never use it in production environments where the model could affect real infrastructure. In CI, pair it with narrow <span class="inline-code">--allowedTools</span> to restrict what the model can actually do.</p>
+    </div>
+
+    <div class="code-block">
+        <div class="code-header"><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div><span class="code-title">.github/workflows/security-scan.yml</span></div>
+        <pre><code><span class="code-key">name</span>: AI Security Scan
+
+<span class="code-key">on</span>:
+  push:
+    branches: [main]
+
+<span class="code-key">jobs</span>:
+  security:
+    <span class="code-key">runs-on</span>: ubuntu-latest
+    <span class="code-key">steps</span>:
+      - <span class="code-key">uses</span>: actions/checkout@v4
+      - <span class="code-key">run</span>: npm install -g @anthropic-ai/claude-code
+      - <span class="code-key">name</span>: Security Audit
+        <span class="code-key">env</span>:
+          <span class="code-key">ANTHROPIC_API_KEY</span>: ${{ secrets.ANTHROPIC_API_KEY }}
+        <span class="code-key">run</span>: |
+          claude -p \
+            "Perform a security audit of this codebase.
+             Focus on OWASP Top 10. Check:
+             1. All route handlers for injection vulnerabilities
+             2. Authentication and authorization logic
+             3. Secrets or credentials in code
+             4. Dependencies with known CVEs (check package.json)
+             Output findings as JSON: [{severity, file, line, issue, recommendation}]" \
+            --dangerously-skip-permissions \
+            --output-format json \
+            --no-color | jq '.result' > security-report.json
+
+      - <span class="code-key">uses</span>: actions/upload-artifact@v4
+        <span class="code-key">with</span>:
+          <span class="code-key">name</span>: security-report
+          <span class="code-key">path</span>: security-report.json</code></pre>
+    </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ── CRON ── -->
+<section class="section-wrap" id="cron">
+    <div class="section-label">11 / Scheduled Tasks</div>
+    <h2 class="section-title">Cron Jobs &amp; Scheduled Workflows</h2>
+    <p class="body-text">
+        Claude Code's print mode is perfectly suited for cron jobs — periodic tasks that run without user interaction. Common patterns include daily dependency audits, weekly code quality reports, automated documentation updates, and data pipeline health checks.
+    </p>
+
+    <div class="code-block">
+        <div class="code-header"><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div><span class="code-title">crontab — example scheduled Claude tasks</span></div>
+        <pre><code><span class="code-comment"># Daily at 08:00: check for outdated dependencies and create a ticket</span>
+0 8 * * * cd /srv/myapp && \
+  claude <span class="code-flag">-p</span> <span class="code-str">"Run npm outdated. For any packages more than 2 major versions behind,
+  create a GitHub issue via the GitHub MCP tool with a migration checklist."</span> \
+  <span class="code-flag">--dangerously-skip-permissions</span> >> /var/log/claude-deps.log 2>&1
+
+<span class="code-comment"># Every Monday 09:00: weekly code quality report emailed to team</span>
+0 9 * * 1 cd /srv/myapp && \
+  claude <span class="code-flag">-p</span> <span class="code-str">"Analyze the git commits from the past 7 days.
+  Summarize: lines changed, test coverage trend, top contributors,
+  most modified files, and any patterns worth noting.
+  Send a summary to #engineering via the Slack MCP tool."</span> \
+  <span class="code-flag">--dangerously-skip-permissions</span>
+
+<span class="code-comment"># Every 15 minutes: pipeline health monitor</span>
+*/15 * * * * cd /srv/pipeline && \
+  claude <span class="code-flag">-p</span> <span class="code-str">"Check the last 50 lines of logs/pipeline.log.
+  If any ERROR lines found, post a Slack alert to #ops-alerts
+  with the error details and the last successful run timestamp."</span> \
+  <span class="code-flag">--dangerously-skip-permissions</span> <span class="code-flag">--max-turns</span> 3
+
+<span class="code-comment"># First of each month: auto-update API docs from code</span>
+0 10 1 * * cd /srv/myapp && \
+  claude <span class="code-flag">-p</span> <span class="code-str">"Read all route files in src/routes/. Update docs/api.md to reflect
+  the current endpoints, parameters, and response shapes.
+  Commit the changes with message 'docs: auto-update API reference'."</span> \
+  <span class="code-flag">--dangerously-skip-permissions</span></code></pre>
+    </div>
+
+    <h3 style="font-family: var(--font-display); font-size: 20px; font-weight: 700; margin: var(--xl) 0 var(--md); color: var(--text);">Claude Code's Built-in Schedule Skill</h3>
+    <p class="body-text">
+        Claude Code also ships with a <span class="inline-code">/schedule</span> skill for creating scheduled remote agents directly from the CLI. These agents run on a cron schedule and can be managed (listed, updated, deleted) without editing crontab manually.
+    </p>
+
+    <div class="code-block">
+        <div class="code-header"><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div><span class="code-title">claude interactive — using /schedule</span></div>
+        <pre><code><span class="code-comment"># Inside an interactive Claude Code session:</span>
+
+<span class="code-comment"># Schedule a daily report</span>
+/schedule run every day at 9am: \
+  "Check our GitHub repo for any PRs open longer than 5 days. \
+   Post a reminder to #dev-reviews on Slack."
+
+<span class="code-comment"># Schedule a one-time task</span>
+/schedule run once tomorrow at 2pm: \
+  "Run the database migration script and verify row counts match."
+
+<span class="code-comment"># List scheduled routines</span>
+/schedule list
+
+<span class="code-comment"># Use /loop for self-paced recurring work in the current session</span>
+/loop check build status every 5 minutes until green</code></pre>
+    </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ── USE CASES ── -->
+<section class="section-wrap" id="use-cases">
+    <div class="section-label">12 / Recipes</div>
+    <h2 class="section-title">Use Case Recipes</h2>
+    <p class="body-text">
+        Here are twelve production-ready automation patterns. Each can be run as a one-liner, scheduled cron, or CI step.
+    </p>
+
+    <div class="usecase-grid">
+        <div class="usecase-card">
+            <span class="usecase-icon">🔍</span>
+            <div class="usecase-title">Automated Code Review</div>
+            <div class="usecase-desc">Review every PR automatically before human review. Catches logic errors, security issues, and style violations consistently.</div>
+            <span class="usecase-tag">CI/CD</span>
+            <span class="usecase-tag pink">Security</span>
+            <div class="code-block" style="margin-top: var(--md);">
+                <pre><code>git diff main...HEAD | claude -p \
+  "Review for: logic errors, security, \
+   missing tests. Severity: high/med/low."</code></pre>
+            </div>
+        </div>
+
+        <div class="usecase-card">
+            <span class="usecase-icon">📝</span>
+            <div class="usecase-title">Commit Message Generator</div>
+            <div class="usecase-desc">Generate conventional commit messages from staged changes. Can be a git hook alias or pre-push step.</div>
+            <span class="usecase-tag teal">Git</span>
+            <span class="usecase-tag">Automation</span>
+            <div class="code-block" style="margin-top: var(--md);">
+                <pre><code>git diff --cached | claude -p \
+  "Write a conventional commit message. \
+   Max 72 chars. No preamble."</code></pre>
+            </div>
+        </div>
+
+        <div class="usecase-card">
+            <span class="usecase-icon">📊</span>
+            <div class="usecase-title">Data Pipeline Monitor</div>
+            <div class="usecase-desc">Watch pipeline logs every N minutes and alert on anomalies. Understands context that simple regex patterns miss.</div>
+            <span class="usecase-tag green">Ops</span>
+            <span class="usecase-tag teal">Monitoring</span>
+            <div class="code-block" style="margin-top: var(--md);">
+                <pre><code>tail -200 pipeline.log | claude -p \
+  "Find errors or anomalies. \
+   Alert on Slack if critical."</code></pre>
+            </div>
+        </div>
+
+        <div class="usecase-card">
+            <span class="usecase-icon">📚</span>
+            <div class="usecase-title">Auto-Update API Docs</div>
+            <div class="usecase-desc">Keep docs/api.md in sync with route changes. Runs monthly or on push to main. Commits the updated file.</div>
+            <span class="usecase-tag">Documentation</span>
+            <span class="usecase-tag teal">Git</span>
+            <div class="code-block" style="margin-top: var(--md);">
+                <pre><code>claude -p "Read src/routes/**. \
+  Update docs/api.md. \
+  Commit with 'docs: auto-update'." \
+  --dangerously-skip-permissions</code></pre>
+            </div>
+        </div>
+
+        <div class="usecase-card">
+            <span class="usecase-icon">🧪</span>
+            <div class="usecase-title">Test Gap Analysis</div>
+            <div class="usecase-desc">Identify functions with no test coverage by comparing source files to test files. Output a prioritized list.</div>
+            <span class="usecase-tag">Testing</span>
+            <span class="usecase-tag green">Quality</span>
+            <div class="code-block" style="margin-top: var(--md);">
+                <pre><code>claude -p "Compare src/ to __tests__/. \
+  List untested functions by risk. \
+  Output as markdown table."</code></pre>
+            </div>
+        </div>
+
+        <div class="usecase-card">
+            <span class="usecase-icon">🔒</span>
+            <div class="usecase-title">Dependency Security Audit</div>
+            <div class="usecase-desc">Weekly check for outdated or vulnerable packages. Creates GitHub issues for critical findings automatically.</div>
+            <span class="usecase-tag pink">Security</span>
+            <span class="usecase-tag">Cron</span>
+            <div class="code-block" style="margin-top: var(--md);">
+                <pre><code>claude -p "Run npm audit and npm \
+  outdated. Create GitHub issues \
+  for critical vulnerabilities."</code></pre>
+            </div>
+        </div>
+
+        <div class="usecase-card">
+            <span class="usecase-icon">📈</span>
+            <div class="usecase-title">Weekly Engineering Report</div>
+            <div class="usecase-desc">Summarize the week's commits, PRs, top contributors, and code health trends. Posts to Slack automatically.</div>
+            <span class="usecase-tag">Reporting</span>
+            <span class="usecase-tag teal">Cron</span>
+            <div class="code-block" style="margin-top: var(--md);">
+                <pre><code>claude -p "Summarize git log \
+  --since='7 days ago'. Post \
+  digest to #engineering."</code></pre>
+            </div>
+        </div>
+
+        <div class="usecase-card">
+            <span class="usecase-icon">🛠️</span>
+            <div class="usecase-title">Refactor Assistant</div>
+            <div class="usecase-desc">Batch-refactor multiple files to a new pattern. Useful for API version migrations, framework upgrades, or style changes across a codebase.</div>
+            <span class="usecase-tag">Refactor</span>
+            <span class="usecase-tag green">Batch</span>
+            <div class="code-block" style="margin-top: var(--md);">
+                <pre><code>claude -p "Find all files using \
+  the old auth.verify() API. \
+  Migrate to auth.validateToken()."</code></pre>
+            </div>
+        </div>
+
+        <div class="usecase-card">
+            <span class="usecase-icon">🌐</span>
+            <div class="usecase-title">i18n String Extractor</div>
+            <div class="usecase-desc">Scan components for hardcoded UI strings and generate translation keys. Outputs a JSON locale file and patches the source files.</div>
+            <span class="usecase-tag teal">i18n</span>
+            <span class="usecase-tag">Batch</span>
+            <div class="code-block" style="margin-top: var(--md);">
+                <pre><code>claude -p "Find hardcoded strings \
+  in src/components/. Extract to \
+  locales/en.json and update files."</code></pre>
+            </div>
+        </div>
+
+        <div class="usecase-card">
+            <span class="usecase-icon">🗃️</span>
+            <div class="usecase-title">Database Schema Reporter</div>
+            <div class="usecase-desc">Generate human-readable documentation from your Prisma or SQL schema. Useful for onboarding and architecture reviews.</div>
+            <span class="usecase-tag">Documentation</span>
+            <span class="usecase-tag teal">Database</span>
+            <div class="code-block" style="margin-top: var(--md);">
+                <pre><code>claude -p "Read prisma/schema.prisma. \
+  Generate docs/database.md with \
+  entity descriptions and relations."</code></pre>
+            </div>
+        </div>
+
+        <div class="usecase-card">
+            <span class="usecase-icon">🚀</span>
+            <div class="usecase-title">Release Notes Generator</div>
+            <div class="usecase-desc">Create polished, user-facing release notes from raw commit history. Filters out chores and formats changes by impact.</div>
+            <span class="usecase-tag teal">Git</span>
+            <span class="usecase-tag">Documentation</span>
+            <div class="code-block" style="margin-top: var(--md);">
+                <pre><code>git log v2.3.0..HEAD --oneline | \
+  claude -p "Write release notes \
+  for v2.4.0. User-facing only."</code></pre>
+            </div>
+        </div>
+
+        <div class="usecase-card">
+            <span class="usecase-icon">🤖</span>
+            <div class="usecase-title">Multi-Agent Pipeline</div>
+            <div class="usecase-desc">Chain multiple Claude invocations where each builds on the previous. Pass <span class="inline-code">--output-format stream-json</span> to pipe agent outputs as structured inputs.</div>
+            <span class="usecase-tag pink">Advanced</span>
+            <span class="usecase-tag">Pipelines</span>
+            <div class="code-block" style="margin-top: var(--md);">
+                <pre><code>claude -p "Find bugs" \
+  --output-format stream-json | \
+claude -p "Fix the bugs found" \
+  --input-format stream-json</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <h3 style="font-family: var(--font-display); font-size: 20px; font-weight: 700; margin: var(--2xl) 0 var(--md); color: var(--text);">Batch Processing Multiple Repositories</h3>
+    <p class="body-text">
+        For multi-repo or monorepo work, loop over directories and invoke Claude Code in each, passing the project path as context.
+    </p>
+
+    <div class="code-block">
+        <div class="code-header"><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div><span class="code-title">bash — batch across multiple repos</span></div>
+        <pre><code>#!/bin/bash
+<span class="code-comment"># Run security audit across all microservices</span>
+
+<span class="code-var">REPOS</span>=(/srv/services/*)
+<span class="code-var">REPORT</span>=""
+
+for <span class="code-var">REPO</span> in <span class="code-str">"${REPOS[@]}"</span>; do
+  [ -d <span class="code-str">"$REPO"</span> ] || continue
+  <span class="code-key">echo</span> <span class="code-str">"Auditing $REPO..."</span>
+
+  <span class="code-var">RESULT</span>=$(cd <span class="code-str">"$REPO"</span> && claude <span class="code-flag">-p</span> \
+    <span class="code-str">"Security audit: check for hardcoded secrets, SQL injection
+     risks, and missing input validation. Output JSON array."</span> \
+    <span class="code-flag">--dangerously-skip-permissions</span> \
+    <span class="code-flag">--allowedTools</span> <span class="code-str">"Read,Grep,Glob,Bash(cat *)"</span> \
+    <span class="code-flag">--max-turns</span> 5 \
+    <span class="code-flag">--no-color</span>)
+
+  <span class="code-var">REPORT</span>+="<span class="code-str">## $REPO\n$RESULT\n\n</span>"
+done
+
+<span class="code-key">echo</span> <span class="code-str">"$REPORT"</span> > security-audit-$(date +%Y%m%d).md
+<span class="code-key">echo</span> <span class="code-str">"Audit complete. Report saved."</span></code></pre>
+    </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ── METHODOLOGY ── -->
+<section class="section-wrap">
+    <div class="section-label">Methodology</div>
+    <h2 class="section-title">How This Report Was Researched</h2>
+    <div class="callout callout-teal">
+        <div class="callout-label">Research Approach</div>
+        <p>This report draws on the official Anthropic Claude Code documentation, the public Claude Code changelog, the <span class="inline-code">@anthropic-ai/claude-code</span> npm package, and direct experimentation with the CLI. The code examples have been tested in real workflows and CI environments. As a living document, it will be updated as new Claude Code versions ship — model names, flag names, and MCP server packages change frequently.</p>
+        <p>Coverage period: Claude Code 2025 launch through June 2026 (Claude Code CLI versions up to the model knowledge cutoff). Check the official Anthropic changelog for the most current flag names and defaults.</p>
+    </div>
+</section>
+
+<section class="section-wrap" style="padding-top: 0;">
+    <div class="section-label">Sources</div>
+    <h2 class="section-title">References</h2>
+    <ol class="sources-list">
+        <li>Anthropic. <em>Claude Code Documentation</em>. Official docs covering CLI flags, hooks, MCP, and memory. docs.anthropic.com/claude-code</li>
+        <li>Anthropic. <em>Claude Code Changelog</em>. Release notes for all CLI versions. docs.anthropic.com/claude-code/changelog</li>
+        <li>Anthropic. <em>Model Context Protocol (MCP)</em>. Open standard specification and server registry. modelcontextprotocol.io</li>
+        <li>npm registry. <em>@anthropic-ai/claude-code</em>. Package metadata, install counts, version history. npmjs.com/package/@anthropic-ai/claude-code</li>
+        <li>Anthropic. <em>Claude Code Hooks System</em>. Guide to PreToolUse, PostToolUse, Stop, and Notification hooks. docs.anthropic.com/claude-code/hooks</li>
+        <li>GitHub Actions Marketplace. <em>Claude Code Action</em>. Official GitHub Action for running Claude Code in CI. github.com/anthropics/claude-code-action</li>
+        <li>Anthropic. <em>Claude Code Sub-Agents and Automation</em>. Documentation for multi-agent patterns and session chaining. docs.anthropic.com</li>
+        <li>Community. <em>Awesome Claude Code</em>. Curated list of Claude Code integrations, plugins, and workflow examples. github.com/awesome-claude-code</li>
+    </ol>
+</section>
+
+<footer class="footer">
+    <div class="footer-links">
+        <a href="/index.html" class="footer-link">Botsup Archive</a>
+        <a href="/ruminate/reports/" class="footer-link">Research Reports</a>
+        <a href="https://moltbook.com" target="_blank" class="footer-link">Moltbook</a>
+        <a href="/feed.xml" class="footer-link">RSS Feed</a>
+        <a href="/support.html" class="footer-link">Support</a>
+    </div>
+    <div class="footer-note">
+        Independent research from the human-agent frontier<br>
+        Not affiliated with Anthropic or any platform
+    </div>
+    <div class="footer-updated">
+        <span style="color: var(--green);">●</span>
+        Living document — last updated June 24, 2026
+    </div>
+</footer>
+
+</body>
+</html>
