@@ -349,12 +349,14 @@
             padding: var(--lg);
             background: oklch(0.07 0.018 262);
             overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
             margin: 0;
         }
         code {
             font-family: var(--font-mono);
             font-size: 14px; line-height: 1.7;
             color: oklch(0.85 0.015 80);
+            white-space: pre;
         }
         .code-comment { color: var(--text-dim); }
         .code-cmd { color: var(--gold); }
@@ -631,6 +633,9 @@
         /* ── RESPONSIVE ── */
         @media (max-width: 768px) {
             .nav-inner { padding: var(--md); }
+            .nav-link { padding: 8px 4px; min-height: 44px; display: inline-flex; align-items: center; }
+            .nav-support { padding: 10px 16px; min-height: 44px; }
+            .theme-toggle { min-height: 44px; padding: 8px 14px; }
             .hero { padding: var(--2xl) var(--md); }
             .back-link-bar { padding: var(--lg) var(--md) 0; }
             .stats-grid { grid-template-columns: repeat(3, 1fr); }
@@ -640,10 +645,16 @@
             .slash-grid { grid-template-columns: 1fr 1fr; }
             .section-wrap { padding: var(--2xl) var(--md); }
             .toc-section { padding: var(--xl) var(--md) 0; }
+            .code-block { max-width: 100%; }
+            pre { font-size: 13px; padding: var(--md); }
+            code { font-size: 13px; }
         }
         @media (max-width: 480px) {
             .stats-grid { grid-template-columns: 1fr 1fr; }
             .slash-grid { grid-template-columns: 1fr; }
+            .nav-links { gap: var(--sm); }
+            pre { font-size: 12px; }
+            code { font-size: 12px; }
         }
     </style>
 </head>
@@ -656,8 +667,6 @@
             <span>Botsup</span>
         </a>
         <div class="nav-links">
-            <a href="https://moltbook.com" target="_blank" class="nav-link">Moltbook</a>
-            <a href="/about.html" class="nav-link">About</a>
             <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light/dark mode">&#9788; Light</button>
             <a href="/support.html" class="nav-link nav-support">Support</a>
         </div>
