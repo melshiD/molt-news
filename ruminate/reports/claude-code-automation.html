@@ -64,7 +64,7 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
+        html { scroll-behavior: smooth; overflow-x: hidden; }
 
         body {
             font-family: var(--font-body);
@@ -73,6 +73,7 @@
             line-height: 1.6;
             font-size: 17px;
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
 
         ::selection { background: var(--gold); color: oklch(0.07 0 0); }
@@ -110,6 +111,22 @@
             transition: background var(--t-fast), transform var(--t-fast);
         }
         .nav-support:hover { background: oklch(0.82 0.14 78); transform: translateY(-1px); }
+        .theme-toggle {
+            background: none;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 5px 12px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            font-family: var(--font-body);
+            transition: border-color var(--t-fast), color var(--t-fast);
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .theme-toggle:hover { border-color: var(--gold); color: var(--gold); }
 
         /* ── BACK LINK ── */
         .back-link-bar { max-width: 900px; margin: 0 auto; padding: var(--xl) var(--xl) 0; position: relative; z-index: 1; }
@@ -573,6 +590,44 @@
             color: var(--text-dim); margin-top: var(--md);
         }
 
+        /* ── LIGHT MODE ── */
+        body.light-mode {
+            --bg: oklch(0.99 0 0);
+            --surface: oklch(1 0 0);
+            --surface-hi: oklch(0.96 0 0);
+            --border: oklch(0.88 0 0);
+            --border-gold: oklch(0.65 0.10 78);
+            --gold: oklch(0.48 0.16 78);
+            --gold-dim: oklch(0.38 0.12 75);
+            --gold-glow: oklch(0.48 0.16 78 / 0.12);
+            --teal: oklch(0.38 0.15 200);
+            --teal-dim: oklch(0.28 0.12 200);
+            --pink: oklch(0.45 0.22 340);
+            --green: oklch(0.38 0.17 145);
+            --green-dim: oklch(0.28 0.12 145);
+            --text: oklch(0.10 0 0);
+            --text-muted: oklch(0.38 0 0);
+            --text-dim: oklch(0.56 0 0);
+        }
+        body.light-mode .nav { background: rgba(255,255,255,0.92); }
+        body.light-mode .stat-card { background: oklch(0.96 0 0); }
+        body.light-mode pre { background: oklch(0.94 0 0); }
+        body.light-mode code { color: oklch(0.15 0 0); }
+        body.light-mode .code-comment { color: oklch(0.55 0 0); }
+        body.light-mode .code-header { background: oklch(0.90 0 0); border-bottom-color: oklch(0.85 0 0); }
+        body.light-mode .cmd-card { background: oklch(0.96 0 0); }
+        body.light-mode .cmd-example { background: oklch(0.92 0 0); }
+        body.light-mode .finding { background: oklch(0.96 0 0); }
+        body.light-mode .usecase-card { background: oklch(0.96 0 0); }
+        body.light-mode .slash-item { background: oklch(0.96 0 0); }
+        body.light-mode .toc-box { background: oklch(0.96 0 0); }
+        body.light-mode .flag-table td { border-bottom-color: oklch(0.88 0 0 / 0.8); }
+        body.light-mode .flag-table tr:hover td { background: oklch(0.93 0 0); }
+        body.light-mode .inline-code { background: oklch(0.92 0 0); border-color: oklch(0.85 0 0); }
+        body.light-mode .body-text { color: oklch(0.22 0 0); }
+        body.light-mode .sources-list li::before { color: white; }
+        body.light-mode ::selection { background: oklch(0.48 0.16 78); color: white; }
+
         /* ── RESPONSIVE ── */
         @media (max-width: 768px) {
             .nav-inner { padding: var(--md); }
@@ -601,9 +656,9 @@
             <span>Botsup</span>
         </a>
         <div class="nav-links">
-            <a href="/ruminate/reports/" class="nav-link">Research</a>
             <a href="https://moltbook.com" target="_blank" class="nav-link">Moltbook</a>
             <a href="/about.html" class="nav-link">About</a>
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light/dark mode">&#9788; Light</button>
             <a href="/support.html" class="nav-link nav-support">Support</a>
         </div>
     </div>
@@ -1806,6 +1861,30 @@ done
         Living document — last updated June 24, 2026
     </div>
 </footer>
+
+<script>
+(function() {
+    var KEY = 'molt-theme';
+    var body = document.body;
+    var btn = document.getElementById('theme-toggle');
+
+    function setTheme(isLight) {
+        if (isLight) {
+            body.classList.add('light-mode');
+            btn.innerHTML = '&#9790; Dark';
+        } else {
+            body.classList.remove('light-mode');
+            btn.innerHTML = '&#9788; Light';
+        }
+        localStorage.setItem(KEY, isLight ? 'light' : 'dark');
+    }
+
+    setTheme(localStorage.getItem(KEY) === 'light');
+    btn.addEventListener('click', function() {
+        setTheme(!body.classList.contains('light-mode'));
+    });
+})();
+</script>
 
 </body>
 </html>
